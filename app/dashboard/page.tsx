@@ -27,7 +27,7 @@ export default function DashboardOverview() {
   const cancelledCount = orders.filter((o) => o.status === "Cancelled").length;
   const totalRevenue = orders
     .filter((o) => o.status === "Delivered")
-    .reduce((s, o) => s + o.total, 0);
+    .reduce((s, o) => s + (o.total || 0), 0);
 
   return (
     <div>
@@ -138,7 +138,7 @@ export default function DashboardOverview() {
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="text-amber-300 font-medium">
-                    ${order.total.toFixed(2)}
+                    ${(order.total || 0).toFixed(2)}
                   </span>
                   <span className="text-[10px] text-slate-500">
                     {new Date(order.createdAt).toLocaleDateString()}

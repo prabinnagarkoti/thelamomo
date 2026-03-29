@@ -166,7 +166,7 @@ export default function OrderManagementPage() {
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-semibold text-amber-300">
-                    ${order.total.toFixed(2)}
+                    ${(order.total || 0).toFixed(2)}
                   </p>
                   <p className="text-[10px] text-slate-500 mt-1">
                     {new Date(order.createdAt).toLocaleString()}
@@ -251,7 +251,7 @@ export default function OrderManagementPage() {
                 ))}
                 <div className="flex justify-between font-semibold text-sm pt-2 border-t border-white/5 mt-2">
                   <span>Total</span>
-                  <span className="text-amber-300">${selectedOrder.total.toFixed(2)}</span>
+                  <span className="text-amber-300">${(selectedOrder.total || 0).toFixed(2)}</span>
                 </div>
               </div>
 
