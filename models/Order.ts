@@ -48,9 +48,4 @@ const OrderSchema = new Schema<IOrder>(
   { timestamps: true }
 );
 
-// Drop old model if schema changed (dev hot-reload fix)
-if (mongoose.models.Order) {
-  delete mongoose.models.Order;
-}
-
-export default mongoose.model<IOrder>("Order", OrderSchema);
+export default mongoose.models.Order || mongoose.model<IOrder>("Order", OrderSchema);
