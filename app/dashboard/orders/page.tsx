@@ -13,7 +13,7 @@ interface Order {
   paymentMethod: string;
   status: "In Process" | "Delivered" | "Cancelled";
   notes?: string;
-  messages?: Array<{ sender: string; text: string; createdAt: string }>;
+  messages?: Array<{ sender: string; text: string; createdAt: string; readByOwner?: boolean }>;
   createdAt: string;
 }
 
@@ -57,6 +57,23 @@ export default function OrderManagementPage() {
     );
     if (selectedOrder?._id === id) {
       setSelectedOrder((prev) => (prev ? { ...prev, status } : null));
+    }
+  };
+
+  const handleSelectOrder = async (order: Order) => {
+    setSelectedOrder(order);
+    const hasUnread = order.messages?.some((m) => m.sender === "customer" && !m.readByOwner);
+    if (hasUnread) {
+      try {
+        await fetch("/api/orders", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderId: order._id, markMessagesRead: true })
+        });
+        const updatedMessages = order.messages?.map(m => ({ ...m, readByOwner: true }));
+        setOrders(prev => prev.map(o => o._id === order._id ? { ...o, messages: updatedMessages } : o));
+        setSelectedOrder(prev => prev ? { ...prev, messages: updatedMessages } : null);
+      } catch {}
     }
   };
 
@@ -146,7 +163,7 @@ export default function OrderManagementPage() {
           {displayOrders.map((order) => (
             <div
               key={order._id}
-              onClick={() => setSelectedOrder(order)}
+              onClick={() => handleSelectOrder(order)}
               className={`bg-slate-900/80 border rounded-xl p-4 cursor-pointer transition hover:border-amber-400/30 ${
                 selectedOrder?._id === order._id
                   ? "border-amber-400/50 bg-slate-900"

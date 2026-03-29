@@ -4,6 +4,7 @@ import { useCart } from "@/components/CartSheet";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useLoadScript, GoogleMap, MarkerF, Autocomplete } from "@react-google-maps/api";
 
 export default function CheckoutPage() {
   const { cart, clearCart, total } = useCart();
@@ -12,6 +13,30 @@ export default function CheckoutPage() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8",
+    libraries: ["places"]
+  });
+
+  const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
+  const onPlaceChanged = () => {
+    if (autocomplete !== null) {
+      const place = autocomplete.getPlace();
+      if (place.geometry?.location) {
+        setLocation({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
+        setAddress(place.formatted_address || place.name || address);
+      }
+    }
+  };
+
+  const onMapClick = (e: google.maps.MapMouseEvent) => {
+    if (e.latLng) {
+      setLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+    }
+  };
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -96,6 +121,7 @@ export default function CheckoutPage() {
           customerEmail: email,
           customerPhone: phone,
           customerAddress: address,
+          customerLocation: location,
           items: cart,
           total,
           paymentMethod: "cod",
@@ -164,7 +190,32 @@ export default function CheckoutPage() {
           <FormField value={name} onChange={setName} placeholder="Your name" error={errors.name} />
           <FormField value={email} onChange={setEmail} placeholder="Email" type="email" error={errors.email} />
           <FormField value={phone} onChange={setPhone} placeholder="Phone number" error={errors.phone} />
-          <FormField value={address} onChange={setAddress} placeholder="Delivery address" error={errors.address} icon="fa-solid fa-location-dot" />
+          
+          <div className="relative">
+            {isLoaded ? (
+              <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+                <div>
+                  <FormField value={address} onChange={setAddress} placeholder="Search delivery address..." error={errors.address} icon="fa-solid fa-location-dot" />
+                </div>
+              </Autocomplete>
+            ) : (
+              <FormField value={address} onChange={setAddress} placeholder="Delivery address" error={errors.address} icon="fa-solid fa-location-dot" />
+            )}
+            <p className="text-[10px] text-slate-500 mt-1 ml-1 mb-2">Search for your address or move the pin exactly on your house.</p>
+            {isLoaded && (
+              <div className="h-48 rounded-xl overflow-hidden border border-white/10 mt-2">
+                <GoogleMap
+                  mapContainerStyle={{ width: "100%", height: "100%" }}
+                  center={location || { lat: -33.8688, lng: 151.2093 }}
+                  zoom={location ? 16 : 10}
+                  onClick={onMapClick}
+                  options={{ disableDefaultUI: true, zoomControl: true }}
+                >
+                  {location && <MarkerF position={location} draggable onDragEnd={onMapClick} />}
+                </GoogleMap>
+              </div>
+            )}
+          </div>
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}

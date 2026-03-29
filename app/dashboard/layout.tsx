@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/authOptions";
+import NotificationBell from "@/components/NotificationBell";
 
 export const dynamic = "force-dynamic";
 
@@ -19,16 +20,19 @@ export default async function DashboardLayout({
     <div className="min-h-screen bg-slate-950 text-slate-50">
       <div className="flex flex-col md:flex-row">
         <aside className="w-full md:w-64 md:min-h-screen border-b md:border-b-0 md:border-r border-white/5 bg-slate-900/60 p-4 md:p-6 sticky top-0 z-30 shrink-0">
-          <div className="flex items-center gap-3 mb-4 md:mb-8">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-amber-400 to-rose-500 flex items-center justify-center text-lg shadow-lg shadow-amber-500/30">
-              ⚙️
+          <div className="flex items-center justify-between w-full mb-4 md:mb-8">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-amber-400 to-rose-500 flex items-center justify-center text-lg shadow-lg shadow-amber-500/30">
+                ⚙️
+              </div>
+              <div>
+                <h2 className="text-lg font-bold">BizMenu</h2>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wider">
+                  Admin Panel
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-bold">BizMenu</h2>
-              <p className="text-[10px] text-slate-500 uppercase tracking-wider">
-                Admin Panel
-              </p>
-            </div>
+            <NotificationBell />
           </div>
           <nav className="flex md:flex-col gap-1.5 md:gap-0 md:space-y-1 text-xs md:text-sm overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
             <Link

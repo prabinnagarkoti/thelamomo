@@ -64,6 +64,7 @@ export async function POST(req: NextRequest) {
       customerEmail: data.customerEmail,
       customerPhone: data.customerPhone,
       customerAddress: data.customerAddress || "",
+      customerLocation: data.customerLocation || null,
       items: orderItems,
       total: data.total,
       paymentMethod: "cod",
@@ -95,7 +96,8 @@ export async function PATCH(req: NextRequest) {
             messages: {
               sender: sender || "customer",
               text: message,
-              createdAt: new Date()
+              createdAt: new Date(),
+              readByOwner: sender === "owner" // auto-read if sent by owner
             }
           }
         },
@@ -104,9 +106,21 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ order });
     }
 
-    // Status updates require owner role
+    // Status and read updates require owner role
     if (!session || (session.user as any)?.role !== "owner") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (data.markMessagesRead) {
+      // Set all messages to readByOwner = true
+      // We do this by updating the array where it's false, but Mongoose makes this slightly tricky
+      // The easiest way is fetching the doc, modifying the array, and saving
+      const order = await Order.findById(orderId);
+      if (order) {
+        order.messages?.forEach((m: any) => { m.readByOwner = true; });
+        await order.save();
+      }
+      return NextResponse.json({ ok: true, order });
     }
 
     const order = await Order.findByIdAndUpdate(orderId, { status }, { new: true });

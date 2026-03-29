@@ -6,12 +6,13 @@ export interface IOrder extends Document {
   customerEmail: string;
   customerPhone: string;
   customerAddress?: string;
+  customerLocation?: { lat: number; lng: number };
   items: Array<{ menuItemId: string; name: string; price: number; qty: number }>;
   total: number;
   paymentMethod: "cod";
   status: "In Process" | "Delivered" | "Cancelled";
   notes?: string;
-  messages?: Array<{ sender: "owner" | "customer"; text: string; createdAt: Date }>;
+  messages?: Array<{ sender: "owner" | "customer"; text: string; createdAt: Date; readByOwner?: boolean }>;
 }
 
 const OrderSchema = new Schema<IOrder>(
@@ -21,6 +22,7 @@ const OrderSchema = new Schema<IOrder>(
     customerEmail: { type: String, required: true },
     customerPhone: { type: String, required: true },
     customerAddress: { type: String, default: "" },
+    customerLocation: { lat: Number, lng: Number },
     items: [
       {
         menuItemId: { type: String, default: "" },
@@ -41,7 +43,8 @@ const OrderSchema = new Schema<IOrder>(
       {
         sender: { type: String, enum: ["owner", "customer"] },
         text: String,
-        createdAt: { type: Date, default: Date.now }
+        createdAt: { type: Date, default: Date.now },
+        readByOwner: { type: Boolean, default: false }
       }
     ]
   },

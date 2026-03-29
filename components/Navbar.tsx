@@ -14,13 +14,15 @@ export default function Navbar() {
     tagline?: string;
     logoUrl?: string;
   } | null>(null);
+  const [loadingConfig, setLoadingConfig] = useState(true);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     fetch("/api/menu/config")
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => { if (d?.config) setConfig(d.config); })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoadingConfig(false));
   }, []);
 
   useEffect(() => {
@@ -39,7 +41,9 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          {config?.logoUrl ? (
+          {loadingConfig ? (
+            <div className="h-11 w-11 rounded-2xl bg-white/5 animate-pulse" />
+          ) : config?.logoUrl ? (
             <img
               src={config.logoUrl}
               alt="Logo"
@@ -51,12 +55,20 @@ export default function Navbar() {
             </div>
           )}
           <div>
-            <Link href="/" className="font-display text-2xl font-semibold tracking-tight hover:text-amber-200 transition">
-              {config?.restaurantName || "BizMenu Builder"}
-            </Link>
-            <p className="text-xs text-slate-400">
-              {config?.tagline || "Your Digital Menu, Your Rules"}
-            </p>
+            {loadingConfig ? (
+               <div className="h-6 w-32 bg-white/5 rounded animate-pulse mb-1" />
+            ) : (
+              <Link href="/" className="font-display text-2xl font-semibold tracking-tight hover:text-amber-200 transition">
+                {config?.restaurantName || "BizMenu Builder"}
+              </Link>
+            )}
+            {loadingConfig ? (
+               <div className="h-3 w-48 bg-white/5 rounded animate-pulse" />
+            ) : (
+              <p className="text-xs text-slate-400">
+                {config?.tagline || "Your Digital Menu, Your Rules"}
+              </p>
+            )}
           </div>
         </div>
         <div className="flex gap-4 items-center text-sm">
