@@ -318,6 +318,8 @@ export default function SettingsPage() {
         </div>
       </div>
 
+      <MaintenancePanel showToast={showToast} />
+
       {/* Toast */}
       {toast && (
         <div
@@ -364,6 +366,179 @@ function Field({
           onChange={(e) => onChange(e.target.value)}
           className="w-full px-3 py-2 rounded-lg bg-slate-950/80 border border-white/10 text-sm focus:border-amber-400/40 focus:outline-none transition"
         />
+      )}
+    </div>
+  );
+}
+
+function MaintenancePanel({ showToast }: { showToast: (msg: string, type: "success" | "error") => void }) {
+  const [unlocked, setUnlocked] = useState(false);
+  const [pin, setPin] = useState("");
+  const [users, setUsers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [newPassword, setNewPassword] = useState("");
+
+  const handleUnlock = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pin === "0000") {
+      setUnlocked(true);
+      fetchUsers();
+    } else {
+      showToast("Incorrect PIN", "error");
+      setPin("");
+    }
+  };
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/users");
+      const data = await res.json();
+      if (data.users) setUsers(data.users);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleRestrict = async (user: any) => {
+    const actionStr = user.restricted ? "unban" : "suspend";
+    if (!confirm(`Are you sure you want to ${actionStr} ${user.email}?`)) return;
+    try {
+      const res = await fetch("/api/users", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user._id, action: "restrict", restricted: !user.restricted })
+      });
+      if (res.ok) {
+        showToast(`Account updated!`, "success");
+        fetchUsers();
+      }
+    } catch {
+      showToast("Failed to update user", "error");
+    }
+  };
+
+  const changePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword.length < 6) return showToast("Min 6 characters required", "error");
+    try {
+      const res = await fetch("/api/users", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: selectedUser._id, action: "change_password", newPassword })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast("Password changed!", "success");
+        setSelectedUser(null);
+        setNewPassword("");
+      } else {
+        showToast(data.error || "Failed", "error");
+      }
+    } catch {
+      showToast("Failed to change password", "error");
+    }
+  };
+
+  if (!unlocked) {
+    return (
+      <div className="glass rounded-2xl p-6 border-rose-500/20 mt-8 mb-16 max-w-lg mx-auto md:mx-0">
+        <h2 className="text-sm font-semibold mb-2 flex items-center gap-2 text-rose-400">
+          <i className="fa-solid fa-triangle-exclamation" /> Maintenance Mode & User Accounts
+        </h2>
+        <p className="text-xs text-slate-400 mb-4">
+          Enter the master PIN to manage customer accounts, reset passwords, and restrict access.
+        </p>
+        <form onSubmit={handleUnlock} className="flex gap-2 max-w-xs">
+          <input
+            type="password"
+            placeholder="Enter PIN"
+            value={pin}
+            onChange={(e) => setPin(e.target.value)}
+            className="flex-1 px-3 py-2 rounded-lg bg-slate-950/80 border border-white/10 text-sm focus:border-rose-400/40 focus:outline-none transition"
+          />
+          <button
+            type="submit"
+            className="px-4 py-2 rounded-lg bg-rose-500/20 text-rose-400 border border-rose-400/30 text-sm font-semibold hover:bg-rose-500/30 transition shadow-lg shadow-rose-500/10"
+          >
+            Unlock <i className="fa-solid fa-lock-open ml-1" />
+          </button>
+        </form>
+      </div>
+    );
+  }
+
+  return (
+    <div className="glass rounded-2xl p-6 border-rose-500/40 mt-8 mb-16">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-sm font-semibold flex items-center gap-2 text-rose-400">
+          <i className="fa-solid fa-users-gear" /> User Management
+        </h2>
+        <button onClick={() => setUnlocked(false)} className="text-xs text-slate-400 hover:text-white transition">
+           Lock Panel <i className="fa-solid fa-lock ml-1" />
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="text-sm text-slate-400"><i className="fa-solid fa-spinner fa-spin mr-2" /> Loading accounts...</div>
+      ) : (
+        <div className="space-y-4">
+          {users.map((u) => (
+            <div key={u._id} className={`p-4 rounded-xl border ${u.restricted ? "bg-rose-950/20 border-rose-500/30" : "bg-slate-900/60 border-white/5"} flex flex-col md:flex-row md:items-center justify-between gap-4`}>
+              <div>
+                <p className="text-sm font-semibold flex items-center gap-2">
+                  {u.name || "Unknown"}
+                  {u.role === "owner" && <span className="text-[9px] uppercase tracking-wider bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-sm">Owner</span>}
+                  {u.restricted && <span className="text-[9px] uppercase tracking-wider bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded-sm">Suspended</span>}
+                </p>
+                <p className="text-xs text-slate-400">{u.email}</p>
+                <p className="text-[10px] text-slate-500 mt-1">Joined: {new Date(u.createdAt).toLocaleDateString()}</p>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setSelectedUser(selectedUser?._id === u._id ? null : u)}
+                  className="px-3 py-1.5 rounded-lg border border-white/10 text-xs hover:bg-slate-800 transition"
+                >
+                  Change Password
+                </button>
+                {u.role !== "owner" && (
+                  <button
+                    onClick={() => toggleRestrict(u)}
+                    className={`px-3 py-1.5 rounded-lg text-xs transition border ${
+                      u.restricted ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20" : "bg-rose-500/10 text-rose-400 border-rose-500/20 hover:bg-rose-500/20"
+                    }`}
+                  >
+                    {u.restricted ? "Unsuspend" : "Suspend Account"}
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {selectedUser && (
+        <form onSubmit={changePassword} className="mt-6 p-4 rounded-xl bg-slate-900 border border-white/10 flex flex-col sm:flex-row gap-3 items-end animate-fade-in">
+          <div className="flex-1 w-full">
+            <label className="text-xs text-slate-400 mb-1.5 block">New Password for {selectedUser.email}</label>
+            <input
+              type="text"
+              required
+              minLength={6}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Enter new strong password"
+              className="w-full px-3 py-2 rounded-lg bg-slate-950 border border-white/10 text-sm focus:border-amber-400/50"
+            />
+          </div>
+          <button type="submit" className="w-full sm:w-auto px-4 py-2 rounded-lg bg-amber-500 text-slate-950 font-semibold text-sm hover:brightness-110">
+            Save Password
+          </button>
+          <button type="button" onClick={() => setSelectedUser(null)} className="w-full sm:w-auto px-4 py-2 rounded-lg border border-white/10 text-slate-300 text-sm hover:bg-slate-800">
+            Cancel
+          </button>
+        </form>
       )}
     </div>
   );

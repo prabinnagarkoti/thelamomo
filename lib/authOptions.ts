@@ -29,6 +29,10 @@ export const authOptions: NextAuthOptions = {
           throw new Error("No account found with this email");
         }
 
+        if (user.restricted) {
+          throw new Error("This account has been suspended by the administrator.");
+        }
+
         const isValid = await compare(credentials.password, user.password);
         if (!isValid) {
           throw new Error("Incorrect password");
