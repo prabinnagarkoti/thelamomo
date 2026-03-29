@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,20 +12,15 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Create uploads directory if it doesn't exist
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    await mkdir(uploadsDir, { recursive: true });
+    // Convert to a base64 Data URI instead of saving to disk (Vercel is serverless/read-only)
+    const mimeType = file.type || "image/jpeg";
+    const base64 = buffer.toString("base64");
+    const dataUri = `data:${mimeType};base64,${base64}`;
 
-    // Generate unique filename
-    const ext = path.extname(file.name) || ".jpg";
-    const uniqueName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`;
-    const filePath = path.join(uploadsDir, uniqueName);
-
-    await writeFile(filePath, buffer);
-
-    return NextResponse.json({ url: `/uploads/${uniqueName}` });
+    return NextResponse.json({ url: dataUri });
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
+
