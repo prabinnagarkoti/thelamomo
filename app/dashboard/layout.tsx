@@ -30,41 +30,41 @@ export default async function DashboardLayout({
               </p>
             </div>
           </div>
-          <nav className="flex md:flex-col gap-2 md:gap-0 md:space-y-1 text-sm overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+          <nav className="flex md:flex-col gap-1.5 md:gap-0 md:space-y-1 text-xs md:text-sm overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
             <Link
               href="/dashboard"
-              className="flex items-center gap-3 px-4 py-2.5 md:px-3 rounded-xl hover:bg-slate-800 transition whitespace-nowrap"
+              className="flex items-center gap-2 md:gap-3 px-3 py-2 md:px-3 md:py-2.5 rounded-lg md:rounded-xl hover:bg-slate-800 transition whitespace-nowrap"
             >
-              <i className="fa-solid fa-chart-line text-amber-400/60 w-5" />
+              <i className="fa-solid fa-chart-line text-amber-400/60 text-sm md:text-base md:w-5" />
               Overview
             </Link>
             <Link
               href="/dashboard/orders"
-              className="flex items-center gap-3 px-4 py-2.5 md:px-3 rounded-xl hover:bg-slate-800 transition whitespace-nowrap"
+              className="flex items-center gap-2 md:gap-3 px-3 py-2 md:px-3 md:py-2.5 rounded-lg md:rounded-xl hover:bg-slate-800 transition whitespace-nowrap"
             >
-              <i className="fa-solid fa-receipt text-amber-400/60 w-5" />
+              <i className="fa-solid fa-receipt text-amber-400/60 text-sm md:text-base md:w-5" />
               Order Management
             </Link>
             <Link
               href="/dashboard/menu"
-              className="flex items-center gap-3 px-4 py-2.5 md:px-3 rounded-xl hover:bg-slate-800 transition whitespace-nowrap"
+              className="flex items-center gap-2 md:gap-3 px-3 py-2 md:px-3 md:py-2.5 rounded-lg md:rounded-xl hover:bg-slate-800 transition whitespace-nowrap"
             >
-              <i className="fa-solid fa-utensils text-amber-400/60 w-5" />
+              <i className="fa-solid fa-utensils text-amber-400/60 text-sm md:text-base md:w-5" />
               Menu Items
             </Link>
             <Link
               href="/dashboard/settings"
-              className="flex items-center gap-3 px-4 py-2.5 md:px-3 rounded-xl hover:bg-slate-800 transition whitespace-nowrap"
+              className="flex items-center gap-2 md:gap-3 px-3 py-2 md:px-3 md:py-2.5 rounded-lg md:rounded-xl hover:bg-slate-800 transition whitespace-nowrap"
             >
-              <i className="fa-solid fa-gear text-amber-400/60 w-5" />
+              <i className="fa-solid fa-gear text-amber-400/60 text-sm md:text-base md:w-5" />
               Settings
             </Link>
             <div className="hidden md:block border-t border-white/5 my-4" />
             <Link
               href="/"
-              className="flex items-center gap-3 px-4 py-2.5 md:px-3 rounded-xl hover:bg-slate-800 transition text-slate-400 whitespace-nowrap"
+              className="flex items-center gap-2 md:gap-3 px-3 py-2 md:px-3 md:py-2.5 rounded-lg md:rounded-xl hover:bg-slate-800 transition text-slate-400 whitespace-nowrap"
             >
-              <i className="fa-solid fa-arrow-left w-5" />
+              <i className="fa-solid fa-arrow-left text-sm md:text-base md:w-5" />
               Back to Store
             </Link>
           </nav>

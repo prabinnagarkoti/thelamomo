@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 export default function Navbar() {
   const { cart, setOpen } = useCart();
   const { data: session } = useSession();
+  const isOwner = (session?.user as any)?.role === "owner";
   const count = cart.reduce((s: number, i: any) => s + i.qty, 0);
   const [config, setConfig] = useState<{
     restaurantName: string;
@@ -59,15 +60,19 @@ export default function Navbar() {
           </div>
         </div>
         <div className="flex gap-4 items-center text-sm">
-          <Link href="#menu-section" className="hidden md:inline hover:text-amber-300 transition">
-            Menu
-          </Link>
-          <Link href="#about" className="hidden md:inline hover:text-amber-300 transition">
-            About
-          </Link>
-          <Link href="#contact" className="hidden md:inline hover:text-amber-300 transition">
-            Visit
-          </Link>
+          {!isOwner && (
+            <>
+              <Link href="#menu-section" className="hidden md:inline hover:text-amber-300 transition">
+                Menu
+              </Link>
+              <Link href="#about" className="hidden md:inline hover:text-amber-300 transition">
+                About
+              </Link>
+              <Link href="#contact" className="hidden md:inline hover:text-amber-300 transition">
+                Visit
+              </Link>
+            </>
+          )}
 
           {session ? (
             <>
@@ -108,19 +113,21 @@ export default function Navbar() {
             </div>
           )}
 
-          <button
-            id="cart-open-btn"
-            onClick={() => setOpen(true)}
-            className="relative px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-full flex items-center gap-2 text-sm hover:border-amber-400 hover:text-amber-200 transition"
-          >
-            <span className="text-lg">🛒</span>
-            <span className="hidden sm:inline">Cart</span>
-            {count > 0 && (
-              <span className="ml-1 text-xs bg-amber-500 text-slate-950 rounded-full px-2 py-0.5 font-semibold">
-                {count}
-              </span>
-            )}
-          </button>
+          {!isOwner && (
+            <button
+              id="cart-open-btn"
+              onClick={() => setOpen(true)}
+              className="relative px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-full flex items-center gap-2 text-sm hover:border-amber-400 hover:text-amber-200 transition"
+            >
+              <span className="text-lg">🛒</span>
+              <span className="hidden sm:inline">Cart</span>
+              {count > 0 && (
+                <span className="ml-1 text-xs bg-amber-500 text-slate-950 rounded-full px-2 py-0.5 font-semibold">
+                  {count}
+                </span>
+              )}
+            </button>
+          )}
         </div>
       </div>
     </nav>
