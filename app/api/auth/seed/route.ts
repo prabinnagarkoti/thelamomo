@@ -3,7 +3,7 @@ import { hash } from "bcryptjs";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 
-export async function POST() {
+async function seed() {
   await connectDB();
   const existing = await User.findOne({ email: "owner@bizmenu.com" });
   if (existing) {
@@ -16,4 +16,12 @@ export async function POST() {
     name: "Owner"
   });
   return NextResponse.json({ message: "Seeded owner@bizmenu.com / BizMenu2024!" });
+}
+
+export async function GET() {
+  return seed();
+}
+
+export async function POST() {
+  return seed();
 }
