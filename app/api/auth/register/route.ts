@@ -5,7 +5,7 @@ import User from "@/models/User";
 import { Resend } from "resend";
 import crypto from "crypto";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "default_key_to_prevent_build_error");
 
 function validatePassword(password: string): { valid: boolean; message: string } {
   if (password.length < 8) {
