@@ -5,6 +5,7 @@ interface Config {
   restaurantName: string;
   primaryColor: string;
   secondaryColor: string;
+  backgroundColor: string;
   tagline: string;
   heroSubtitle: string;
   aboutText: string;
@@ -234,6 +235,36 @@ export default function SettingsPage() {
               </div>
             </div>
           </div>
+          <div className="mt-4">
+            <label className="block text-xs text-slate-400 mb-1.5">
+              Background Color
+            </label>
+            <div className="flex items-center gap-3">
+              <input
+                type="color"
+                value={config.backgroundColor || "#020617"}
+                onChange={(e) =>
+                  setConfig({ ...config, backgroundColor: e.target.value })
+                }
+                className="w-10 h-10 rounded-lg border border-white/10 cursor-pointer bg-transparent"
+              />
+              <input
+                value={config.backgroundColor || "#020617"}
+                onChange={(e) =>
+                  setConfig({ ...config, backgroundColor: e.target.value })
+                }
+                className="flex-1 px-3 py-2 rounded-lg bg-slate-950/80 border border-white/10 text-sm"
+              />
+              <button
+                onClick={() => setConfig({ ...config, backgroundColor: "#020617" })}
+                className="px-3 py-2 rounded-lg border border-white/10 text-xs text-slate-400 hover:text-white hover:border-white/20 transition"
+                title="Reset to default"
+              >
+                Reset
+              </button>
+            </div>
+            <p className="text-[10px] text-slate-500 mt-1">This changes the background for the entire website (customer & dashboard)</p>
+          </div>
           {/* Color Preview */}
           <div className="mt-4 flex gap-3">
             <div
@@ -243,8 +274,14 @@ export default function SettingsPage() {
               }}
             />
           </div>
+          <div className="mt-2 flex gap-3">
+            <div
+              className="h-8 flex-1 rounded-lg border border-white/10"
+              style={{ backgroundColor: config.backgroundColor || "#020617" }}
+            />
+          </div>
           <p className="text-[10px] text-slate-500 mt-2">
-            Preview of your color gradient
+            Top: accent gradient • Bottom: site background
           </p>
         </div>
 

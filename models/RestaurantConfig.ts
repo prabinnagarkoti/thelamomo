@@ -5,6 +5,7 @@ export interface IRestaurantConfig extends Document {
   logoUrl?: string;
   primaryColor: string;
   secondaryColor: string;
+  backgroundColor: string;
   tagline?: string;
   aboutText?: string;
   address?: string;
@@ -23,6 +24,7 @@ const RestaurantConfigSchema = new Schema<IRestaurantConfig>(
     logoUrl: String,
     primaryColor: { type: String, default: "#f59e0b" },
     secondaryColor: { type: String, default: "#e11d48" },
+    backgroundColor: { type: String, default: "#020617" },
     tagline: { type: String, default: "Your Digital Menu, Your Rules" },
     aboutText: {
       type: String,

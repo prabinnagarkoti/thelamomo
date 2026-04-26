@@ -4,7 +4,11 @@ import { useCart } from "@/components/CartSheet";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useLoadScript, GoogleMap, MarkerF, Autocomplete } from "@react-google-maps/api";
+import { useLoadScript, GoogleMap, MarkerF, Autocomplete, Libraries } from "@react-google-maps/api";
+
+// IMPORTANT: Define libraries array outside the component to prevent
+// useLoadScript from re-initializing on every render (known react-google-maps bug)
+const LIBRARIES: Libraries = ["places"];
 
 export default function CheckoutPage() {
   const { cart, clearCart, total } = useCart();
@@ -16,9 +20,9 @@ export default function CheckoutPage() {
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
 
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8",
-    libraries: ["places"]
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+    libraries: LIBRARIES
   });
 
   const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
@@ -202,7 +206,7 @@ export default function CheckoutPage() {
               <FormField value={address} onChange={setAddress} placeholder="Delivery address" error={errors.address} icon="fa-solid fa-location-dot" />
             )}
             <p className="text-[10px] text-slate-500 mt-1 ml-1 mb-2">Search for your address or move the pin exactly on your house.</p>
-            {isLoaded && (
+            {isLoaded && !loadError && (
               <div className="h-48 rounded-xl overflow-hidden border border-white/10 mt-2">
                 <GoogleMap
                   mapContainerStyle={{ width: "100%", height: "100%" }}
@@ -213,6 +217,12 @@ export default function CheckoutPage() {
                 >
                   {location && <MarkerF position={location} draggable onDragEnd={onMapClick} />}
                 </GoogleMap>
+              </div>
+            )}
+            {loadError && (
+              <div className="mt-2 p-3 rounded-xl bg-rose-500/10 border border-rose-400/20 text-xs text-rose-300">
+                <i className="fa-solid fa-triangle-exclamation mr-1" />
+                Maps failed to load. You can still type your address manually.
               </div>
             )}
           </div>

@@ -46,6 +46,8 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [verifying, setVerifying] = useState(false);
   const router = useRouter();
 
   const strength = useMemo(() => getPasswordStrength(password), [password]);
@@ -81,12 +83,39 @@ export default function RegisterPage() {
         setError(data.error || "Registration failed");
       } else {
         setSuccess(true);
-        setTimeout(() => router.push("/login"), 2000);
+        setError(""); // Clear any registration errors
       }
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const verifyEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!verificationCode.trim()) {
+      setError("Please enter the verification code");
+      return;
+    }
+    setVerifying(true);
+    setError("");
+    try {
+      const res = await fetch("/api/auth/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code: verificationCode.trim() })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Verification failed");
+      } else {
+        router.push("/login?verified=true");
+      }
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setVerifying(false);
     }
   };
 
@@ -110,29 +139,88 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        {/* Success state */}
-        {success ? (
-          <div className="glass rounded-3xl p-8 text-center animate-fade-in">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center mx-auto mb-4">
-              <i className="fa-solid fa-check text-2xl text-emerald-400" />
-            </div>
-            <h2 className="text-xl font-semibold mb-2">Account Created!</h2>
-            <p className="text-sm text-slate-400">
-              Redirecting you to sign in...
-            </p>
+        {/* Error Alert */}
+        {error && (
+          <div className="flex items-start gap-3 bg-rose-500/10 border border-rose-500/30 rounded-xl px-4 py-3 mb-6 animate-shake pt-3">
+            <span className="text-rose-400 text-lg mt-0.5">
+              <i className="fa-solid fa-circle-exclamation" />
+            </span>
+            <p className="text-sm font-medium text-rose-300 pt-0.5">{error}</p>
           </div>
+        )}
+
+        {/* Success state - OTP Input */}
+        {success ? (
+          <form onSubmit={verifyEmail} className="glass rounded-3xl p-8 text-center animate-fade-in">
+            <div className="w-16 h-16 rounded-full bg-amber-500/20 border border-amber-400/30 flex items-center justify-center mx-auto mb-4">
+              <i className="fa-solid fa-envelope-open-text text-2xl text-amber-400" />
+            </div>
+            <h2 className="text-xl font-semibold mb-2">Check Your Email</h2>
+            <p className="text-sm text-slate-400 mb-6">
+              We&apos;ve sent a 6-digit code to <strong className="text-slate-200">{email}</strong>. Enter it below to verify your account.
+            </p>
+            
+            <div className="mb-6">
+              <input
+                type="text"
+                maxLength={6}
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value.replace(/[^0-9]/g, ""))}
+                placeholder="000000"
+                className="w-full text-center text-3xl tracking-[0.5em] py-3 rounded-xl bg-slate-950/80 border border-white/10 focus:border-amber-400/60 focus:outline-none focus:ring-1 focus:ring-amber-400/30 transition placeholder:text-slate-700 font-mono"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={verifying || verificationCode.length !== 6}
+              className="w-full py-3.5 bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 text-slate-950 rounded-xl text-sm font-semibold shadow-lg shadow-amber-500/30 hover:brightness-110 transition disabled:opacity-60 disabled:cursor-not-allowed mb-4"
+            >
+              {verifying ? (
+                <span className="flex items-center justify-center gap-2">
+                  <i className="fa-solid fa-spinner fa-spin" /> Verifying...
+                </span>
+              ) : (
+                "Verify Email"
+              )}
+            </button>
+
+            <p className="text-xs text-slate-500 mb-4">
+              Didn&apos;t receive it? Check your spam folder.
+            </p>
+            
+            <div className="flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    const res = await fetch("/api/auth/resend-verification", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ email })
+                    });
+                    const data = await res.json();
+                    alert(data.message || "Verification code resent!");
+                  } catch {
+                    alert("Failed to resend. Please try again.");
+                  }
+                }}
+                className="px-6 py-3 border border-amber-400/30 bg-amber-500/10 text-amber-300 rounded-xl text-xs font-medium hover:bg-amber-500/20 transition"
+              >
+                <i className="fa-solid fa-rotate-right mr-2" />
+                Resend Code
+              </button>
+              <Link
+                href="/login"
+                className="text-sm text-slate-400 hover:text-amber-300 transition mt-2"
+              >
+                Already verified? Sign in →
+              </Link>
+            </div>
+          </form>
         ) : (
           /* Register Card */
           <form onSubmit={submit} className="glass rounded-3xl p-8 space-y-5">
-            {/* Error Alert */}
-            {error && (
-              <div className="flex items-start gap-3 bg-rose-500/10 border border-rose-500/30 rounded-xl px-4 py-3 animate-shake">
-                <span className="text-rose-400 text-lg mt-0.5">
-                  <i className="fa-solid fa-circle-exclamation" />
-                </span>
-                <p className="text-sm font-medium text-rose-300">{error}</p>
-              </div>
-            )}
 
             {/* Name */}
             <div>

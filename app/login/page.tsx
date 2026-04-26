@@ -1,15 +1,72 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-slate-950 text-slate-50">
+        <i className="fa-solid fa-spinner fa-spin text-2xl text-amber-400" />
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
+  );
+}
+
+function LoginContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resending, setResending] = useState(false);
+  const [verifiedBanner, setVerifiedBanner] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const verified = searchParams.get("verified");
+    if (verified === "true") {
+      setVerifiedBanner("Email verified successfully! You can now sign in.");
+    } else if (verified === "already") {
+      setVerifiedBanner("Your email was already verified. Go ahead and sign in.");
+    } else if (verified === "error") {
+      const reason = searchParams.get("reason");
+      if (reason === "invalid_token") {
+        setError("Invalid or expired verification code. Please request a new one.");
+      } else if (reason === "missing_token") {
+        setError("Invalid verification.");
+      } else {
+        setError("Verification failed. Please try again.");
+      }
+    }
+  }, [searchParams]);
+
+  const needsVerification = error?.includes("verify your email");
+
+  const resendVerification = async () => {
+    if (!email) {
+      setError("Enter your email above, then click resend.");
+      return;
+    }
+    setResending(true);
+    try {
+      const res = await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      setError("");
+      setVerifiedBanner(data.message || "Verification email sent!");
+    } catch {
+      setError("Failed to resend. Please try again.");
+    } finally {
+      setResending(false);
+    }
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +75,7 @@ export default function LoginPage() {
       return;
     }
     setError("");
+    setVerifiedBanner(null);
     setLoading(true);
     try {
       const res = await signIn("credentials", {
@@ -58,6 +116,16 @@ export default function LoginPage() {
           </p>
         </div>
 
+        {/* Verified Banner */}
+        {verifiedBanner && (
+          <div className="flex items-start gap-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl px-4 py-3 mb-4 animate-fade-in">
+            <span className="text-emerald-400 text-lg mt-0.5">
+              <i className="fa-solid fa-circle-check" />
+            </span>
+            <p className="text-sm font-medium text-emerald-300">{verifiedBanner}</p>
+          </div>
+        )}
+
         {/* Login Card */}
         <form
           onSubmit={submit}
@@ -78,6 +146,20 @@ export default function LoginPage() {
                       Register here
                     </Link>
                   </p>
+                )}
+                {needsVerification && (
+                  <button
+                    type="button"
+                    onClick={resendVerification}
+                    disabled={resending}
+                    className="mt-2 text-xs text-amber-300 hover:text-amber-200 underline transition"
+                  >
+                    {resending ? (
+                      <><i className="fa-solid fa-spinner fa-spin mr-1" /> Sending...</>
+                    ) : (
+                      <><i className="fa-solid fa-rotate-right mr-1" /> Resend verification email</>
+                    )}
+                  </button>
                 )}
               </div>
             </div>

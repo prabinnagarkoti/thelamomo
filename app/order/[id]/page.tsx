@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { generateOrderPdf } from "@/lib/generateOrderPdf";
 
 export default function OrderTrackingPage() {
   const { id } = useParams() as { id: string };
@@ -122,6 +123,17 @@ export default function OrderTrackingPage() {
             <p>{new Date(order.createdAt).toLocaleString()}</p>
           </div>
         </div>
+      </div>
+
+      {/* Download Receipt */}
+      <div className="flex justify-center mb-6">
+        <button
+          onClick={() => generateOrderPdf(order)}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500/10 border border-amber-400/30 text-amber-300 text-sm font-medium hover:bg-amber-500/20 transition"
+        >
+          <i className="fa-solid fa-file-pdf" />
+          Download Receipt
+        </button>
       </div>
 
       {/* Messages */}

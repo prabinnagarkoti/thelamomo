@@ -5,10 +5,12 @@
 :root {
   --primary: #f59e0b;
   --secondary: #e11d48;
+  --bg-color: #020617;
 }
 
 body {
   font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
 }
 
 .font-display {

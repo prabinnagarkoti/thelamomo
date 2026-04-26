@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { generateOrderPdf } from "@/lib/generateOrderPdf";
 
 interface Order {
   _id: string;
@@ -279,8 +280,14 @@ export default function OrderManagementPage() {
                 </div>
               )}
 
-              <p className="text-[10px] text-slate-600 mt-3">
-                Placed: {new Date(selectedOrder.createdAt).toLocaleString()} • ID: {selectedOrder._id}
+              <p className="text-[10px] text-slate-600 mt-3 flex items-center justify-between">
+                <span>Placed: {new Date(selectedOrder.createdAt).toLocaleString()} • ID: {selectedOrder._id}</span>
+                <button
+                  onClick={() => generateOrderPdf(selectedOrder)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-400/20 text-amber-300 text-xs hover:bg-amber-500/20 transition"
+                >
+                  <i className="fa-solid fa-file-pdf" /> Download PDF
+                </button>
               </p>
             </div>
 
@@ -315,15 +322,22 @@ export default function OrderManagementPage() {
                   <i className="fa-solid fa-map-location-dot text-amber-400" />
                   Delivery Location
                 </h3>
-                <div className="rounded-xl overflow-hidden border border-white/10 h-48">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(selectedOrder.customerAddress)}`}
-                  />
-                </div>
+                {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ? (
+                  <div className="rounded-xl overflow-hidden border border-white/10 h-48">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(selectedOrder.customerAddress)}`}
+                    />
+                  </div>
+                ) : (
+                  <div className="p-4 rounded-xl bg-slate-800/50 border border-white/5 text-sm text-slate-400">
+                    <i className="fa-solid fa-location-dot mr-2 text-amber-400" />
+                    {selectedOrder.customerAddress}
+                  </div>
+                )}
                 <a
                   href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(selectedOrder.customerAddress)}`}
                   target="_blank"

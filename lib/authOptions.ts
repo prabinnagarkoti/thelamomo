@@ -33,6 +33,11 @@ export const authOptions: NextAuthOptions = {
           throw new Error("This account has been suspended by the administrator.");
         }
 
+        // Check email verification (skip for owner accounts)
+        if (user.role !== "owner" && !user.emailVerified) {
+          throw new Error("Please verify your email before signing in. Check your inbox for a verification code.");
+        }
+
         const isValid = await compare(credentials.password, user.password);
         if (!isValid) {
           throw new Error("Incorrect password");

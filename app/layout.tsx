@@ -43,7 +43,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${playfair.variable} bg-slate-950 text-slate-50 font-body`}
+        className={`${inter.variable} ${playfair.variable} text-slate-50 font-body`}
       >
         <Providers>
           <CartProvider>
