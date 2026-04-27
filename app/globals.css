@@ -154,6 +154,32 @@ body {
   background-position: center;
 }
 
+/* Light mode hero — clean, bright, projector-safe */
+:root[data-theme='light'] .hero-bg {
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--secondary) 8%, transparent), transparent 55%),
+    radial-gradient(circle at bottom right, color-mix(in srgb, var(--primary) 6%, transparent), transparent 55%),
+    #f1f5f9 !important;
+}
+
+/* Light mode full-page sections */
+:root[data-theme='light'] section {
+  background-color: #f8fafc !important;
+}
+
+/* About / Reviews / Contact sections */
+:root[data-theme='light'] section.border-t,
+:root[data-theme='light'] .bg-gradient-to-b,
+:root[data-theme='light'] .from-slate-950,
+:root[data-theme='light'] .to-slate-900 {
+  background: #f1f5f9 !important;
+}
+
+/* Dashboard wrapper */
+:root[data-theme='light'] .min-h-screen.bg-slate-950 {
+  background-color: #f8fafc !important;
+}
+
 /* ── Glassmorphism ── */
 .glass {
   backdrop-filter: blur(18px);
