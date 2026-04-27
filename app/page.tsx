@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import MenuCard from "@/components/MenuCard";
 import { IMenuItem } from "@/models/MenuItem";
+import { useCart } from "@/components/CartSheet";
 
 interface Config {
   restaurantName: string;
@@ -118,10 +119,7 @@ export default function Home() {
                 highlights.map((item: any) => (
                   <HighlightRow
                     key={item._id}
-                    title={item.name}
-                    desc={item.description || "Freshly prepared"}
-                    price={item.price.toFixed(2)}
-                    img={item.img}
+                    item={item}
                   />
                 ))
               ) : (
@@ -342,36 +340,41 @@ function Badge({ icon, text }: { icon: string; text: string }) {
 }
 
 function HighlightRow({
-  title,
-  desc,
-  price,
-  img
+  item
 }: {
-  title: string;
-  desc: string;
-  price: string;
-  img?: string;
+  item: any;
 }) {
+  const { addToCart } = useCart();
+  
   return (
-    <div className="flex justify-between items-center text-sm py-3 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition px-2 -mx-2 rounded-lg">
-      <div className="flex items-center gap-3">
-        {img ? (
+    <div className="flex justify-between items-center text-sm py-3 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition px-2 -mx-2 rounded-lg group">
+      <div className="flex items-center gap-3 flex-1 min-w-0 pr-2">
+        {item.img ? (
           <img
-            src={img}
-            alt={title}
-            className="w-10 h-10 rounded-lg object-cover"
+            src={item.img}
+            alt={item.name}
+            className="w-10 h-10 rounded-lg object-cover shrink-0"
           />
         ) : (
-          <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center shrink-0">
             <i className="fa-solid fa-bowl-food text-amber-400/50 text-sm" />
           </div>
         )}
-        <div>
-          <p className="font-medium">{title}</p>
-          <p className="text-xs text-slate-400">{desc}</p>
+        <div className="min-w-0">
+          <p className="font-medium truncate">{item.name}</p>
+          <p className="text-xs text-slate-400 truncate">{item.description || "Freshly prepared"}</p>
         </div>
       </div>
-      <p className="font-semibold text-amber-300">${price}</p>
+      <div className="flex items-center gap-3 shrink-0">
+        <p className="font-semibold text-amber-300">${item.price.toFixed(2)}</p>
+        <button
+          onClick={() => addToCart({ id: item._id, name: item.name, price: item.price, img: item.img })}
+          className="w-7 h-7 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center hover:bg-amber-400 hover:text-slate-900 transition-colors"
+          title="Add to cart"
+        >
+          <i className="fa-solid fa-plus text-xs" />
+        </button>
+      </div>
     </div>
   );
 }
