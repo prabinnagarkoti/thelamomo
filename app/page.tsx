@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import MenuCard from "@/components/MenuCard";
 import { IMenuItem } from "@/models/MenuItem";
 import { useCart } from "@/components/CartSheet";
+import { useSession } from "next-auth/react";
 
 interface Config {
   restaurantName: string;
@@ -345,6 +346,7 @@ function HighlightRow({
   item: any;
 }) {
   const { addToCart } = useCart();
+  const { data: session } = useSession();
   
   return (
     <div className="flex justify-between items-center text-sm py-3 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition px-2 -mx-2 rounded-lg group">
@@ -368,7 +370,7 @@ function HighlightRow({
       <div className="flex items-center gap-3 shrink-0">
         <p className="font-semibold text-amber-300">${item.price.toFixed(2)}</p>
         <button
-          onClick={() => addToCart({ id: item._id, name: item.name, price: item.price, img: item.img })}
+          onClick={() => addToCart({ id: item._id, name: item.name, price: item.price, qty: 1 }, !!session)}
           className="w-7 h-7 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center hover:bg-amber-400 hover:text-slate-900 transition-colors"
           title="Add to cart"
         >
