@@ -39,19 +39,20 @@ interface MapProps {
 }
 
 export default function CheckoutMap({ location, onLocationSelect }: MapProps) {
-  const center: [number, number] = location ? [location.lat, location.lng] : [-33.8688, 151.2093];
+  // Default to Brisbane
+  const center: [number, number] = location ? [location.lat, location.lng] : [-27.4705, 153.0260];
 
   return (
     <div className="h-56 rounded-xl overflow-hidden border border-white/10 mt-3 shadow-2xl relative z-10 block w-full">
       <MapContainer
         center={center}
         zoom={location ? 16 : 10}
-        style={{ height: "100%", width: "100%", backgroundColor: "#020617" }}
+        style={{ height: "100%", width: "100%", backgroundColor: "#f3f4f6" }}
         zoomControl={false}
       >
-        {/* CartoDB Dark Matter Base Map for Uber-like aesthetic */}
+        {/* CartoDB Voyager Base Map for beautiful, highly readable maps */}
         <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           attribution='&copy; OpenStreetMap &copy; CARTO'
         />
         {location && <Marker position={center} icon={customIcon} />}

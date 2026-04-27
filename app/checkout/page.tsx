@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useCart } from "@/components/CartSheet";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -41,20 +41,30 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const router = useRouter();
 
-  const searchAddress = async (query: string) => {
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const searchAddress = (query: string) => {
     setAddress(query);
+    
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    
     if (query.length < 4) {
       setSearchResults([]);
       return;
     }
-    setIsSearching(true);
-    try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=4`);
-      const data = await res.json();
-      setSearchResults(data || []);
-    } finally {
-      setIsSearching(false);
-    }
+    
+    searchTimeoutRef.current = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=4`);
+        const data = await res.json();
+        setSearchResults(data || []);
+      } catch {
+        // Silent fail
+      } finally {
+        setIsSearching(false);
+      }
+    }, 600);
   };
 
   const handleSelectResult = (result: any) => {
