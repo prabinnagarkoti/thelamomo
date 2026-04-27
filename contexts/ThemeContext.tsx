@@ -1,23 +1,29 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 
-interface ThemeColors {
+interface ThemeConfig {
   primary: string;
   secondary: string;
   backgroundColor: string;
+  themeMode: string;
+  fontFamily: string;
 }
 
-const ThemeContext = createContext<ThemeColors>({
+const ThemeContext = createContext<ThemeConfig>({
   primary: "#f59e0b",
   secondary: "#e11d48",
-  backgroundColor: "#020617"
+  backgroundColor: "#020617",
+  themeMode: "dark",
+  fontFamily: "inter"
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [colors, setColors] = useState<ThemeColors>({
+  const [config, setConfig] = useState<ThemeConfig>({
     primary: "#f59e0b",
     secondary: "#e11d48",
-    backgroundColor: "#020617"
+    backgroundColor: "#020617",
+    themeMode: "dark",
+    fontFamily: "inter"
   });
 
   useEffect(() => {
@@ -25,10 +31,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d?.config) {
-          setColors({
+          setConfig({
             primary: d.config.primaryColor || "#f59e0b",
             secondary: d.config.secondaryColor || "#e11d48",
-            backgroundColor: d.config.backgroundColor || "#020617"
+            backgroundColor: d.config.backgroundColor || "#020617",
+            themeMode: d.config.themeMode || "dark",
+            fontFamily: d.config.fontFamily || "inter"
           });
         }
       })
@@ -36,12 +44,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    document.documentElement.style.setProperty("--primary", colors.primary);
-    document.documentElement.style.setProperty("--secondary", colors.secondary);
-    document.documentElement.style.setProperty("--bg-color", colors.backgroundColor);
-  }, [colors]);
+    document.documentElement.style.setProperty("--primary", config.primary);
+    document.documentElement.style.setProperty("--secondary", config.secondary);
+    document.documentElement.style.setProperty("--bg-color", config.backgroundColor);
+    document.documentElement.setAttribute("data-theme", config.themeMode);
+    
+    if (typeof document !== 'undefined' && document.body) {
+      if (config.fontFamily === 'playfair') {
+        document.body.style.setProperty("font-family", "var(--font-display), serif");
+      } else if (config.fontFamily === 'mono') {
+        document.body.style.setProperty("font-family", "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace");
+      } else {
+        document.body.style.removeProperty("font-family");
+      }
+    }
+  }, [config]);
 
-  return <ThemeContext.Provider value={colors}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={config}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {

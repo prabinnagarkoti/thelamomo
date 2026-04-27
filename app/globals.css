@@ -6,11 +6,42 @@
   --primary: #f59e0b;
   --secondary: #e11d48;
   --bg-color: #020617;
+  --text-main: #f8fafc;
+}
+
+/* Light Mode DOM Interceptor */
+:root[data-theme='light'] {
+  --bg-color: #ffffff !important;
+  --text-main: #020617 !important;
 }
 
 body {
   font-family: var(--font-body), system-ui, -apple-system, sans-serif;
   background-color: var(--bg-color);
+  color: var(--text-main);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Projector Mode Force Overrides (CSS Architectural Patch for Tailwind) */
+:root[data-theme='light'] * {
+  border-color: rgba(0,0,0,0.1) !important;
+}
+:root[data-theme='light'] div[class*="bg-slate-9"] {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+:root[data-theme='light'] p[class*="text-slate-400"], 
+:root[data-theme='light'] span[class*="text-slate-400"],
+:root[data-theme='light'] div[class*="text-slate-400"] {
+  color: #475569 !important;
+}
+:root[data-theme='light'] div[class*="bg-slate-800"] {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+:root[data-theme='light'] .text-amber-300, 
+:root[data-theme='light'] p[class*="text-amber-300"] {
+  color: var(--primary) !important;
 }
 
 .font-display {
@@ -32,8 +63,8 @@ body {
     ),
     radial-gradient(
       circle at center,
-      rgba(15, 15, 15, 0.6),
-      rgba(15, 15, 15, 0.95)
+      color-mix(in srgb, var(--bg-color) 60%, transparent),
+      var(--bg-color)
     );
   background-size: cover;
   background-position: center;
@@ -42,11 +73,7 @@ body {
 /* ── Glassmorphism ── */
 .glass {
   backdrop-filter: blur(18px);
-  background: linear-gradient(
-    135deg,
-    rgba(17, 24, 39, 0.92),
-    rgba(15, 23, 42, 0.98)
-  );
+  background: color-mix(in srgb, var(--bg-color) 92%, transparent);
   border: 1px solid rgba(148, 163, 184, 0.15);
 }
 

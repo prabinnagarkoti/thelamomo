@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from "react";
 
 interface Config {
   restaurantName: string;
+  themeMode: string;
+  fontFamily: string;
   primaryColor: string;
   secondaryColor: string;
   backgroundColor: string;
@@ -188,6 +190,48 @@ export default function SettingsPage() {
               onChange={(v) => setConfig({ ...config, heroSubtitle: v })}
               textarea
             />
+          </div>
+        </div>
+
+        {/* Display & Typography */}
+        <div className="glass rounded-2xl p-6">
+          <h2 className="text-sm font-semibold mb-4 flex items-center gap-2">
+            <i className="fa-solid fa-desktop text-amber-400" />
+            Display Modes & Typography
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-xs text-slate-400 mb-2">Lighting Engine</label>
+              <div className="flex bg-slate-900/50 rounded-xl p-1 gap-1 border border-white/5">
+                <button 
+                  onClick={() => setConfig({ ...config, themeMode: 'dark' })} 
+                  className={`flex-1 flex items-center justify-center gap-2 text-xs py-2 rounded-lg transition-all ${config.themeMode !== 'light' ? 'bg-slate-800 text-white shadow' : 'text-slate-400 hover:text-white'}`}
+                >
+                  <i className="fa-solid fa-moon" /> System Dark
+                </button>
+                <button 
+                  onClick={() => setConfig({ ...config, themeMode: 'light' })} 
+                  className={`flex-1 flex items-center justify-center gap-2 text-xs py-2 rounded-lg transition-all ${config.themeMode === 'light' ? 'bg-slate-200 text-slate-900 shadow font-semibold' : 'text-slate-400 hover:text-white'}`}
+                >
+                  <i className="fa-solid fa-sun" /> Projector (Light)
+                </button>
+              </div>
+              <p className="text-[10px] text-slate-500 mt-2">Activate projector mode when presenting on ultra-bright screens or whiteboards.</p>
+            </div>
+            <div>
+              <label className="block text-xs text-slate-400 mb-2">Global Font Configuration</label>
+              <div className="grid grid-cols-1 gap-2">
+                <button onClick={() => setConfig({ ...config, fontFamily: 'inter' })} className={`flex items-center justify-between px-4 py-2 border rounded-lg text-xs ${config.fontFamily === 'inter' || !config.fontFamily ? 'border-amber-400 bg-amber-400/10 text-white' : 'border-white/10 hover:border-white/30 text-slate-300'} transition-all`} style={{ fontFamily: 'system-ui' }}>
+                  Modern Sans (Inter) {(!config.fontFamily || config.fontFamily === 'inter') && <i className="fa-solid fa-check text-amber-400" />}
+                </button>
+                <button onClick={() => setConfig({ ...config, fontFamily: 'playfair' })} className={`flex items-center justify-between px-4 py-2 border rounded-lg text-xs ${config.fontFamily === 'playfair' ? 'border-amber-400 bg-amber-400/10 text-white' : 'border-white/10 hover:border-white/30 text-slate-300'} transition-all`} style={{ fontFamily: 'var(--font-display), serif' }}>
+                  Elegant Serif (Playfair) {config.fontFamily === 'playfair' && <i className="fa-solid fa-check text-amber-400" />}
+                </button>
+                <button onClick={() => setConfig({ ...config, fontFamily: 'mono' })} className={`flex items-center justify-between px-4 py-2 border rounded-lg text-xs ${config.fontFamily === 'mono' ? 'border-amber-400 bg-amber-400/10 text-white' : 'border-white/10 hover:border-white/30 text-slate-300'} transition-all`} style={{ fontFamily: 'monospace' }}>
+                  System Minimal (Mono) {config.fontFamily === 'mono' && <i className="fa-solid fa-check text-amber-400" />}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 

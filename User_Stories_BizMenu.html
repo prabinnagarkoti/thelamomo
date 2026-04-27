@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>BizMenu Builder - User Stories</title>
+<style>
+  body { font-family: 'Calibri', 'Segoe UI', sans-serif; margin: 40px; color: #222; line-height: 1.5; }
+  h1 { text-align: center; font-size: 22pt; margin-bottom: 5px; }
+  h2 { font-size: 16pt; margin-top: 35px; margin-bottom: 10px; padding: 8px 12px; color: #fff; border-radius: 4px; }
+  h2.prabin { background-color: #2563eb; }
+  h2.sandip { background-color: #16a34a; }
+  h2.kulwinder { background-color: #d97706; }
+  h2.summary { background-color: #6b7280; }
+  h2.epic { background-color: #7c3aed; }
+  p.subtitle { text-align: center; font-size: 11pt; color: #555; margin-top: 0; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 10pt; }
+  th { background-color: #1e293b; color: #fff; padding: 10px 8px; text-align: left; font-weight: 600; border: 1px solid #334155; }
+  td { padding: 8px; border: 1px solid #cbd5e1; vertical-align: top; }
+  tr:nth-child(even) { background-color: #f8fafc; }
+  tr:nth-child(odd) { background-color: #ffffff; }
+  .priority-high { color: #dc2626; font-weight: 600; }
+  .priority-medium { color: #d97706; font-weight: 600; }
+  .priority-low { color: #2563eb; font-weight: 600; }
+  .status-done { color: #16a34a; font-weight: 600; }
+  .status-progress { color: #d97706; font-weight: 600; }
+  .status-planned { color: #6b7280; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>BizMenu Builder — User Stories</h1>
+<p class="subtitle">Project: BizMenu Builder (ThelaMomo) &nbsp;|&nbsp; Team: Prabin, Sandip, Kulwinder &nbsp;|&nbsp; Total Stories: 24</p>
+
+<!-- ===================== PRABIN ===================== -->
+<h2 class="prabin">Prabin — Frontend UI, Homepage, Menu Display, Cart, Checkout & Maps</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:5%">#</th>
+      <th style="width:7%">Epic</th>
+      <th style="width:28%">User Story</th>
+      <th style="width:38%">Acceptance Criteria</th>
+      <th style="width:9%">Priority</th>
+      <th style="width:10%">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>P-01</td>
+      <td>EP-02</td>
+      <td>As a customer, I want to view the restaurant homepage with a hero section so that I get a strong first impression of the business.</td>
+      <td>Hero section displays restaurant name, tagline, badges, and "Browse Menu" / "View Cart" buttons; popular items appear in a highlight card.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>P-02</td>
+      <td>EP-02</td>
+      <td>As a customer, I want to filter the menu by category so that I can find items easily.</td>
+      <td>Category filters (All, Main Course, Starters, Desserts, Beverages) display correctly; items update without page reload.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>P-03</td>
+      <td>EP-02</td>
+      <td>As a customer, I want to search items by name so that I can locate specific dishes quickly.</td>
+      <td>Search input filters displayed items in real time without page reload.</td>
+      <td class="priority-medium">Medium</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>P-04</td>
+      <td>EP-02</td>
+      <td>As a customer, I want to add items to a cart and adjust quantities so that I can manage my order before checkout.</td>
+      <td>Cart opens as a side sheet; quantity can be increased, decreased, or item removed; total updates instantly.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>P-05</td>
+      <td>EP-02</td>
+      <td>As a customer, I want to proceed to checkout with my cart items so that I can place an order online.</td>
+      <td>Checkout page shows order summary, contact form (name, email, phone), and delivery address field; order is submitted and saved to MongoDB.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>P-06</td>
+      <td>EP-02</td>
+      <td>As a customer, I want to use Google Maps autocomplete to enter my delivery address so that my location is accurate.</td>
+      <td>Google Places autocomplete suggests addresses; selected address auto-fills the field; an interactive map with a draggable pin shows the location.</td>
+      <td class="priority-medium">Medium</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>P-07</td>
+      <td>EP-02</td>
+      <td>As a customer, I want to see a "Popular Right Now" section on the homepage so that I can quickly discover top dishes.</td>
+      <td>First 3 available menu items are shown in a glassmorphism card on the hero section with name, description, price, and image.</td>
+      <td class="priority-low">Low</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>P-08</td>
+      <td>EP-02</td>
+      <td>As a customer, I want to view the About, Reviews, and Contact sections on the homepage so that I can learn more about the restaurant.</td>
+      <td>About section shows restaurant story and values; Reviews section displays 3 testimonial cards; Contact section shows location, hours, and phone/email.</td>
+      <td class="priority-medium">Medium</td>
+      <td class="status-done">Done</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===================== SANDIP ===================== -->
+<h2 class="sandip">Sandip — Authentication, User Management, Security, Order Tracking & Messaging</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:5%">#</th>
+      <th style="width:7%">Epic</th>
+      <th style="width:28%">User Story</th>
+      <th style="width:38%">Acceptance Criteria</th>
+      <th style="width:9%">Priority</th>
+      <th style="width:10%">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>S-01</td>
+      <td>EP-04</td>
+      <td>As a customer, I want to register an account with email and password so that I can place orders.</td>
+      <td>Registration form collects name, email, password, and confirm password; password strength meter shows requirements (8+ chars, uppercase, lowercase, number, special char); account is saved to MongoDB with hashed password.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>S-02</td>
+      <td>EP-04</td>
+      <td>As a customer, I want to log in with my credentials so that I can access my account.</td>
+      <td>Login form accepts email and password; on success, user is redirected to homepage; on failure, a clear error message is displayed with a link to register.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>S-03</td>
+      <td>EP-04</td>
+      <td>As a customer, I want to be prompted to sign in when I try to add items to the cart without being logged in so that only authenticated users can place orders.</td>
+      <td>If not logged in, clicking "Add to Cart" opens the cart sheet with a sign-in prompt containing "Sign In" and "Register" buttons.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>S-04</td>
+      <td>EP-04</td>
+      <td>As a customer, I want to be redirected to sign in if I access the checkout page without logging in so that orders are always linked to an account.</td>
+      <td>Checkout page shows a "Sign In Required" card with Sign In and Register buttons if user is not authenticated.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>S-05</td>
+      <td>EP-02</td>
+      <td>As a customer, I want to track my order status after placing it so that I know when my food will be ready.</td>
+      <td>After placing an order, user is redirected to /order/[id]; the page shows order status (In Process / Delivered / Cancelled), items, total, and customer details.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>S-06</td>
+      <td>EP-02</td>
+      <td>As a customer, I want to send messages to the restaurant owner about my order so that I can communicate special requests or ask questions.</td>
+      <td>Order detail page has a message input; messages are stored in the order document with sender type (customer/owner) and timestamp; both parties can view the conversation.</td>
+      <td class="priority-medium">Medium</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>S-07</td>
+      <td>EP-04</td>
+      <td>As a developer, I want user roles (customer/owner) to be enforced so that only owners can access the dashboard.</td>
+      <td>User model has a role field (customer or owner); dashboard pages check session role; Navbar conditionally shows "Dashboard" link only for owners.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>S-08</td>
+      <td>EP-04</td>
+      <td>As a developer, I want restricted users to be blocked from logging in so that banned accounts cannot access the system.</td>
+      <td>User model has a restricted field; if restricted is true, the login returns an error message and session is not created.</td>
+      <td class="priority-medium">Medium</td>
+      <td class="status-done">Done</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===================== KULWINDER ===================== -->
+<h2 class="kulwinder">Kulwinder — Backend, Database, Owner Dashboard, Menu Management, Deployment & Config</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:5%">#</th>
+      <th style="width:7%">Epic</th>
+      <th style="width:28%">User Story</th>
+      <th style="width:38%">Acceptance Criteria</th>
+      <th style="width:9%">Priority</th>
+      <th style="width:10%">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>K-01</td>
+      <td>EP-03</td>
+      <td>As a developer, I want to connect the app to MongoDB Atlas so that menu data is stored persistently.</td>
+      <td>Connection established via Mongoose; MenuItem, Order, User, and RestaurantConfig schemas created; data persists after restart.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>K-02</td>
+      <td>EP-01</td>
+      <td>As a restaurant owner, I want to add menu items with name, description, price, category, and image so that customers can see my offerings.</td>
+      <td>Owner inputs name, description, price, category; item appears on customer menu immediately; image upload is supported.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>K-03</td>
+      <td>EP-01</td>
+      <td>As a restaurant owner, I want to edit and delete menu items so that I can keep the menu current.</td>
+      <td>Modified items update instantly on the customer-facing menu; deleted items are removed from customer view.</td>
+      <td class="priority-high">High</td>
+      <td class="status-progress">In Progress</td>
+    </tr>
+    <tr>
+      <td>K-04</td>
+      <td>EP-01</td>
+      <td>As a restaurant owner, I want to view and manage all orders from a dashboard so that I can track business activity.</td>
+      <td>Dashboard overview shows stat cards (Active Orders, Delivered, Cancelled, Revenue); recent orders listed with customer name, total, status, and date.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>K-05</td>
+      <td>EP-01</td>
+      <td>As a restaurant owner, I want to update order status (In Process → Delivered / Cancelled) so that customers are informed of progress.</td>
+      <td>Order management page lists all orders; owner can change status via dropdown or buttons; status change is saved to MongoDB and reflected on customer's order tracking page.</td>
+      <td class="priority-high">High</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>K-06</td>
+      <td>EP-01</td>
+      <td>As a restaurant owner, I want to configure restaurant details (name, tagline, about text, address, phone, hours, logo) so that the storefront reflects my brand.</td>
+      <td>Settings page allows editing all RestaurantConfig fields; saved changes are reflected on the Navbar, hero section, about section, and contact section immediately.</td>
+      <td class="priority-medium">Medium</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>K-07</td>
+      <td>EP-01</td>
+      <td>As a restaurant owner, I want to receive new customer messages on the dashboard so that I can respond quickly.</td>
+      <td>Dashboard "New Messages" panel shows latest unread customer messages with sender name, text preview, and timestamp; clicking opens the order detail with full conversation.</td>
+      <td class="priority-medium">Medium</td>
+      <td class="status-done">Done</td>
+    </tr>
+    <tr>
+      <td>K-08</td>
+      <td>EP-03</td>
+      <td>As a developer, I want to deploy the app on Vercel so that it is publicly accessible.</td>
+      <td>App builds successfully with next build; accessible via public URL; environment variables (MongoDB URI, NextAuth secret, Google Maps key) configured on Vercel; CI/CD auto-deploys from GitHub.</td>
+      <td class="priority-high">High</td>
+      <td class="status-progress">In Progress</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===================== SUMMARY ===================== -->
+<h2 class="summary">Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Team Member</th>
+      <th>Stories Assigned</th>
+      <th>Done</th>
+      <th>In Progress</th>
+      <th>Planned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Prabin</strong></td>
+      <td style="text-align:center">8</td>
+      <td style="text-align:center">8</td>
+      <td style="text-align:center">0</td>
+      <td style="text-align:center">0</td>
+    </tr>
+    <tr>
+      <td><strong>Sandip</strong></td>
+      <td style="text-align:center">8</td>
+      <td style="text-align:center">8</td>
+      <td style="text-align:center">0</td>
+      <td style="text-align:center">0</td>
+    </tr>
+    <tr>
+      <td><strong>Kulwinder</strong></td>
+      <td style="text-align:center">8</td>
+      <td style="text-align:center">6</td>
+      <td style="text-align:center">2</td>
+      <td style="text-align:center">0</td>
+    </tr>
+    <tr style="background-color:#e2e8f0; font-weight:600;">
+      <td>Total</td>
+      <td style="text-align:center">24</td>
+      <td style="text-align:center">22</td>
+      <td style="text-align:center">2</td>
+      <td style="text-align:center">0</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===================== EPIC LEGEND ===================== -->
+<h2 class="epic">Epic Legend</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:10%">Epic ID</th>
+      <th style="width:25%">Epic Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>EP-01</td>
+      <td>Restaurant Owner Features</td>
+      <td>Menu management, order management, dashboard, settings</td>
+    </tr>
+    <tr>
+      <td>EP-02</td>
+      <td>Customer Experience</td>
+      <td>Menu browsing, cart, checkout, order tracking, messaging</td>
+    </tr>
+    <tr>
+      <td>EP-03</td>
+      <td>Infrastructure & DevOps</td>
+      <td>Database setup, deployment, CI/CD</td>
+    </tr>
+    <tr>
+      <td>EP-04</td>
+      <td>Authentication & Security</td>
+      <td>Registration, login, role-based access, session management</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

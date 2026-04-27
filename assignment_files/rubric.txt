@@ -1,0 +1,229 @@
+ 
+ 
+Page 1 of 3  
+L8, 540 George Street, Sydney NSW 2000 | +61 02 9261 1078  
+L23-24, 343 Albert St, Brisbane City QLD 4000  | +61 07 3667 9512  
+Ph 1300 692 444 | info@aiihe.edu.au  | www.aiihe.edu.au  Australian International Institute of Higher Education is the business name of 
+the Queensland Institute of Higher Education Pty Ltd  
+ABN: 86 633 747 403  
+TEQSA Provider ID: PRV14340 | CRICOS Provider Code: 04013G  
+ 1 ASSESSMENT SPECIFICATION  
+Subject Code  INF30 5 
+Subject Name  Information Systems Capstone  
+Semester #, year  Semester 1, 202 6  
+Assessment  #  2 
+Due Date  Week 6 
+Weightage  30% 
+Total Marks  100% 
+Group Report  – 80%, Presentation  – 20% 
+Group/Individual  Group  
+Assessment Type 
+(Report/Essay/Case 
+Study/Presentation , etc.)  Report & Presentation  
+Word Limit  3500   
+Document Submission Type  
+Accepted  doc/docx/pdf/ppt  
+Learning Objectives 
+Assessed in this ass essment  SLO1, SLO2, SLO3, SLO4, SLO5  
+Cross Reference to BBIS 
+Course Learning Outcomes 
+(CLOs)  CLO1, CLO2, CLO3, CLO5, CLO6  
+Cross Reference to BB M 
+Course Learning Outcomes 
+(CLOs)   
+Assessment Format and 
+Layout  1. Use the Coversheet  Template to prepare your assignment 
+(Available for download from your subject’s assessment 
+instructions page in your LMS)  
+2. Save your document with the following naming convention: 
+studentnumber_coursecode_A1.doc/docx/pdf  
+o E.g.:  AIIHE00000_ECO101_A1.docx  
+3. Number all pages in the bottom -right corner, starting with the 
+second page . 
+4. Font and Size:  
+o Use a legible font such as Times New Roman, Arial, or 
+Calibri.  
+o Use 12 -point font size for the main text.  
+5. Margins:  
+o Set 1 -inch (2.54 cm) margins on all sides of the document.  
+6. Line Spacing:  
+o Use single -spacing for the entire document, including the 
+title and reference pages.  
+7. Alignment:  
+o Align text to the left, not justified.  
+Referencing Style  Harvard  
+How students will be 
+assessed  Based on Assessment Rubric   
+ 
+Page 2 of 3  
+L8, 540 George Street, Sydney NSW 2000 | +61 02 9261 1078  
+L23-24, 343 Albert St, Brisbane City QLD 4000  | +61 07 3667 9512  
+Ph 1300 692 444 | info@aiihe.edu.au  | www.aiihe.edu.au  Australian International Institute of Higher Education is the business name of 
+the Queensland Institute of Higher Education Pty Ltd  
+ABN: 86 633 747 403  
+TEQSA Provider ID: PRV14340 | CRICOS Provider Code: 04013G  
+ 2  
+ASSESSMENT BRIEF  
+ 
+At the midpoint of the capstone project, your group is required to demonstrate the progress on your project. 
+This stage is essential to ensure that your work is on track and continues to align with the objectives approved 
+in your project proposal.  
+You are expected to provide evidence of iterative development, the effective use of Scrum practices, and an 
+early implementation of your prototype.  
+The midpoint assessment ensures that the project is on track, risks are identified, and corrective actions can 
+be applied if needed.  
+ 
+Mid Report should include:  
+• Project Background (problem background, Objectives of the project, Stakeholders and significance 
+of the project)  
+• Literature Review (Analysis of existing solutions, technologies, and methods, justifications for 
+selections)  
+• Design (Architecture diagrams, Database models, Wireframes / UI prototypes)  
+• Prototype (Features implemented, Screenshots)  
+• Product Backlog & Sprint Review Minutes (user stories, epics, acceptance criteria, priority, status, 
+Sprint review minutes with decisions, issues, and action items)  
+• Risk Management (Issues encountered and solutions, Potential risks and mitigation strategies)  
+• Next Plan (Planned for upcoming sprints)  
+• References  
+• Appendix (Data collection instruments, Gantt chart, work breakdown structure, any additional 
+supporting materials)  
+Submission Components:  
+• Mid-report document  
+• Demo video of the partially implemented prototype.  
+• Presentation slides  
+ 
+As part of this assessment, your group will deliver an in -class presentation and demo lasting 20 minutes, 
+which includes a Q&A session.  
+All group members are required to actively participate and demonstrate their respective contributions to the 
+project.  
+Students will be awarded marks for both group contributions and individual contributions.  
+ 
+ 
+ 
+  
+ 
+Page 3 of 3  
+L8, 540 George Street, Sydney NSW 2000 | +61 02 9261 1078  
+L23-24, 343 Albert St, Brisbane City QLD 4000  | +61 07 3667 9512  
+Ph 1300 692 444 | info@aiihe.edu.au  | www.aiihe.edu.au  Australian International Institute of Higher Education is the business name of 
+the Queensland Institute of Higher Education Pty Ltd  
+ABN: 86 633 747 403  
+TEQSA Provider ID: PRV14340 | CRICOS Provider Code: 04013G  
+ 3  
+RUBRIC  
+Criteria  HD (85 –100%)  D (75 –84%)  C (65 –74%)  P (50 –64%)  F (0–49%)  
+Project 
+Background & 
+Updated 
+Literature ( 20%) Comprehensive, 
+well-justified, 
+updated analysis; 
+strong relevance.  Clear analysis 
+with good 
+justification.  Adequate 
+background; 
+some 
+justification.  Basic 
+background; 
+weak links.  Insufficient or 
+irrelevant 
+content.  
+System Design 
+(Architecture, 
+DB, UI) ( 15%) Highly detailed, 
+coherent, accurate 
+diagrams with clear 
+rationale.  Good detail and 
+consistency.  Adequate 
+diagrams; minor 
+inconsistencies.  Basic 
+diagrams; 
+limited 
+explanation.  Missing or 
+majorly 
+flawed.  
+Prototype 
+Progress ( 20%) Significant working 
+features; high -
+quality screenshots; 
+good progress.  Good progress 
+with key 
+features 
+implemented.  Moderate 
+progress; some 
+functionality.  Minimal 
+features 
+working.  Prototype not 
+functioning or 
+missing.  
+Product Backlog 
+& Sprint Review 
+Minutes ( 10%) Complete backlog 
+with refined user 
+stories, epics, 
+acceptance criteria; 
+excellent minutes.  Good level of 
+detail in 
+backlog and 
+minutes.  Adequate 
+backlog; limited 
+detail in minutes.  Basic backlog; 
+very brief 
+minutes.  Missing or 
+extremely 
+incomplete.  
+Risk 
+Management 
+(5%) Comprehensive risks 
+and effective 
+mitigation; tracked 
+over sprints.  Good risk 
+coverage.  Adequate 
+identification.  Basic risks 
+documented.  No meaningful 
+risk analysis.  
+Documentation 
+Quality & 
+Referencing 
+(10%) Professional, well -
+structured, excellent 
+referencing.  Good writing 
+and 
+referencing.  Adequate; some 
+minor issues.  Basic writing; 
+several errors.  Poor writing, 
+structure, or 
+referencing.  
+Presentation  
+Content Clarity 
+(10%) Extremely clear, 
+concise, aligned 
+with proposal.  Clear and well 
+delivered.  Adequate clarity; 
+minor gaps.  Basic clarity; 
+some missing 
+content.  Unclear or 
+incomplete.  
+Team 
+Participation 
+(5%) All members 
+contribute 
+meaningfully and 
+confidently.  All contribute 
+adequately.  Most contribute; 
+uneven delivery.  Limited 
+participation 
+by some 
+members.  Very limited or 
+no 
+participation.  
+Professional 
+Delivery ( 5%) Highly professional 
+with effective visuals 
+and timing.  Good delivery 
+and visuals.  Adequate 
+delivery; minor 
+issues.  Weak visuals 
+or poor timing.  Very poor 
+delivery.  
+ 

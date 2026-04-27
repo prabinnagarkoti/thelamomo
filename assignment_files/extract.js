@@ -1,0 +1,1 @@
+﻿const fs = require('fs'); const pdf = require('node_modules/pdf-parse'); const buffer = fs.readFileSync('Assessment 2-1.pdf'); pdf(buffer).then(data => { fs.writeFileSync('rubric.txt', data.text); console.log('Done'); }).catch(console.error);

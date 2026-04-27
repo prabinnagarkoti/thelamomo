@@ -1,0 +1,276 @@
+﻿BIZMENU BUILDER: A WHITE-LABEL DIGITAL ORDERING PLATFORM FOR SMALL FOOD BUSINESSES MID-POINT PROGRESS REPORT
+
+Subject Code: INF305
+Subject Name: Information Systems Capstone
+Semester #, year Semester: 1, 2026
+Assessment #: 2
+
+
+
+Words: 3681
+
+Table of Contents 
+ TOC \h \u \z \t "Heading 1,1,Heading 2,2,Heading 3,3,Heading 4,4,Heading 5,5,Heading 6,6,"1. Project Background PAGEREF _Toc225508223 \h 4
+1.1 Problem Background PAGEREF _Toc225508224 \h 4
+1.2 Project Objectives PAGEREF _Toc225508225 \h 4
+1.3 Stakeholders and Significance PAGEREF _Toc225508226 \h 4
+2. Literature Review PAGEREF _Toc225508227 \h 5
+2.1 Analysis of Existing Solutions, Technologies, and Methods PAGEREF _Toc225508228 \h 5
+2.2 Existing Solutions PAGEREF _Toc225508229 \h 5
+2.3 Technologies Selected and Justification PAGEREF _Toc225508230 \h 5
+2.4 Gap Identified PAGEREF _Toc225508231 \h 6
+3. Design PAGEREF _Toc225508232 \h 6
+3.1 Architecture Diagram PAGEREF _Toc225508233 \h 7
+3.2 Database Model PAGEREF _Toc225508234 \h 7
+3.3 Activity Diagram PAGEREF _Toc225508235 \h 10
+3.4 Wireframes PAGEREF _Toc225508236 \h 11
+4. Prototype PAGEREF _Toc225508237 \h 12
+5. Product Backlog & Sprint Review Minutes PAGEREF _Toc225508238 \h 22
+5.1Epics PAGEREF _Toc225508239 \h 22
+5.2 Product Backlog PAGEREF _Toc225508240 \h 23
+5.3 Sprint Review Minutes PAGEREF _Toc225508241 \h 24
+6. Risk Management PAGEREF _Toc225508242 \h 26
+7. Next Plan PAGEREF _Toc225508243 \h 28
+References PAGEREF _Toc225508244 \h 30
+Appendix PAGEREF _Toc225508245 \h 33
+
+
+
+1. Project Background 
+1.1 Problem Background
+The rapid advancement of digital technology has essentially changed the way consumers avail food delivery services worldwide. According to Huang and Siao (2023), online food delivery platforms have gained immense popularity worldwide, and this has been stimulated by the digital transformation. These platforms, however, combine intense financial and operational burdens on the small independent food businesses directly. The Commission provided by third-party platforms is 20-25% and 30-35% on a per-order basis (Chan et al., 2023). As Sharffudin and Yadav (2025) point out, the profit margins are constantly depleted by commission fees, and thus, businesses cannot build direct customer loyalty programmes. 
+1.2 Project Objectives
+BizMenu Builder will be launched as a minimum viable product at the end of the twelve-week capstone timeframe. The site will allow entrepreneurs to have branded profiles with custom logos and colour schemes. Live menu management allows the owners to do real-time updates to the prices of items, item descriptions, and availability. Customers are able to browse the menu, search, and place orders using a branded storefront on a commission-free basis. Order notification to the owner is delivered instantly, and full ownership of customer data eradicates the reliance on third parties.
+1.3 Stakeholders and Significance
+Small food business owners are the primary stakeholders because they obtain financial independence and control over the customer data. There are secondary stakeholders such as customers who will have direct advantage of a smooth, personally branded, and commission free ordering process. The project is directly targeting the problem of digital inequity that is dealing with small-to-medium food businesses operating in the competitive Australian food service industry.
+2. Literature Review 
+2.1 Analysis of Existing Solutions, Technologies, and Methods
+The online food delivery market in the world has grown at an impressive rate in the last ten years. According to Fu et al. (2024), the services of online meal delivery now create significant social and sustainability concerns on communities in the global context. The Uber Eats platform and DoorDash are multi-sided digital marketplaces that unite customers, restaurants and couriers in one place. This powerful market place paradigm, though, always subject small independent food enterprises worldwide to financial and operational drawbacks.
+2.2 Existing Solutions
+Online food delivery platforms are driven by profit-seeking behaviour that, as claimed by Dai and Wu (2023), impacts the profitability of the small restaurant enterprises in a harmful way. Such platforms create unrealistic demands of commissions and leave independent restaurants with no choice but trade-offs of either charging more or less, service and operations. White label substitutes, such as GloriaFood, ChowNow and UpMenu, enable restaurants to roll out uniquely labeled order websites on a month-to-month subscription framework. In this context, Ocloo et al. (2024) suggest that owner IT skills play a critical role in the digitisation of business performance of restaurant SMEs. This technical obstacle makes most of the currently existing white-label platforms inaccessible to operators who lack special IT knowledge or assets. These platforms are also shared multi-tenant, and not a full-fledged private per-business isolated environment.
+2.3 Technologies Selected and Justification
+To address the specified access and usability shortcomings, BizMenu Builder takes an architecture of a REST with React.js, Node.js, Express, and MongoDB. React.js was chosen due to its component-based architecture that allows developed responsive and mobile-first applications on the owner interface and the customer-facing interface. Express and Node.js are efficient in processing asynchronous traffic, and the server will maintain its performance during the high times of food service orders. The document-oriented model of MongoDB supports dynamic menu structures and dynamic order records without the need to have strict schema definitions. Interface responsiveness and dependable order processing are of crucial importance in customer satisfaction in food ordering applications, as underscored by Ahmad et al. (2024). This discovery is the primary reason why React.js and MongoDB Atlas were chosen in the given project. Render.com cloud computing removes the need to have local servers, and this saves a lot of money on infrastructure in the case of small food operators.
+2.4 Gap Identified
+There is still no solution available that is free-to-prototype and includes zero commissions, complete information isolation, and real-time menu switching in a single white-label solution. Alternatives that do exist are priced by subscription or require technical configuration, which the small independent operators are not able to meet. Most solutions are not entirely private but more of multi-tenant marketplaces, having their own brands in each business case. BizMenu Builder fills this gap by offering a lightweight and cloud-based solution that is specifically designed to support individual small food businesses. Each deployment runs separately, which guarantees the full ownership of the data, control of the brand, and free transactions with the customers without commissions.
+3. Design
+3.1 Architecture Diagram
+
+Figure 3.1.1: Architecture Diagram
+The BizMenu Builder is a scaled and modern flow architecture. The place where the Customers and Restaurant Owners, in this case, engage automatically with the application through web or mobile browsers through HTTPS. Frontend Layer contains the UI, cart system, and authentication, and it uses React Context to manage state within the application and is built with Next.js and hosted on Vercel. Backend Layer uses Next.js Routes to retrieve business logic, request validation, and serverless functions to communicate through REST/JSON (Fang, 2025).
+3.2 Database Model
+BizMenu Builder database model is built based on NoSQL with MongoDB Atlas to support flexible and scalable food menu data. Mongoose is another Object Data Modelling (ODM) tool that the system uses to organize and manipulate data.
+MenuItem Collection
+The basic model of the database is the MenuItem, into which all food-related information (e.g., item name, description, price, and category) is inserted. This very relaxed structure allows for easy updation and addition of fields in a non-relational manner.
+Schema Flexibility
+The document-based format provided by MongoDB can easily update menu items, which allows restaurant proprietors to update the menu in real-time without experiencing a drop in system performance.
+Data Validation (Mongoose)
+Mongoose also takes care to ensure that all the data being entered into the system is in a specific format, thereby reducing the chances of error and ensuring that all data is in a specific format.
+Scalability
+The NoSQL system also allows for horizontal scaling, thereby enabling the system to cope with more and more users as the system increases in scope (Dalal et al. 2023).
+
+Future Extensions
+Furthermore, the database may be extended to include additional Collections such as users and orders to provide the functionality related to authentication, tracking of customer orders and analytic capabilities.
+Cloud Integration
+MongoDB Atlas offers a safe and cloud-based data platform, which does not require local infrastructure and is highly available.
+
+Figure 3.2.1: ERD Database Model
+BizMenu ERD Database Model is a systematic blueprint of a restaurant management system, with the centre being the Users table, which handles the roles and authentication. The related tables, such as Profiles, Notifications, and Cart, are used to track the user activity. The fundamental commercial reasoning is fuelled by Restaurants (Restaurant), which provide distinct MenuItems which are classified in a more organized way. Order-Product is a many-many relationship, which is solved with the help of CartItems and OrderItems tables, and the quantities and prices of each order should be saved. After a customer goes through the shopping cart to checkout, a record is created in the Orders table, which is directly related to Payments to track the status. This relational structure makes the data on the platform complete and data connected between user accounts, restaurant inventory, and financial transactions into an integrated digital ecosystem.
+3.3 Activity Diagram
+
+Figure 3.3.1: Activity Diagram
+This diagram displays the BizMenu Builder system flow of activities, interface between the user and frontend, backend and database. The operation starts with the user browsing or searching contents in the menu using the interface. This is forwarded to the backend, where validation of inputs is done. In the event that this is valid, the query is handled by the system and menu data is retrieved from the MongoDB database. The findings are then presented to the user in the form of a grid in an orderly manner. The client is able to choose articles and put them in the cart, and make an order. The order is verified based on a backend. The order is saved to the database, and a confirmation is generated in case the order is valid. Messages are shown in case of invalid input or errors in orders.
+3.4 Wireframes
+The BizMenu Builder application has been developed by creating wireframes to illustrate the structure and user interface of this application in advance. The design is guided by these wireframes, which made it user-friendly to the customer and the restaurant owners. The primary customer interface wireframe consists of a clean homepage with a search box, category (Main Course, Starters, Desserts, and Beverages) filters, and a list of the available menu items. In every menu card, the names of items, descriptions, prices, and order buttons are shown (Yadav & Goyal, 2022). 
+
+Figure 3.3.1: Wireframes
+(Source: Yadav & Goyal, 2022)
+It has menu addition, menu editing and menu deleting functionalities as well as a live menu manager. The dashboard has been made in a simplistic way so that it can support users with a low level of technical knowledge. Navigation components like header, menu and buttons are strategically positioned to promote usability and accessibility on a cross-array of devices. The design is mobile-first, meaning that it is responsive to smartphones, tablets and desktop computers. 
+4. Prototype
+
+Figure 4.1: Route.ts Program Code
+This figure shows the code for the route.ts file, which contains the backend for processing menu-oriented actions in the BizMenu Builder system. The code contains an asynchronous post function for handling the incoming requests from the frontend. Firstly, it connects to the MongoDB database by utilizing a special utility for the purpose. This isolates the data from the request and inserts it into the database by utilizing the MenuItem model from Mongoose (dos Santos et al. 2024). Once the data is inserted, the system responds to the request with a JSON data packet to confirm the insertion. The error management is also appropriately handled to create a failure response.
+
+Figure 4.2: Necessary Libraries
+This image represents how the project's layout has risk qualities related to support files/libraries needed for the BizMenu Builder app, including where those libraries are located within the file structure. For example, the `lib` folder contains utility functions such as connecting to the database that facilitate communication with MongoDB's RPC service. The shape of the data being stored (especially the `MenuItem` model) is indicated by the models directory, which describes how to structure the Menu data. Other folders (e.g., `components`, `contexts`, `hooks`) are designed for reuse of UI components and management of application state; they also host custom logic implementations.
+
+Figure 4.3: PowerShell Terminal
+This number indicates the PowerShell terminal in the development of the BizMenu Builder application. The npm install mongoose command is used to install the mongoose library, which is necessary for communication with the MongoDB database. The terminal output is positive, that the necessary packages are installed successfully and no vulnerabilities are found, which is a positive sign of a safe environment. It in addition implies that there are packages in need of funding, as a normal npm message (Srnec & Guttmann, 2024). This is an essential step in making database operations possible in the application and results in ensuring that the backend is able to define the schema.
+
+Figure 4.4: Deployment Process Starting
+The figure represents the first phase of the rollout of the BizMenu Builder application on the Vercel platform. The implementation is underway, and the system is now installing dependencies of the project during the building process. The build logs also give real-time feedback on the progress, which is transparent, making it easy to debug in case of problems (Thipparthy et al. 2024). This phase is important as it does some preparation by setting the application environment by installing all the required packages, and then they create the production build. 
+
+Figure 4.5: Deployment Update
+This figure shows an indication that there is an update in the deployment process, and the build had failed due to an error. The build log contains all the activities related to the execution process, such as the installation of the dependency, identification of the version of Next.js, and launching the production build. However, there is an issue in the building process, and a successful deployment cannot be done. The indications of errors show that there is a need to debug, which may be caused by wrong configurations, missing modules, or import path errors. This stage is important in helping the developer to correct bugs before launching an application.
+
+Figure 4.6: DNS Records
+The above image represents the DNS configuration parameters required to bind the custom domain name (bizmenu.com) with the deployed application on Vercel. From the information on the screen. It is clear that currently, the status is invalid, i.e., the DNS configurations are not set at the domain provider’s end. Specifically, an A record needs to be set to point to the IP address provided by Vercel (216.198.79.1). This needs to be done in order to verify domain ownership and enable others to access the deployed application with the aid of a specific URL. 
+
+
+Figure 4.7: Project Completion Screen
+This figure shows the application deployment on the Vercel platform as successfully executed, completing the BizMenu Builder operational task. The interface reflects that the business application's operational ability is complete, and the business application is functioning and operating as expected with access to all menu items, category options (Santos & Herrera, 2025) and user interface objects (business functionalities). Other available features allow for additional usage and enhancements beyond this initial phase of development (application is live), when the application can be available for use in real-world, operationally addressable live environments and evaluated accordingly.
+
+Figure 4.8: Root Directory
+This value shows the root directory choice window in the deployment setup process in Vercel. This is an important step in the deployment setup process in Vercel, where the developer is allowed to choose the main project folder with the source code to be deployed. This v0 (root) directory is chosen in this case so that all application files, such as frontend, backend, and configuration files, are in the root directory. Choosing the root directory correctly is a crucial aspect in ensuring that the build process runs correctly and that there are no failures in running the application.
+
+Figure 4.9: Website for V0 Directory
+The above figure indicates that the BizMenu Builder application is currently in a live state (using the V0 directory deployed onto Vercel). The screenshot above shows a customer-friendly design for the front end of the application, which includes Seeing the home page, listing welcome message, including the ability to search via a search engine and filter by categories: All, Main Course, Starters, Desserts, Beverages (among others), gives an elegant look and feel to the Menu is rendered as cards with full descriptions of each product and the price (Pitka et al. 2025). 
+
+Figure 4.10: Main Screen of the Website
+This image shows the opening page of the BizMenu Builder website, which is a representation of the whole interface of the application. The home page also has a nice welcome message with a search box and category filters that make it easy for users to navigate the different sections of the menu. The menu items are well organized in a card format with the item's name, description, category, and price. There is a button for ordering the item that makes the menu items interactive for the users. This screen represents the effective implementation of the frontend elements and indicates that the system is now available for the users.
+5. Product Backlog & Sprint Review Minutes
+Epics
+The three main epics involved in the development of the BizMenu Builder project are:
+EP-01: Restaurant Owner Management – Menu creation, editing, deletion, and storefront management.
+EP-02: Customer Ordering Experience – Menu browsing, filtering, search, cart, and ordering.
+EP-03: Backend Infrastructure & Deployment – REST, MongoDB Atlas, and Vercel.
+5.2 Product Backlog
+The user stories included in this Product Backlog are outlined in the table below, and they are categorized into three Epics, which describe what functionality BizMenu Builder should have. There are a total of eight user stories in this Product Backlog.
+Epic
+User Story
+Acceptance Criteria
+Priority
+Status
+EP-03
+As a developer, I want to connect the app to MongoDB Atlas so that menu data is stored persistently.
+Connection established; MenuItem schema created via Mongoose; data persists after restart.
+High
+Done
+EP-01
+As a restaurant owner, I want to add menu items so that customers can see my offerings.
+Owner inputs name, description, price, category; item appears on customer menu immediately.
+High
+Done
+EP-01
+As a restaurant owner, I want to edit and delete menu items so that I can keep the menu current.
+Modified items update instantly; deleted items are removed from customer view.
+High
+In Progress
+EP-02
+As a customer, I want to filter the menu by category so that I can find items easily.
+Category filters (All, Main Course, Starters, Desserts, Beverages) display correctly.
+High
+Done
+EP-02
+As a customer, I want to search items by name so that I can locate specific dishes quickly.
+Search input filters displayed items in real time without page reload.
+Medium
+Done
+EP-02
+As a customer, I want to add items to a cart and place an order so that I can purchase online.
+Cart updates on add/remove; order submitted and saved to MongoDB.
+High
+In Progress
+EP-03
+As a developer, I want to deploy the app on Vercel so that it is publicly accessible.
+App builds successfully; accessible via public URL; DNS configured correctly.
+High
+In Progress
+EP-01
+As a restaurant owner, I want instant order notifications so that I can prepare orders without delay.
+New orders appear on the owner dashboard in real time upon customer submission.
+Medium
+Planned
+Table 1: User Stories and Product Backlog
+The risk management table is a table that includes the primary risks that may affect the BizMenu Builder application, and the level of the impact is defined as high, medium, or low. The high-level risks of the BizMenu Builder application are the technical risks, database risks, deployment risks, and security risks that need to be managed with immediate effect and in an efficient manner. The medium-level risks of the BizMenu Builder application are the performance risks, user experience risks, and network configuration risks that may affect the user experience and need to be managed in an efficient manner.
+5.3 Sprint Review Minutes
+Sprint 1 — Week 2
+Sprint Goal: Project setup, technology selection, and initial backend integration.
+Completed: 
+The GitHub repository has been created and the Next.js project has been set with all the necessary dependencies. MongoDB Atlas is integrated with a tailored utility function, and the schema of MenuItem is defined with the help of Mongoose. A POST route (route.ts) is designed to accept menu items. First wireframes are also designed for the customer menu page and owner dashboard.
+Decisions: 
+Agreed upon to use Next.js (App Router) in place of React and Express, as it is easier to deploy.
+MongoDB Atlas is selected as an alternative to local MongoDB to access data in the cloud.
+Vercel is selected as the deployment service because of the smooth Next.js integration.
+Issues: 
+Mongoose import path errors arose due to Next.js App Router module resolution; resolved by adjusting import paths. Minor npm package vulnerabilities are flagged during installation and resolved by updating dependencies.
+Sprint 2 — Week 4
+Sprint Goal: Frontend deployment, customer interface completion, and cart feature initiation.
+Completed: 
+The customer homepage has been deployed successfully on Vercel showing menu items fetched on the MongoDB database presented as a card format with an operational search and category filters. It has a preview URL that is operational (Dalal et al. 2023). The installation of Mongoose has been ensured by PowerShell terminal logs and there were no vulnerabilities.
+Decisions: 
+React Context is used to manage Cart state (it is already part of project structure).
+DNS custom domain (bizmenu.com) set up postponed to Sprint 3 as a result of latency in propagation.
+Error made during building of Vercel (Sprint 2): This has been detected as import path problem - fixed and redeployed.
+Issues: 
+The first Vercel deployment did not work because of a wrong selection of the root directory; it has been fixed through the right selection of v0 root folder. An Invalid Configuration status has been shown by the custom domain, where the DNS A record has not been propagated yet on the domain registrar level.
+6. Risk Management
+Issues Encountered and Solutions
+There are a number of challenges experienced in developing and deploying the BizMenu Builder application. A key problem is the failure of the deployment at Vercel because of wrong module import paths and the lack of dependencies, including Mongoose. This is sorted out by fixing relative import paths and making sure that all necessary packages are installed and are in the project (Lehmann & Recker, 2022). Database connectivity errors are another issue that is solved by entering environment variables correctly and providing secure MongoDB Atlas connection strings. 
+
+Risk Management
+Risk Category
+Potential Risk
+Impact Level
+Mitigation Strategy
+Technical Risk
+Incorrect import paths or missing dependencies
+High
+Perform code validation and testing before deployment; use proper file structure
+Database Risk
+MongoDB connection failure
+High
+Use correct environment variables and test database connectivity regularly
+Deployment Risk
+Vercel build or deployment errors
+High
+Monitor build logs and fix issues immediately before redeployment
+Security Risk
+Exposure of sensitive data (DB URI)
+High
+Store credentials in .env files and restrict public access
+Performance Risk
+Slow system response or delays
+Medium
+Optimize queries and improve backend performance
+User Risk
+Difficulty in using the interface
+Medium
+Design an intuitive UI and provide simple navigation
+Network Risk
+DNS misconfiguration
+Medium
+Verify DNS records and ensure correct domain configuration
+Maintenance Risk
+Updates are causing bugs
+Low
+Implement version control and test updates before release
+Table 2: Risk Management Table
+The risk management table is a table in which the primary risks of BizMenu Builder are listed, and their impact level is defined, which is high, medium, or low. The high-impact risks of BizMenu Builder include technical issues, database issues, deployment issues, and security issues, which must be addressed with immediate effect and in an efficient manner. Medium-level risks of BizMenu Builder include performance issues, user experience issues, and network configuration issues, which might affect user experience if not handled efficiently.
+7. Next Plan
+The upcoming sprints of BizMenu Builder are dedicated to improving its functionality, providing a better user interface, and ensuring flexibility and stability in its system.
+Completion of the Cart and Order System
+Complete the cart feature that allows users to add/ delete/ edit items, and then place the orders smoothly and store them in the database.
+Implementation of Order Management Dashboard
+Create options to help restaurant owners to see the current orders, manage and monitor them.
+Real-Time Notifications
+Combine alert systems to inform the restaurant owners when new orders are received.
+User Authentication and Authorization
+Install an effective login and registration service among restaurant owners through authentication based on JWT or session-based authentication.
+UI/UX Enhancements
+Enhance the visual form, responsiveness and accessibility of the application to facilitate a smoother experience in using the application on all devices.
+Performance Optimization
+Maximize response time and database queries in order to enhance system speed and efficiency.
+Error Handling and Validation
+Enhance input verification and error checking measures to make the system reliable and free of inconsistencies in data.
+Final Testing and Bug Fixing
+Perform extensive testing, such as functional and usability testing, to detect and fix any remaining problems before the eventual launch.
+
+References
+Ahmad, N. K. M., Hamdan, Y. N., Abu Bakar, S. K., Anuar, J., & Akbarruddin, M. N. A. (2024). Customer satisfaction on Foodpanda online delivery application: a systematic literature review. Journal of Tourism, Hospitality and Culinary Arts, 16(1), 711-723. https://ir.uitm.edu.my/id/eprint/97877/1/97877.pdf
+Chan, H. L., Cheung, T. T., Choi, T. M., & Sheu, J. B. (2023). Sustainable successes in third-party food delivery operations in the digital platform era. Annals of operations research, 1–37. Advance online publication. https://doi.org/10.1007/s10479-023-05266-w
+Dai, X., Wu, L.  (2023). The impact of capitalist profit-seeking behavior by online food delivery platforms on food safety risks and government regulation strategies. Humanit Soc Sci Commun 10, 126. https://doi.org/10.1057/s41599-023-01618-w
+Dalal, S., Chiem, N., Karbassi, N., Liu, Y. and Monroy-Hernández, A., 2023, April. Understanding Human Intervention in the Platform Economy: A case study of an indie food delivery service. In Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems (pp. 1-16). https://doi.org/10.1145/3544548.3581517 
+dos Santos, S. C. A., Maccari, E. A., & Kniess, C. T. (2024). Uso de aplicativo móvel e Customer Relationship Management (CRM) como estratégias competitivas alinhadas com a teoria das capacidades dinâmicas. Revista Ibero-Americana De Estratégia, 23(3), e25741-e25741. https://doi.org/10.5585/2024.25741
+Fang, Z. (2025, November). Analysis of the Financial Growth Strategy of the Health Food Industry in the Context of “Economic Downturn”. In 2025 International Conference on Financial Innovation and Marketing Management (FIMM 2025) (pp. 494-504). Atlantis Press. https://doi.org/10.2991/978-94-6463-874-5_58
+Fu, R., Trencher, G., & Yamanaka, Y. (2024). How might the spread of online meal-delivery services impact achievement of the SDGs?. Discover Sustainability, 5(1), 378. https://link.springer.com/content/pdf/10.1007/s43621-024-00603-w.pdf
+Huang, S.-L., & Siao, H.-R. (2023). Factors Affecting the Implementation of Online Food Delivery and Its Impact on Restaurant Performance during the COVID-19 Pandemic. Sustainability, 15(16), 12147. https://doi.org/10.3390/su151612147
+Lehmann, J., & Recker, J. (2022). Offerings That are “Ever-in-the-Making” How Digital Ventures Continuously Develop Their Products After Launch. Business & Information Systems Engineering, 64(1), 69-89. https://doi.org/10.1007/s12599-021-00730-y
+Ocloo, E. C., Coffie, I. S., Bukari, Z., & Bashiru, S. (2024). Digitization of small and medium-size restaurant enterprises: the mediating role of owner/manager IT skill and moderating influence of COVID-19. Cogent Business &amp; Management, 11(1). https://doi.org/10.1080/23311975.2024.2358549
+Pitka, T., Bucko, J., Krajči, S., Krídlo, O., Guniš, J., Šnajder, Ľ., ... & Eliaš, P. (2025). Time analysis of online consumer behavior by decision trees, GUHA association rules, and formal concept analysis. Journal of Marketing Analytics, 13(1), 29-52. https://doi.org/10.1057/s41270-023-00274-y
+Santos, D. A. P., & Herrera, K. M. (2025). The New Rural Product Note (CPR) and Digital Ecosystems in Agricultural Financing in Brazil1. Digital transition in agriculture and public policies. Insights from Latin America, 22640, 359. https://doi.org/10.48207/9786587065984-12
+Sharffudin, S., & Yadav, V. K. (2025). A Review of Online Food Delivery (OFD) Impact on Food Businesses. Future of Business Administration, 4(1), 58-67. https://www.diamondopen.com/journals/index.php/fba/article/download/1007/364
+Srnec, C., & Guttmann, A. (2024). Platform cooperatives, a model of commons and sustainability. In The Routledge Handbook of Cooperative Economics and Management (pp. 388-397). Routledge. DOI: 10.4324/978100344985030 388
+Thipparthy, K. R., Khalaf, M. I., Yogi, K. S., Alghayadh, F. Y., Yusupov, A., Maguluri, L. P., & Ofori-Amanfo, P. (2024). Optimizing delivery routes for sustainable food delivery for multiple food items per order. Discover Sustainability, 5(1), 122. https://doi.org/10.1007/s43621-024-00326-y
+Yadav, N., & Goyal, S. (2022). Regaining partner trust in the food delivery business: case of Zomato. Emerald Emerging Markets Case Studies, 1-32. https://doi.org/10.1108/EEMCS-10-2021-0341
+
+Appendix
