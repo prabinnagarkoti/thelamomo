@@ -196,16 +196,16 @@ export default function SettingsPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <label className="block text-xs text-slate-400 mb-2">Lighting Engine</label>
-              <div className="flex bg-slate-900/50 rounded-xl p-1 gap-1 border border-white/5">
+              <div className="flex bg-slate-200/50 dark:bg-slate-900/50 rounded-xl p-1 gap-1 border border-black/10 dark:border-white/5">
                 <button 
                   onClick={() => setConfig({ ...config, themeMode: 'dark' })} 
-                  className={`flex-1 flex items-center justify-center gap-2 text-xs py-2 rounded-lg transition-all ${config.themeMode !== 'light' ? 'bg-slate-800 text-white shadow' : 'text-slate-400 hover:text-white'}`}
+                  className={`flex-1 flex items-center justify-center gap-2 text-xs py-2 rounded-lg transition-all ${config.themeMode !== 'light' ? 'bg-slate-800 text-white shadow' : 'text-slate-500 hover:text-slate-800'}`}
                 >
                   <i className="fa-solid fa-moon" /> System Dark
                 </button>
                 <button 
                   onClick={() => setConfig({ ...config, themeMode: 'light' })} 
-                  className={`flex-1 flex items-center justify-center gap-2 text-xs py-2 rounded-lg transition-all ${config.themeMode === 'light' ? 'bg-slate-200 text-slate-900 shadow font-semibold' : 'text-slate-400 hover:text-white'}`}
+                  className={`flex-1 flex items-center justify-center gap-2 text-xs py-2 rounded-lg transition-all ${config.themeMode === 'light' ? 'bg-white text-slate-900 shadow-md font-semibold border border-black/10' : 'text-slate-500 hover:text-slate-800'}`}
                 >
                   <i className="fa-solid fa-sun" /> Projector (Light)
                 </button>

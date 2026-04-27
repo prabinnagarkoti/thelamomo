@@ -111,6 +111,9 @@ body {
 :root[data-theme='light'] .bg-slate-800\/50  { background-color: #e2e8f0 !important; }
 :root[data-theme='light'] .bg-slate-900\/80  { background-color: #f1f5f9 !important; }
 :root[data-theme='light'] .bg-slate-950\/80  { background-color: #f8fafc !important; }
+:root[data-theme='light'] .bg-slate-900\/60  { background-color: #f1f5f9 !important; }
+:root[data-theme='light'] .bg-slate-900\/50  { background-color: #f1f5f9 !important; }
+:root[data-theme='light'] .bg-slate-800\/30  { background-color: #e2e8f0 !important; }
 
 /* 11. Payment pills */
 :root[data-theme='light'] .payment-pill {
