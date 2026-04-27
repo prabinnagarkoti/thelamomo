@@ -59,8 +59,28 @@ body {
 }
 
 :root[data-theme='light'] .text-amber-300, 
-:root[data-theme='light'] [class*="text-amber-3"] {
+:root[data-theme='light'] [class*="text-amber-2"],
+:root[data-theme='light'] [class*="text-amber-3"],
+:root[data-theme='light'] [class*="text-amber-4"] {
   color: var(--primary) !important;
+}
+
+:root[data-theme='light'] [class*="text-emerald-"] {
+  color: #059669 !important;
+}
+:root[data-theme='light'] [class*="text-rose-"] {
+  color: #e11d48 !important;
+}
+:root[data-theme='light'] [class*="text-blue-"] {
+  color: #2563eb !important;
+}
+
+:root[data-theme='light'] [class*="bg-slate-9"],
+:root[data-theme='light'] [class*="bg-slate-8"],
+:root[data-theme='light'] [class*="bg-slate-7"],
+:root[data-theme='light'] [class*="bg-slate-6"] {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
 }
 
 .font-display {
