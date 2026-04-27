@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import { sendOrderConfirmationEmail } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -71,6 +72,14 @@ export async function POST(req: NextRequest) {
       status: "In Process",
       notes: data.notes || ""
     });
+
+    try {
+      if (order.customerEmail) {
+        await sendOrderConfirmationEmail(order.customerEmail, order.customerName, order);
+      }
+    } catch (emailErr) {
+      console.error("Failed to send order confirmation email:", emailErr);
+    }
 
     return NextResponse.json({ order });
   } catch (error) {
