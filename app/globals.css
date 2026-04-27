@@ -46,7 +46,7 @@ body {
 :root[data-theme='light'] [class*="text-slate-2"],
 :root[data-theme='light'] [class*="text-slate-3"],
 :root[data-theme='light'] [class*="text-slate-4"] {
-  color: #475569 !important;
+  color: #334155 !important;
 }
 
 :root[data-theme='light'] .text-white,
@@ -62,17 +62,17 @@ body {
 :root[data-theme='light'] [class*="text-amber-2"],
 :root[data-theme='light'] [class*="text-amber-3"],
 :root[data-theme='light'] [class*="text-amber-4"] {
-  color: var(--primary) !important;
+  color: #78350f !important;
 }
 
 :root[data-theme='light'] [class*="text-emerald-"] {
-  color: #059669 !important;
+  color: #064e3b !important;
 }
 :root[data-theme='light'] [class*="text-rose-"] {
-  color: #e11d48 !important;
+  color: #881337 !important;
 }
 :root[data-theme='light'] [class*="text-blue-"] {
-  color: #2563eb !important;
+  color: #1e3a8a !important;
 }
 
 :root[data-theme='light'] [class*="bg-slate-9"],
