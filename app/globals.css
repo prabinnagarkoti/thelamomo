@@ -2,85 +2,130 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── CSS Variables ── */
 :root {
   --primary: #f59e0b;
   --secondary: #e11d48;
   --bg-color: #020617;
   --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --card-bg: rgba(15, 23, 42, 0.92);
+  --border-color: rgba(255,255,255,0.08);
 }
 
-/* Light Mode DOM Interceptor */
+/* ── LIGHT / PROJECTOR MODE ── */
 :root[data-theme='light'] {
-  --bg-color: #ffffff !important;
-  --text-main: #020617 !important;
+  --bg-color: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --card-bg: #ffffff;
+  --border-color: rgba(0,0,0,0.10);
 }
 
+/* Base body inherits from CSS variables */
 body {
   font-family: var(--font-body), system-ui, -apple-system, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Projector Mode Force Overrides (CSS Architectural Patch for Tailwind) */
+/* ══════════════════════════════════════════
+   LIGHT MODE — UNIVERSAL OVERRIDES
+   Targets every element globally, no missed selectors
+   ══════════════════════════════════════════ */
+
+/* 1. Flip all Tailwind dark backgrounds to light */
 :root[data-theme='light'] * {
-  border-color: rgba(0,0,0,0.1) !important;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-:root[data-theme='light'] .bg-slate-950,
-:root[data-theme='light'] .bg-slate-900,
-:root[data-theme='light'] .bg-slate-800,
-:root[data-theme='light'] [class*="bg-slate-9"],
-:root[data-theme='light'] [class*="bg-slate-8"] {
-  background-color: #f1f5f9 !important;
+/* Backgrounds */
+:root[data-theme='light'] .bg-slate-950 { background-color: #f1f5f9 !important; }
+:root[data-theme='light'] .bg-slate-900 { background-color: #f1f5f9 !important; }
+:root[data-theme='light'] .bg-slate-800 { background-color: #e2e8f0 !important; }
+:root[data-theme='light'] .bg-slate-700 { background-color: #cbd5e1 !important; }
+:root[data-theme='light'] .bg-black\/40,
+:root[data-theme='light'] .bg-black\/60 { background-color: rgba(241,245,249,0.9) !important; }
+
+/* 2. Flip ALL text colors to legible dark equivalents */
+:root[data-theme='light'] .text-white   { color: #0f172a !important; }
+:root[data-theme='light'] .text-slate-50  { color: #0f172a !important; }
+:root[data-theme='light'] .text-slate-100 { color: #0f172a !important; }
+:root[data-theme='light'] .text-slate-200 { color: #1e293b !important; }
+:root[data-theme='light'] .text-slate-300 { color: #334155 !important; }
+:root[data-theme='light'] .text-slate-400 { color: #475569 !important; }
+:root[data-theme='light'] .text-slate-500 { color: #64748b !important; }
+:root[data-theme='light'] .text-slate-600 { color: #64748b !important; }
+
+/* 3. Accent colors → dark saturated versions for contrast on white */
+:root[data-theme='light'] .text-amber-200 { color: #78350f !important; }
+:root[data-theme='light'] .text-amber-300 { color: #78350f !important; }
+:root[data-theme='light'] .text-amber-400 { color: #92400e !important; }
+:root[data-theme='light'] .text-amber-500 { color: #92400e !important; }
+:root[data-theme='light'] .text-orange-300 { color: #7c2d12 !important; }
+:root[data-theme='light'] .text-orange-400 { color: #7c2d12 !important; }
+:root[data-theme='light'] .text-rose-300  { color: #881337 !important; }
+:root[data-theme='light'] .text-rose-400  { color: #881337 !important; }
+:root[data-theme='light'] .text-rose-500  { color: #9f1239 !important; }
+:root[data-theme='light'] .text-emerald-300 { color: #064e3b !important; }
+:root[data-theme='light'] .text-emerald-400 { color: #065f46 !important; }
+:root[data-theme='light'] .text-blue-300  { color: #1e3a8a !important; }
+:root[data-theme='light'] .text-blue-400  { color: #1e40af !important; }
+
+/* 4. Borders */
+:root[data-theme='light'] .border-white\/5,
+:root[data-theme='light'] .border-white\/10,
+:root[data-theme='light'] .border-white\/15,
+:root[data-theme='light'] .border-white\/20 { border-color: rgba(0,0,0,0.12) !important; }
+
+/* 5. Glass cards and panels */
+:root[data-theme='light'] .glass {
+  background: #ffffff !important;
+  border: 1px solid rgba(0,0,0,0.10) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important;
+}
+
+/* 6. Inputs */
+:root[data-theme='light'] input,
+:root[data-theme='light'] textarea,
+:root[data-theme='light'] select {
+  background-color: #ffffff !important;
   color: #0f172a !important;
+  border-color: rgba(0,0,0,0.15) !important;
 }
 
-:root[data-theme='light'] p.text-slate-200,
-:root[data-theme='light'] p.text-slate-300,
-:root[data-theme='light'] p.text-slate-400,
-:root[data-theme='light'] .text-slate-200,
-:root[data-theme='light'] .text-slate-300,
-:root[data-theme='light'] .text-slate-400,
-:root[data-theme='light'] .text-slate-500,
-:root[data-theme='light'] [class*="text-slate-2"],
-:root[data-theme='light'] [class*="text-slate-3"],
-:root[data-theme='light'] [class*="text-slate-4"] {
-  color: #334155 !important;
-}
+/* 7. Inline-badges with translucent backgrounds */
+:root[data-theme='light'] .bg-amber-500\/10,
+:root[data-theme='light'] .bg-amber-500\/15,
+:root[data-theme='light'] .bg-amber-500\/20 { background-color: #fef3c7 !important; }
+:root[data-theme='light'] .bg-emerald-500\/10,
+:root[data-theme='light'] .bg-emerald-500\/15,
+:root[data-theme='light'] .bg-emerald-500\/20 { background-color: #d1fae5 !important; }
+:root[data-theme='light'] .bg-rose-500\/10,
+:root[data-theme='light'] .bg-rose-500\/15,
+:root[data-theme='light'] .bg-rose-500\/20 { background-color: #ffe4e6 !important; }
+:root[data-theme='light'] .bg-blue-500\/10,
+:root[data-theme='light'] .bg-blue-500\/15,
+:root[data-theme='light'] .bg-blue-500\/20 { background-color: #dbeafe !important; }
 
-:root[data-theme='light'] .text-white,
-:root[data-theme='light'] .text-slate-50,
-:root[data-theme='light'] h1.text-white,
-:root[data-theme='light'] h2.text-white,
-:root[data-theme='light'] p.text-white,
-:root[data-theme='light'] span.text-white {
-  color: #020617 !important;
-}
-
-:root[data-theme='light'] .text-amber-300, 
-:root[data-theme='light'] [class*="text-amber-2"],
-:root[data-theme='light'] [class*="text-amber-3"],
-:root[data-theme='light'] [class*="text-amber-4"] {
-  color: #78350f !important;
-}
-
-:root[data-theme='light'] [class*="text-emerald-"] {
-  color: #064e3b !important;
-}
-:root[data-theme='light'] [class*="text-rose-"] {
-  color: #881337 !important;
-}
-:root[data-theme='light'] [class*="text-blue-"] {
-  color: #1e3a8a !important;
-}
-
-:root[data-theme='light'] [class*="bg-slate-9"],
-:root[data-theme='light'] [class*="bg-slate-8"],
-:root[data-theme='light'] [class*="bg-slate-7"],
-:root[data-theme='light'] [class*="bg-slate-6"] {
-  background-color: #f1f5f9 !important;
+/* 8. Payment pills */
+:root[data-theme='light'] .payment-pill {
+  background: #f8fafc !important;
   color: #0f172a !important;
+  border-color: rgba(0,0,0,0.15) !important;
+}
+
+/* 9. Sidebar (dashboard layout) */
+:root[data-theme='light'] aside {
+  background-color: #f1f5f9 !important;
+  border-color: rgba(0,0,0,0.10) !important;
+}
+
+/* 10. Navbar */
+:root[data-theme='light'] nav {
+  background-color: rgba(248,250,252,0.95) !important;
+  border-color: rgba(0,0,0,0.08) !important;
 }
 
 .font-display {
