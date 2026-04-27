@@ -35,6 +35,18 @@ body {
 :root[data-theme='light'] div[class*="text-slate-400"] {
   color: #475569 !important;
 }
+:root[data-theme='light'] .text-white,
+:root[data-theme='light'] h1[class*="text-white"],
+:root[data-theme='light'] h2[class*="text-white"],
+:root[data-theme='light'] p[class*="text-white"],
+:root[data-theme='light'] span[class*="text-white"],
+:root[data-theme='light'] div[class*="text-white"] {
+  color: #020617 !important;
+}
+:root[data-theme='light'] .text-slate-50, 
+:root[data-theme='light'] p[class*="text-slate-50"] {
+  color: #020617 !important;
+}
 :root[data-theme='light'] div[class*="bg-slate-800"] {
   background-color: #e2e8f0 !important;
   color: #0f172a !important;

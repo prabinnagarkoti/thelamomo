@@ -22,11 +22,11 @@ interface Config {
 }
 
 const THEME_PRESETS = [
-  { id: "midnight", name: "Midnight Orange", primary: "#f59e0b", secondary: "#e11d48", background: "#020617" },
-  { id: "ocean", name: "Ocean Glow", primary: "#0ea5e9", secondary: "#8b5cf6", background: "#082f49" },
-  { id: "forest", name: "Deep Forest", primary: "#10b981", secondary: "#f59e0b", background: "#064e3b" },
-  { id: "sunset", name: "Sunset Rose", primary: "#f43f5e", secondary: "#f97316", background: "#2a1525" },
-  { id: "carbon", name: "Sleek Carbon", primary: "#f8fafc", secondary: "#94a3b8", background: "#0f172a" }
+  { id: "midnight", name: "Midnight Orange", primary: "#f59e0b", secondary: "#e11d48", background: "#020617", fontFamily: "inter" },
+  { id: "ocean", name: "Ocean Glow", primary: "#0ea5e9", secondary: "#8b5cf6", background: "#082f49", fontFamily: "inter" },
+  { id: "forest", name: "Deep Forest", primary: "#10b981", secondary: "#f59e0b", background: "#064e3b", fontFamily: "mono" },
+  { id: "sunset", name: "Sunset Rose", primary: "#f43f5e", secondary: "#f97316", background: "#2a1525", fontFamily: "playfair" },
+  { id: "carbon", name: "Sleek Carbon", primary: "#f8fafc", secondary: "#94a3b8", background: "#0f172a", fontFamily: "inter" }
 ];
 
 export default function SettingsPage() {
@@ -252,7 +252,7 @@ export default function SettingsPage() {
               return (
                 <div 
                   key={theme.id}
-                  onClick={() => setConfig({ ...config, primaryColor: theme.primary, secondaryColor: theme.secondary, backgroundColor: theme.background })}
+                  onClick={() => setConfig({ ...config, primaryColor: theme.primary, secondaryColor: theme.secondary, backgroundColor: theme.background, fontFamily: theme.fontFamily })}
                   className={`cursor-pointer rounded-xl overflow-hidden border-2 transition-all duration-300 ${isActive ? 'border-amber-400 shadow-lg shadow-amber-500/20 scale-[1.02]' : 'border-white/10 hover:border-white/30'}`}
                 >
                   <div className="h-20 w-full relative" style={{ backgroundColor: theme.background }}>
