@@ -438,21 +438,21 @@ function MaintenancePanel({ showToast }: { showToast: (msg: string, type: "succe
     }
   };
 
-  const toggleRestrict = async (user: any) => {
-    const actionStr = user.restricted ? "unban" : "suspend";
-    if (!confirm(`Are you sure you want to ${actionStr} ${user.email}?`)) return;
+  const deleteAccount = async (user: any) => {
+    if (!confirm(`Are you sure you want to PERMANENTLY DELETE the account for ${user.email}? This cannot be undone.`)) return;
     try {
-      const res = await fetch("/api/users", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user._id, action: "restrict", restricted: !user.restricted })
+      const res = await fetch(`/api/users?userId=${user._id}`, {
+        method: "DELETE"
       });
       if (res.ok) {
-        showToast(`Account updated!`, "success");
+        showToast(`Account permanently deleted!`, "success");
         fetchUsers();
+      } else {
+        const data = await res.json();
+        showToast(data.error || "Failed to delete user", "error");
       }
     } catch {
-      showToast("Failed to update user", "error");
+      showToast("Failed to delete user", "error");
     }
   };
 
@@ -485,7 +485,7 @@ function MaintenancePanel({ showToast }: { showToast: (msg: string, type: "succe
           <i className="fa-solid fa-triangle-exclamation" /> Maintenance Mode & User Accounts
         </h2>
         <p className="text-xs text-slate-400 mb-4">
-          Enter the master PIN to manage customer accounts, reset passwords, and restrict access.
+          Enter the master PIN to manage customer accounts, reset passwords, and permanently delete accounts.
         </p>
         <form onSubmit={handleUnlock} className="flex gap-2 max-w-xs">
           <input
@@ -522,12 +522,11 @@ function MaintenancePanel({ showToast }: { showToast: (msg: string, type: "succe
       ) : (
         <div className="space-y-4">
           {users.map((u) => (
-            <div key={u._id} className={`p-4 rounded-xl border ${u.restricted ? "bg-rose-950/20 border-rose-500/30" : "bg-slate-900/60 border-white/5"} flex flex-col md:flex-row md:items-center justify-between gap-4`}>
+            <div key={u._id} className="p-4 rounded-xl border bg-slate-900/60 border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <p className="text-sm font-semibold flex items-center gap-2">
                   {u.name || "Unknown"}
                   {u.role === "owner" && <span className="text-[9px] uppercase tracking-wider bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-sm">Owner</span>}
-                  {u.restricted && <span className="text-[9px] uppercase tracking-wider bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded-sm">Suspended</span>}
                 </p>
                 <p className="text-xs text-slate-400">{u.email}</p>
                 <p className="text-[10px] text-slate-500 mt-1">Joined: {new Date(u.createdAt).toLocaleDateString()}</p>
@@ -541,12 +540,10 @@ function MaintenancePanel({ showToast }: { showToast: (msg: string, type: "succe
                 </button>
                 {u.role !== "owner" && (
                   <button
-                    onClick={() => toggleRestrict(u)}
-                    className={`px-3 py-1.5 rounded-lg text-xs transition border ${
-                      u.restricted ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20" : "bg-rose-500/10 text-rose-400 border-rose-500/20 hover:bg-rose-500/20"
-                    }`}
+                    onClick={() => deleteAccount(u)}
+                    className="px-3 py-1.5 rounded-lg text-xs transition border bg-rose-500/10 text-rose-500 border-rose-500/20 hover:bg-rose-500 hover:text-white"
                   >
-                    {u.restricted ? "Unsuspend" : "Suspend Account"}
+                    Delete Account
                   </button>
                 )}
               </div>

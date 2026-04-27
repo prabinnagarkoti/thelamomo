@@ -32,19 +32,10 @@ export async function PATCH(req: NextRequest) {
 
     await connectDB();
     const data = await req.json();
-    const { userId, action, restricted, newPassword } = data;
+    const { userId, action, newPassword } = data;
 
     if (!userId) {
       return NextResponse.json({ error: "User ID required" }, { status: 400 });
-    }
-
-    if (action === "restrict") {
-      const user = await User.findByIdAndUpdate(
-        userId,
-        { restricted },
-        { new: true, select: "-password" }
-      );
-      return NextResponse.json({ success: true, user });
     }
 
     if (action === "change_password") {
@@ -63,5 +54,37 @@ export async function PATCH(req: NextRequest) {
   } catch (error) {
     console.error("Update user error:", error);
     return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session || (session.user as any)?.role !== "owner") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+
+    if (!userId) {
+      return NextResponse.json({ error: "User ID required" }, { status: 400 });
+    }
+
+    await connectDB();
+    const user = await User.findById(userId);
+    if (!user) {
+       return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+    
+    if (user.role === "owner") {
+       return NextResponse.json({ error: "Cannot delete owner accounts from the dashboard" }, { status: 403 });
+    }
+
+    await User.findByIdAndDelete(userId);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Delete user error:", error);
+    return NextResponse.json({ error: "Failed to delete user" }, { status: 500 });
   }
 }
