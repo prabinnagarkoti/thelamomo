@@ -4,34 +4,12 @@ import { useCart } from "@/components/CartSheet";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useLoadScript, GoogleMap, MarkerF, Autocomplete, Libraries } from "@react-google-maps/api";
+import dynamic from "next/dynamic";
 
-// IMPORTANT: Define libraries array outside the component to prevent
-// useLoadScript from re-initializing on every render (known react-google-maps bug)
-const LIBRARIES: Libraries = ["places"];
-
-const UBER_MAP_STYLE = [
-  { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-  { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-  { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-  { featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{ color: "#d59563" }] },
-  { featureType: "poi", elementType: "labels.text.fill", stylers: [{ color: "#d59563" }] },
-  { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#263c3f" }] },
-  { featureType: "poi.park", elementType: "labels.text.fill", stylers: [{ color: "#6b9a76" }] },
-  { featureType: "road", elementType: "geometry", stylers: [{ color: "#38414e" }] },
-  { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#212a37" }] },
-  { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#9ca5b3" }] },
-  { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#746855" }] },
-  { featureType: "road.highway", elementType: "geometry.stroke", stylers: [{ color: "#1f2835" }] },
-  { featureType: "road.highway", elementType: "labels.text.fill", stylers: [{ color: "#f3d19c" }] },
-  { featureType: "transit", elementType: "geometry", stylers: [{ color: "#2f3948" }] },
-  { featureType: "transit.station", elementType: "labels.text.fill", stylers: [{ color: "#d59563" }] },
-  { featureType: "water", elementType: "geometry", stylers: [{ color: "#17263c" }] },
-  { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#515c6d" }] },
-  { featureType: "water", elementType: "labels.text.stroke", stylers: [{ color: "#17263c" }] },
-  { featureType: "poi.business", stylers: [{ visibility: "off" }] },
-  { featureType: "transit", elementType: "labels.icon", stylers: [{ visibility: "off" }] }
-];
+const CheckoutMap = dynamic(() => import("@/components/CheckoutMap"), {
+  ssr: false,
+  loading: () => <div className="h-56 rounded-xl bg-slate-900 border border-white/10 flex items-center justify-center text-slate-500 text-xs shadow-inner mt-3"><i className="fa-solid fa-spinner fa-spin mr-2"/>Loading beautiful HD map...</div>
+});
 
 export default function CheckoutPage() {
   const { cart, clearCart, total } = useCart();
@@ -41,27 +19,19 @@ export default function CheckoutPage() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-    libraries: LIBRARIES
-  });
-
-  const onLoad = (autoC: google.maps.places.Autocomplete) => setAutocomplete(autoC);
-  const onPlaceChanged = () => {
-    if (autocomplete !== null) {
-      const place = autocomplete.getPlace();
-      if (place.geometry?.location) {
-        setLocation({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() });
-        setAddress(place.formatted_address || place.name || address);
+  const onMapClick = async (lat: number, lng: number) => {
+    setLocation({ lat, lng });
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+      const data = await res.json();
+      if (data && data.display_name) {
+        setAddress(data.display_name);
       }
-    }
-  };
-
-  const onMapClick = (e: google.maps.MapMouseEvent) => {
-    if (e.latLng) {
-      setLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+    } catch {
+      // Silent fail
     }
   };
 
@@ -71,6 +41,28 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const router = useRouter();
 
+  const searchAddress = async (query: string) => {
+    setAddress(query);
+    if (query.length < 4) {
+      setSearchResults([]);
+      return;
+    }
+    setIsSearching(true);
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=4`);
+      const data = await res.json();
+      setSearchResults(data || []);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSelectResult = (result: any) => {
+    setAddress(result.display_name);
+    setLocation({ lat: parseFloat(result.lat), lng: parseFloat(result.lon) });
+    setSearchResults([]);
+  };
+
   const useCurrentLocation = () => {
     if (!navigator.geolocation) {
       setErrors((prev) => ({ ...prev, address: "Geolocation not supported" }));
@@ -78,21 +70,21 @@ export default function CheckoutPage() {
     }
     setLocating(true);
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      async (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         setLocation({ lat, lng });
         
-        if (window.google) {
-          const geocoder = new window.google.maps.Geocoder();
-          geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-            if (status === "OK" && results?.[0]) {
-              setAddress(results[0].formatted_address);
-              setErrors((prev) => ({ ...prev, address: "" }));
-            }
-            setLocating(false);
-          });
-        } else {
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+          const data = await res.json();
+          if (data && data.display_name) {
+             setAddress(data.display_name);
+             setErrors((prev) => ({ ...prev, address: "" }));
+          }
+        } catch {
+          setErrors((prev) => ({ ...prev, address: "Location found, but couldn't get address name" }));
+        } finally {
           setLocating(false);
         }
       },
@@ -254,15 +246,25 @@ export default function CheckoutPage() {
           
           <div className="relative">
             <div className="flex flex-col gap-2 mb-2">
-              {isLoaded ? (
-                <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                  <div>
-                    <FormField value={address} onChange={setAddress} placeholder="Search delivery address..." error={errors.address} icon="fa-solid fa-location-dot" />
+              <div className="relative">
+                <FormField value={address} onChange={searchAddress} placeholder="Search delivery address..." error={errors.address} icon="fa-solid fa-location-dot" />
+                
+                {/* Custom Autocomplete Dropdown */}
+                {searchResults.length > 0 && (
+                  <div className="absolute top-100 mt-2 left-0 right-0 bg-slate-900 border border-white/10 shadow-2xl rounded-xl overflow-hidden z-20">
+                    {searchResults.map((res: any, idx: number) => (
+                      <div 
+                        key={idx} 
+                        onClick={() => handleSelectResult(res)}
+                        className="px-4 py-3 text-xs border-b border-white/5 last:border-0 hover:bg-amber-500/10 cursor-pointer text-slate-300 transition"
+                      >
+                        <i className="fa-solid fa-location-dot text-amber-500/50 mr-2" />
+                        {res.display_name}
+                      </div>
+                    ))}
                   </div>
-                </Autocomplete>
-              ) : (
-                <FormField value={address} onChange={setAddress} placeholder="Delivery address" error={errors.address} icon="fa-solid fa-location-dot" />
-              )}
+                )}
+              </div>
               
               <button 
                 onClick={useCurrentLocation} 
@@ -275,25 +277,7 @@ export default function CheckoutPage() {
               </button>
             </div>
             <p className="text-[10px] text-slate-500 mt-1 ml-1 mb-2">Search for your address or move the pin exactly on your house.</p>
-            {isLoaded && !loadError && (
-              <div className="h-48 rounded-xl overflow-hidden border border-white/10 mt-2">
-                <GoogleMap
-                  mapContainerStyle={{ width: "100%", height: "100%" }}
-                  center={location || { lat: -33.8688, lng: 151.2093 }}
-                  zoom={location ? 16 : 10}
-                  onClick={onMapClick}
-                  options={{ disableDefaultUI: true, zoomControl: true, styles: UBER_MAP_STYLE }}
-                >
-                  {location && <MarkerF position={location} draggable onDragEnd={onMapClick} />}
-                </GoogleMap>
-              </div>
-            )}
-            {loadError && (
-              <div className="mt-2 p-3 rounded-xl bg-rose-500/10 border border-rose-400/20 text-xs text-rose-300">
-                <i className="fa-solid fa-triangle-exclamation mr-1" />
-                Maps failed to load. You can still type your address manually.
-              </div>
-            )}
+            <CheckoutMap location={location} onLocationSelect={onMapClick} />
           </div>
           <textarea
             value={notes}
