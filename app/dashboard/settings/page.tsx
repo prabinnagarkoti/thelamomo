@@ -19,6 +19,14 @@ interface Config {
   logoUrl: string;
 }
 
+const THEME_PRESETS = [
+  { id: "midnight", name: "Midnight Orange", primary: "#f59e0b", secondary: "#e11d48", background: "#020617" },
+  { id: "ocean", name: "Ocean Glow", primary: "#0ea5e9", secondary: "#8b5cf6", background: "#082f49" },
+  { id: "forest", name: "Deep Forest", primary: "#10b981", secondary: "#f59e0b", background: "#064e3b" },
+  { id: "sunset", name: "Sunset Rose", primary: "#f43f5e", secondary: "#f97316", background: "#2a1525" },
+  { id: "carbon", name: "Sleek Carbon", primary: "#f8fafc", secondary: "#94a3b8", background: "#0f172a" }
+];
+
 export default function SettingsPage() {
   const [config, setConfig] = useState<Config | null>(null);
   const [toast, setToast] = useState<{
@@ -183,106 +191,74 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* Colors */}
+        {/* Themes */}
         <div className="glass rounded-2xl p-6">
           <h2 className="text-sm font-semibold mb-4 flex items-center gap-2">
             <i className="fa-solid fa-palette text-amber-400" />
-            Colors
+            Website Theme Overrides
           </h2>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs text-slate-400 mb-1.5">
-                Primary Color
-              </label>
-              <div className="flex items-center gap-3">
-                <input
-                  type="color"
-                  value={config.primaryColor}
-                  onChange={(e) =>
-                    setConfig({ ...config, primaryColor: e.target.value })
-                  }
-                  className="w-10 h-10 rounded-lg border border-white/10 cursor-pointer bg-transparent"
-                />
-                <input
-                  value={config.primaryColor}
-                  onChange={(e) =>
-                    setConfig({ ...config, primaryColor: e.target.value })
-                  }
-                  className="flex-1 px-3 py-2 rounded-lg bg-slate-950/80 border border-white/10 text-sm"
-                />
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+            {THEME_PRESETS.map((theme) => {
+              const isActive = 
+                config.primaryColor === theme.primary && 
+                config.secondaryColor === theme.secondary && 
+                config.backgroundColor === theme.background;
+
+              return (
+                <div 
+                  key={theme.id}
+                  onClick={() => setConfig({ ...config, primaryColor: theme.primary, secondaryColor: theme.secondary, backgroundColor: theme.background })}
+                  className={`cursor-pointer rounded-xl overflow-hidden border-2 transition-all duration-300 ${isActive ? 'border-amber-400 shadow-lg shadow-amber-500/20 scale-[1.02]' : 'border-white/10 hover:border-white/30'}`}
+                >
+                  <div className="h-20 w-full relative" style={{ backgroundColor: theme.background }}>
+                    <div className="absolute inset-0 opacity-50 bg-gradient-to-tr" style={{ backgroundImage: `linear-gradient(to top right, ${theme.secondary}, transparent)` }} />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-semibold" style={{ backgroundColor: 'rgba(0,0,0,0.4)', color: theme.primary, border: `1px solid ${theme.primary}` }}>
+                      Preview
+                    </div>
+                  </div>
+                  <div className="p-3 bg-slate-900 border-t border-white/5 flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-semibold text-slate-200">{theme.name}</p>
+                      <div className="flex gap-1 mt-1.5">
+                        <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: theme.primary }} />
+                        <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: theme.secondary }} />
+                        <div className="w-2.5 h-2.5 rounded-full border border-white/20" style={{ backgroundColor: theme.background }} />
+                      </div>
+                    </div>
+                    {isActive && <i className="fa-solid fa-circle-check text-amber-400" />}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="pt-4 border-t border-white/5">
+            <p className="text-xs text-slate-400 mb-3 block">Or set advanced custom hex values:</p>
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <label className="block text-[10px] text-slate-500 mb-1">Primary Color</label>
+                <div className="flex bg-slate-950/80 rounded-lg border border-white/10 overflow-hidden h-9">
+                  <input type="color" value={config.primaryColor} onChange={(e) => setConfig({ ...config, primaryColor: e.target.value })} className="w-9 h-full cursor-pointer bg-transparent border-0 p-0" />
+                  <input value={config.primaryColor} onChange={(e) => setConfig({ ...config, primaryColor: e.target.value })} className="w-full bg-transparent text-xs px-2 focus:outline-none text-slate-300" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[10px] text-slate-500 mb-1">Secondary Color</label>
+                <div className="flex bg-slate-950/80 rounded-lg border border-white/10 overflow-hidden h-9">
+                  <input type="color" value={config.secondaryColor} onChange={(e) => setConfig({ ...config, secondaryColor: e.target.value })} className="w-9 h-full cursor-pointer bg-transparent border-0 p-0" />
+                  <input value={config.secondaryColor} onChange={(e) => setConfig({ ...config, secondaryColor: e.target.value })} className="w-full bg-transparent text-xs px-2 focus:outline-none text-slate-300" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[10px] text-slate-500 mb-1">Background Color</label>
+                <div className="flex bg-slate-950/80 rounded-lg border border-white/10 overflow-hidden h-9">
+                  <input type="color" value={config.backgroundColor || "#020617"} onChange={(e) => setConfig({ ...config, backgroundColor: e.target.value })} className="w-9 h-full cursor-pointer bg-transparent border-0 p-0" />
+                  <input value={config.backgroundColor || "#020617"} onChange={(e) => setConfig({ ...config, backgroundColor: e.target.value })} className="w-full bg-transparent text-xs px-2 focus:outline-none text-slate-300" />
+                </div>
               </div>
             </div>
-            <div>
-              <label className="block text-xs text-slate-400 mb-1.5">
-                Secondary Color
-              </label>
-              <div className="flex items-center gap-3">
-                <input
-                  type="color"
-                  value={config.secondaryColor}
-                  onChange={(e) =>
-                    setConfig({ ...config, secondaryColor: e.target.value })
-                  }
-                  className="w-10 h-10 rounded-lg border border-white/10 cursor-pointer bg-transparent"
-                />
-                <input
-                  value={config.secondaryColor}
-                  onChange={(e) =>
-                    setConfig({ ...config, secondaryColor: e.target.value })
-                  }
-                  className="flex-1 px-3 py-2 rounded-lg bg-slate-950/80 border border-white/10 text-sm"
-                />
-              </div>
-            </div>
           </div>
-          <div className="mt-4">
-            <label className="block text-xs text-slate-400 mb-1.5">
-              Background Color
-            </label>
-            <div className="flex items-center gap-3">
-              <input
-                type="color"
-                value={config.backgroundColor || "#020617"}
-                onChange={(e) =>
-                  setConfig({ ...config, backgroundColor: e.target.value })
-                }
-                className="w-10 h-10 rounded-lg border border-white/10 cursor-pointer bg-transparent"
-              />
-              <input
-                value={config.backgroundColor || "#020617"}
-                onChange={(e) =>
-                  setConfig({ ...config, backgroundColor: e.target.value })
-                }
-                className="flex-1 px-3 py-2 rounded-lg bg-slate-950/80 border border-white/10 text-sm"
-              />
-              <button
-                onClick={() => setConfig({ ...config, backgroundColor: "#020617" })}
-                className="px-3 py-2 rounded-lg border border-white/10 text-xs text-slate-400 hover:text-white hover:border-white/20 transition"
-                title="Reset to default"
-              >
-                Reset
-              </button>
-            </div>
-            <p className="text-[10px] text-slate-500 mt-1">This changes the background for the entire website (customer & dashboard)</p>
-          </div>
-          {/* Color Preview */}
-          <div className="mt-4 flex gap-3">
-            <div
-              className="h-8 flex-1 rounded-lg"
-              style={{
-                background: `linear-gradient(to right, ${config.primaryColor}, ${config.secondaryColor})`
-              }}
-            />
-          </div>
-          <div className="mt-2 flex gap-3">
-            <div
-              className="h-8 flex-1 rounded-lg border border-white/10"
-              style={{ backgroundColor: config.backgroundColor || "#020617" }}
-            />
-          </div>
-          <p className="text-[10px] text-slate-500 mt-2">
-            Top: accent gradient • Bottom: site background
-          </p>
         </div>
 
         {/* Badges */}
