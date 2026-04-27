@@ -10,6 +10,29 @@ import { useLoadScript, GoogleMap, MarkerF, Autocomplete, Libraries } from "@rea
 // useLoadScript from re-initializing on every render (known react-google-maps bug)
 const LIBRARIES: Libraries = ["places"];
 
+const UBER_MAP_STYLE = [
+  { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+  { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+  { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+  { featureType: "administrative.locality", elementType: "labels.text.fill", stylers: [{ color: "#d59563" }] },
+  { featureType: "poi", elementType: "labels.text.fill", stylers: [{ color: "#d59563" }] },
+  { featureType: "poi.park", elementType: "geometry", stylers: [{ color: "#263c3f" }] },
+  { featureType: "poi.park", elementType: "labels.text.fill", stylers: [{ color: "#6b9a76" }] },
+  { featureType: "road", elementType: "geometry", stylers: [{ color: "#38414e" }] },
+  { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: "#212a37" }] },
+  { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#9ca5b3" }] },
+  { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#746855" }] },
+  { featureType: "road.highway", elementType: "geometry.stroke", stylers: [{ color: "#1f2835" }] },
+  { featureType: "road.highway", elementType: "labels.text.fill", stylers: [{ color: "#f3d19c" }] },
+  { featureType: "transit", elementType: "geometry", stylers: [{ color: "#2f3948" }] },
+  { featureType: "transit.station", elementType: "labels.text.fill", stylers: [{ color: "#d59563" }] },
+  { featureType: "water", elementType: "geometry", stylers: [{ color: "#17263c" }] },
+  { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#515c6d" }] },
+  { featureType: "water", elementType: "labels.text.stroke", stylers: [{ color: "#17263c" }] },
+  { featureType: "poi.business", stylers: [{ visibility: "off" }] },
+  { featureType: "transit", elementType: "labels.icon", stylers: [{ visibility: "off" }] }
+];
+
 export default function CheckoutPage() {
   const { cart, clearCart, total } = useCart();
   const { data: session } = useSession();
@@ -41,10 +64,44 @@ export default function CheckoutPage() {
       setLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
     }
   };
+
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
+  const [locating, setLocating] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const router = useRouter();
+
+  const useCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      setErrors((prev) => ({ ...prev, address: "Geolocation not supported" }));
+      return;
+    }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        setLocation({ lat, lng });
+        
+        if (window.google) {
+          const geocoder = new window.google.maps.Geocoder();
+          geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+            if (status === "OK" && results?.[0]) {
+              setAddress(results[0].formatted_address);
+              setErrors((prev) => ({ ...prev, address: "" }));
+            }
+            setLocating(false);
+          });
+        } else {
+          setLocating(false);
+        }
+      },
+      () => {
+        setLocating(false);
+        setErrors((prev) => ({ ...prev, address: "Failed to get location. Check browser permissions." }));
+      }
+    );
+  };
 
   // Require login to access checkout
   if (!session) {
@@ -196,15 +253,27 @@ export default function CheckoutPage() {
           <FormField value={phone} onChange={setPhone} placeholder="Phone number" error={errors.phone} />
           
           <div className="relative">
-            {isLoaded ? (
-              <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                <div>
-                  <FormField value={address} onChange={setAddress} placeholder="Search delivery address..." error={errors.address} icon="fa-solid fa-location-dot" />
-                </div>
-              </Autocomplete>
-            ) : (
-              <FormField value={address} onChange={setAddress} placeholder="Delivery address" error={errors.address} icon="fa-solid fa-location-dot" />
-            )}
+            <div className="flex flex-col gap-2 mb-2">
+              {isLoaded ? (
+                <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+                  <div>
+                    <FormField value={address} onChange={setAddress} placeholder="Search delivery address..." error={errors.address} icon="fa-solid fa-location-dot" />
+                  </div>
+                </Autocomplete>
+              ) : (
+                <FormField value={address} onChange={setAddress} placeholder="Delivery address" error={errors.address} icon="fa-solid fa-location-dot" />
+              )}
+              
+              <button 
+                onClick={useCurrentLocation} 
+                type="button"
+                disabled={locating}
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-400 text-xs font-semibold hover:bg-amber-500/20 transition disabled:opacity-50"
+              >
+                {locating ? <i className="fa-solid fa-spinner fa-spin" /> : <i className="fa-solid fa-location-crosshairs" />}
+                {locating ? "Locating..." : "Use Current Location"}
+              </button>
+            </div>
             <p className="text-[10px] text-slate-500 mt-1 ml-1 mb-2">Search for your address or move the pin exactly on your house.</p>
             {isLoaded && !loadError && (
               <div className="h-48 rounded-xl overflow-hidden border border-white/10 mt-2">
@@ -213,7 +282,7 @@ export default function CheckoutPage() {
                   center={location || { lat: -33.8688, lng: 151.2093 }}
                   zoom={location ? 16 : 10}
                   onClick={onMapClick}
-                  options={{ disableDefaultUI: true, zoomControl: true }}
+                  options={{ disableDefaultUI: true, zoomControl: true, styles: UBER_MAP_STYLE }}
                 >
                   {location && <MarkerF position={location} draggable onDragEnd={onMapClick} />}
                 </GoogleMap>
