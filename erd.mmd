@@ -1,0 +1,43 @@
+erDiagram
+    User ||--o{ Order : places
+    RestaurantConfig ||--o{ MenuItem : "defines brand for"
+    MenuItem ||--o{ OrderItem : "included in"
+    Order ||--|{ OrderItem : contains
+
+    User {
+        ObjectId _id PK
+        string email
+        string password_hash
+        string role "customer or owner"
+    }
+    
+    RestaurantConfig {
+        ObjectId _id PK
+        string name
+        string primaryColor
+        string logoUrl
+    }
+    
+    MenuItem {
+        ObjectId _id PK
+        string name
+        decimal price
+        boolean available
+        string category
+    }
+    
+    Order {
+        ObjectId _id PK
+        ObjectId customerId FK
+        decimal total
+        string status "In Process or Delivered"
+        datetime createdAt
+    }
+    
+    OrderItem {
+        ObjectId _id PK
+        ObjectId orderId FK
+        ObjectId menuItemId FK
+        integer qty
+        decimal price
+    }

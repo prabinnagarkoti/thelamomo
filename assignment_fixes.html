@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>INF303 A3 — HD Fix Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #141720;
+    --surface2: #1a1e2e;
+    --border: #252a3d;
+    --accent: #6c63ff;
+    --accent2: #00ffe0;
+    --red: #ff5f7e;
+    --yellow: #ffd166;
+    --green: #06d6a0;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --card-rad: 14px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #1a1e2e 0%, #0d0f14 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .header-left h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #6c63ff, #00ffe0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header-left p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .badge-row { display: flex; gap: 8px; }
+  .badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .badge-red { background: rgba(255,95,126,0.15); color: var(--red); border: 1px solid rgba(255,95,126,0.3); }
+  .badge-yellow { background: rgba(255,209,102,0.15); color: var(--yellow); border: 1px solid rgba(255,209,102,0.3); }
+  .badge-green { background: rgba(6,214,160,0.15); color: var(--green); border: 1px solid rgba(6,214,160,0.3); }
+
+  /* LAYOUT */
+  .layout { display: flex; height: calc(100vh - 77px); }
+
+  /* SIDEBAR */
+  nav {
+    width: 260px;
+    min-width: 260px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 16px 0;
+  }
+  nav::-webkit-scrollbar { width: 4px; }
+  nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .nav-section-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    padding: 14px 20px 6px;
+    text-transform: uppercase;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+    font-size: 0.83rem;
+    color: var(--muted);
+  }
+  .nav-item:hover { background: rgba(108,99,255,0.08); color: var(--text); }
+  .nav-item.active {
+    background: rgba(108,99,255,0.12);
+    border-left-color: var(--accent);
+    color: var(--text);
+    font-weight: 500;
+  }
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-red { background: var(--red); }
+  .dot-yellow { background: var(--yellow); }
+  .dot-green { background: var(--green); }
+
+  /* MAIN CONTENT */
+  main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 40px;
+    scroll-behavior: smooth;
+  }
+  main::-webkit-scrollbar { width: 6px; }
+  main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  /* OVERVIEW CARDS */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .overview-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-rad);
+    padding: 20px;
+    transition: transform 0.2s;
+  }
+  .overview-card:hover { transform: translateY(-2px); }
+  .overview-card .oc-label { font-size: 0.72rem; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .overview-card .oc-value { font-size: 1.8rem; font-weight: 700; margin: 6px 0 4px; }
+  .overview-card .oc-sub { font-size: 0.78rem; color: var(--muted); }
+  .oc-red .oc-value { color: var(--red); }
+  .oc-yellow .oc-value { color: var(--yellow); }
+  .oc-green .oc-value { color: var(--green); }
+
+  /* FIX CARDS */
+  .section-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .fix-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-rad);
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .fix-card:hover { border-color: rgba(108,99,255,0.4); }
+
+  .fix-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .fix-card-header-left { display: flex; align-items: center; gap: 12px; }
+  .fix-number {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700;
+  }
+  .fn-red { background: rgba(255,95,126,0.15); color: var(--red); border: 1px solid rgba(255,95,126,0.3); }
+  .fn-yellow { background: rgba(255,209,102,0.15); color: var(--yellow); border: 1px solid rgba(255,209,102,0.3); }
+  .fix-title { font-size: 0.9rem; font-weight: 600; }
+  .fix-location { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+
+  .priority-tag {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .pt-red { background: rgba(255,95,126,0.15); color: var(--red); }
+  .pt-yellow { background: rgba(255,209,102,0.15); color: var(--yellow); }
+
+  .fix-card-body { padding: 0 20px 20px; display: none; }
+  .fix-card-body.open { display: block; }
+
+  .diff-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+    margin-bottom: 12px;
+  }
+  .diff-tab-row {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    gap: 0;
+  }
+  .diff-tab {
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .diff-tab.active-tab { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+  .diff-content { display: none; padding: 14px 16px; }
+  .diff-content.visible { display: block; }
+  .diff-old { color: #ff8fa3; background: rgba(255,95,126,0.06); }
+  .diff-new { color: #a0ffea; background: rgba(6,214,160,0.06); }
+
+  pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(108,99,255,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(108,99,255,0.3);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+  }
+  .copy-btn:hover { background: rgba(108,99,255,0.28); }
+  .copy-btn.copied { background: rgba(6,214,160,0.15); color: var(--green); border-color: rgba(6,214,160,0.3); }
+
+  .instruction-box {
+    background: rgba(108,99,255,0.07);
+    border: 1px solid rgba(108,99,255,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .instruction-box strong { color: var(--text); }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    background: var(--surface2);
+    border-radius: 4px;
+    height: 6px;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .chevron { transition: transform 0.2s; font-size: 0.9rem; color: var(--muted); }
+  .chevron.open { transform: rotate(180deg); }
+
+  .grade-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .gp-current { background: rgba(255,209,102,0.15); color: var(--yellow); }
+  .gp-after { background: rgba(6,214,160,0.15); color: var(--green); }
+
+  .done-check {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.75rem; color: var(--muted); cursor: pointer;
+    padding: 4px 0;
+    user-select: none;
+  }
+  .done-check input { accent-color: var(--green); width: 15px; height: 15px; cursor: pointer; }
+  .done-check.checked { color: var(--green); }
+
+  .completed-overlay {
+    position: relative;
+  }
+  .completed-overlay::after {
+    content: '✓ Done';
+    position: absolute;
+    top: 14px; right: 60px;
+    background: rgba(6,214,160,0.15);
+    color: var(--green);
+    border: 1px solid rgba(6,214,160,0.3);
+    border-radius: 10px;
+    padding: 2px 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>INF303 A3 — HD Fix Panel</h1>
+    <p>Cybersecurity Tools &amp; Network Security Analysis · Wireshark &amp; Nmap</p>
+  </div>
+  <div class="badge-row">
+    <span class="badge badge-red">3 Critical</span>
+    <span class="badge badge-yellow">3 Medium</span>
+    <span class="badge badge-green">HD Target: 87–92%</span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR NAV -->
+  <nav>
+    <div class="nav-section-label">Overview</div>
+    <div class="nav-item active" onclick="scrollTo('overview')">
+      <div class="nav-dot" style="background:var(--accent)"></div>
+      Grade Summary
+    </div>
+
+    <div class="nav-section-label">🔴 Critical Fixes</div>
+    <div class="nav-item" onclick="scrollTo('fix1')">
+      <div class="nav-dot dot-red"></div>
+      Fix 1 — Section Heading
+    </div>
+    <div class="nav-item" onclick="scrollTo('fix2')">
+      <div class="nav-dot dot-red"></div>
+      Fix 2 — Conclusion
+    </div>
+    <div class="nav-item" onclick="scrollTo('fix3')">
+      <div class="nav-dot dot-red"></div>
+      Fix 3 — Industry Apps
+    </div>
+
+    <div class="nav-section-label">🟡 Medium Fixes</div>
+    <div class="nav-item" onclick="scrollTo('fix4')">
+      <div class="nav-dot dot-yellow"></div>
+      Fix 4 — Wireshark Sc. 1
+    </div>
+    <div class="nav-item" onclick="scrollTo('fix5')">
+      <div class="nav-dot dot-yellow"></div>
+      Fix 5 — Wireshark Sc. 2
+    </div>
+    <div class="nav-item" onclick="scrollTo('fix6')">
+      <div class="nav-dot dot-yellow"></div>
+      Fix 6 — Nmap Section
+    </div>
+
+    <div class="nav-section-label">Progress</div>
+    <div style="padding: 10px 20px;">
+      <div style="font-size:0.75rem; color:var(--muted); margin-bottom:6px;">Fixes Completed: <span id="progress-count">0</span> / 6</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- OVERVIEW -->
+    <div id="overview">
+      <div class="overview-grid">
+        <div class="overview-card oc-yellow">
+          <div class="oc-label">Current Grade</div>
+          <div class="oc-value">D</div>
+          <div class="oc-sub">~75–82% estimated</div>
+        </div>
+        <div class="overview-card oc-green">
+          <div class="oc-label">After All Fixes</div>
+          <div class="oc-value">HD</div>
+          <div class="oc-sub">~87–92% projected</div>
+        </div>
+        <div class="overview-card" style="border-color:rgba(108,99,255,0.3)">
+          <div class="oc-label">Time to Fix</div>
+          <div class="oc-value" style="color:var(--accent)">~20</div>
+          <div class="oc-sub">minutes total</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CRITICAL SECTION -->
+    <div class="section-title">🔴 Critical Fixes — Must Do</div>
+
+    <!-- FIX 1 -->
+    <div class="fix-card completed-overlay" id="fix1" data-fix="1">
+      <div class="fix-card-header" onclick="toggleCard(1)">
+        <div class="fix-card-header-left">
+          <div class="fix-number fn-red">1</div>
+          <div>
+            <div class="fix-title">Section 1 Heading — Wrong Title</div>
+            <div class="fix-location">Section 1 · Top of report body</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="priority-tag pt-red">CRITICAL</span>
+          <span class="chevron" id="chev1">▼</span>
+        </div>
+      </div>
+      <div class="fix-card-body" id="body1">
+        <div class="instruction-box">
+          <strong>What to do:</strong> Find the heading "What are Cybersecurity Tools" and rename it.<br/>
+          This must match the brief exactly — markers check heading alignment.
+        </div>
+        <div class="diff-block">
+          <div class="diff-tab-row">
+            <div class="diff-tab active-tab" onclick="switchTab(event,'old1','new1')">❌ Find This</div>
+            <div class="diff-tab" onclick="switchTab(event,'new1','old1')">✅ Replace With</div>
+          </div>
+          <div class="diff-content diff-old visible" id="old1">
+            <pre>What are Cybersecurity Tools</pre>
+          </div>
+          <div class="diff-content diff-new" id="new1">
+            <pre>Introduction to Cybersecurity Tools</pre>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <button class="copy-btn" onclick="copyText('Introduction to Cybersecurity Tools', this)">📋 Copy New Heading</button>
+          <label class="done-check" id="check1"><input type="checkbox" onchange="markDone(1, this)"/> Mark as done</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIX 2 -->
+    <div class="fix-card" id="fix2" data-fix="2">
+      <div class="fix-card-header" onclick="toggleCard(2)">
+        <div class="fix-card-header-left">
+          <div class="fix-number fn-red">2</div>
+          <div>
+            <div class="fix-title">Conclusion — Too Short, Missing Key Learning</div>
+            <div class="fix-location">Section 8 · Conclusion</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="priority-tag pt-red">CRITICAL</span>
+          <span class="chevron" id="chev2">▼</span>
+        </div>
+      </div>
+      <div class="fix-card-body" id="body2">
+        <div class="instruction-box">
+          <strong>What to do:</strong> Keep your existing conclusion paragraph. Add the new paragraph <strong>immediately after it</strong>.<br/>
+          The rubric requires "key learning from the theoretical analysis" — it is completely missing right now.
+        </div>
+        <div class="diff-block">
+          <div class="diff-tab-row">
+            <div class="diff-tab active-tab" onclick="switchTab(event,'old2','new2')">❌ Current Conclusion</div>
+            <div class="diff-tab" onclick="switchTab(event,'new2','old2')">✅ Add This Paragraph After</div>
+          </div>
+          <div class="diff-content diff-old visible" id="old2">
+            <pre>Wireshark and Nmap continue to be mainstays of the cybersecurity profession. Nmap delivers the panoramic, active visibility needed to oversee attack surfaces, while Wireshark delivers the microscopic, passive visibility needed to analyse intricate network activity and security threats. Theoretical understanding of these tools reveals that cybersecurity is not only about using defensive tools, but also having clear insight into network operations. But the powerful capabilities of these tools highlight the need for robust ethical and legal standards, so that they are used to protect, rather than facilitate, information systems.</pre>
+          </div>
+          <div class="diff-content diff-new" id="new2">
+            <pre>A key learning from this theoretical analysis is the complementary nature of active and passive network security approaches. Neither tool alone is sufficient — Nmap identifies where vulnerabilities exist, while Wireshark reveals how they are being exploited in real time. Used together within an authorised framework, they form a powerful investigative pair that addresses both the structural and operational dimensions of network security. Furthermore, this analysis reinforces that technical skill alone is insufficient in modern cybersecurity practice; ethical awareness, legal compliance, and professional responsibility are equally fundamental to the discipline. Organisations that invest in both the tools and the training to use them responsibly are significantly better positioned to defend against the increasingly sophisticated threats facing today's information systems.</pre>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <button class="copy-btn" onclick="copyText(`A key learning from this theoretical analysis is the complementary nature of active and passive network security approaches. Neither tool alone is sufficient — Nmap identifies where vulnerabilities exist, while Wireshark reveals how they are being exploited in real time. Used together within an authorised framework, they form a powerful investigative pair that addresses both the structural and operational dimensions of network security. Furthermore, this analysis reinforces that technical skill alone is insufficient in modern cybersecurity practice; ethical awareness, legal compliance, and professional responsibility are equally fundamental to the discipline. Organisations that invest in both the tools and the training to use them responsibly are significantly better positioned to defend against the increasingly sophisticated threats facing today's information systems.`, this)">📋 Copy New Paragraph</button>
+          <label class="done-check" id="check2"><input type="checkbox" onchange="markDone(2, this)"/> Mark as done</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIX 3 -->
+    <div class="fix-card" id="fix3" data-fix="3">
+      <div class="fix-card-header" onclick="toggleCard(3)">
+        <div class="fix-card-header-left">
+          <div class="fix-number fn-red">3</div>
+          <div>
+            <div class="fix-title">Industry Applications — Missing Threat Detection</div>
+            <div class="fix-location">Section 7 · Industry Applications</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="priority-tag pt-red">CRITICAL</span>
+          <span class="chevron" id="chev3">▼</span>
+        </div>
+      </div>
+      <div class="fix-card-body" id="body3">
+        <div class="instruction-box">
+          <strong>What to do:</strong> The brief explicitly lists "Threat detection and prevention systems" under Industry Applications but your report skips it. Add the new bullet <strong>after the IT Infrastructure Auditing bullet</strong>.
+        </div>
+        <div class="diff-block">
+          <div class="diff-tab-row">
+            <div class="diff-tab active-tab" onclick="switchTab(event,'old3','new3')">❌ Current Last Bullet</div>
+            <div class="diff-tab" onclick="switchTab(event,'new3','old3')">✅ Add This After It</div>
+          </div>
+          <div class="diff-content diff-old visible" id="old3">
+            <pre>• IT Infrastructure Auditing: IT administrators set up periodic Nmap scans of their own networks to ensure that firewalls are properly configured and no unauthorised "shadow IT" equipment is connected to the corporate network.</pre>
+          </div>
+          <div class="diff-content diff-new" id="new3">
+            <pre>• Threat Detection and Prevention Systems: Both tools integrate with Security Information and Event Management (SIEM) platforms such as Splunk or IBM QRadar. Network traffic data captured by Wireshark and host discovery data from Nmap can be fed into these platforms to enable automated, real-time threat detection and alerting, significantly reducing the time between threat occurrence and organisational response.</pre>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <button class="copy-btn" onclick="copyText(`• Threat Detection and Prevention Systems: Both tools integrate with Security Information and Event Management (SIEM) platforms such as Splunk or IBM QRadar. Network traffic data captured by Wireshark and host discovery data from Nmap can be fed into these platforms to enable automated, real-time threat detection and alerting, significantly reducing the time between threat occurrence and organisational response.`, this)">📋 Copy New Bullet</button>
+          <label class="done-check" id="check3"><input type="checkbox" onchange="markDone(3, this)"/> Mark as done</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDIUM SECTION -->
+    <div class="section-title" style="margin-top:32px;">🟡 Medium Fixes — Strongly Recommended</div>
+
+    <!-- FIX 4 -->
+    <div class="fix-card" id="fix4" data-fix="4">
+      <div class="fix-card-header" onclick="toggleCard(4)">
+        <div class="fix-card-header-left">
+          <div class="fix-number fn-yellow">4</div>
+          <div>
+            <div class="fix-title">Wireshark Scenario 1 — Add Implication + Fix Label</div>
+            <div class="fix-location">Section 2 · Wireshark — "Use Case 1"</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="priority-tag pt-yellow">MEDIUM</span>
+          <span class="chevron" id="chev4">▼</span>
+        </div>
+      </div>
+      <div class="fix-card-body" id="body4">
+        <div class="instruction-box">
+          <strong>What to do:</strong> Replace the entire "Use Case 1" paragraph. Changes: rename label to "Scenario 1" and add the implication sentence at the end (rubric requires "strong real-world scenarios and <strong>implications</strong>").
+        </div>
+        <div class="diff-block">
+          <div class="diff-tab-row">
+            <div class="diff-tab active-tab" onclick="switchTab(event,'old4','new4')">❌ Find This</div>
+            <div class="diff-tab" onclick="switchTab(event,'new4','old4')">✅ Replace With</div>
+          </div>
+          <div class="diff-content diff-old visible" id="old4">
+            <pre>Use Case 1: Detecting Data Exfiltration via Unsecured Web Traffic A company believes that an employee is unintentionally leaking sensitive customer data to an outside, unsecured server. Wireshark is used to capture the employee's outbound traffic. Using a display filter of http.request.method == "POST", the analyst filters outbound data submissions. Wireshark's HTTP payload expansion shows that the employee is sending PII (Personally Identifiable Information) via plain HTTP, making the data vulnerable to on-path attacks.</pre>
+          </div>
+          <div class="diff-content diff-new" id="new4">
+            <pre>Scenario 1: Detecting Data Exfiltration via Unsecured Web Traffic A company believes that an employee is unintentionally leaking sensitive customer data to an outside, unsecured server. Wireshark is used to capture the employee's outbound traffic. Using a display filter of http.request.method == "POST", the analyst filters outbound data submissions. Wireshark's HTTP payload expansion shows that the employee is sending PII (Personally Identifiable Information) via plain HTTP, making the data vulnerable to on-path attacks. The cybersecurity implication is significant — unencrypted PII transmission may constitute a notifiable data breach under Australia's Privacy Act 1988 (Cth), exposing the organisation to regulatory penalties and reputational damage. This scenario underscores the importance of enforcing HTTPS-only policies and conducting regular traffic audits.</pre>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <button class="copy-btn" onclick="copyText(`Scenario 1: Detecting Data Exfiltration via Unsecured Web Traffic A company believes that an employee is unintentionally leaking sensitive customer data to an outside, unsecured server. Wireshark is used to capture the employee's outbound traffic. Using a display filter of http.request.method == \"POST\", the analyst filters outbound data submissions. Wireshark's HTTP payload expansion shows that the employee is sending PII (Personally Identifiable Information) via plain HTTP, making the data vulnerable to on-path attacks. The cybersecurity implication is significant — unencrypted PII transmission may constitute a notifiable data breach under Australia's Privacy Act 1988 (Cth), exposing the organisation to regulatory penalties and reputational damage. This scenario underscores the importance of enforcing HTTPS-only policies and conducting regular traffic audits.`, this)">📋 Copy Full Replacement</button>
+          <label class="done-check" id="check4"><input type="checkbox" onchange="markDone(4, this)"/> Mark as done</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIX 5 -->
+    <div class="fix-card" id="fix5" data-fix="5">
+      <div class="fix-card-header" onclick="toggleCard(5)">
+        <div class="fix-card-header-left">
+          <div class="fix-number fn-yellow">5</div>
+          <div>
+            <div class="fix-title">Wireshark Scenario 2 — Add Implication + Fix Label</div>
+            <div class="fix-location">Section 2 · Wireshark — "Real-World Scenario 2"</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="priority-tag pt-yellow">MEDIUM</span>
+          <span class="chevron" id="chev5">▼</span>
+        </div>
+      </div>
+      <div class="fix-card-body" id="body5">
+        <div class="instruction-box">
+          <strong>What to do:</strong> Replace the entire "Real-World Scenario 2" paragraph. Changes: rename to "Scenario 2" and add the implication sentence at the end.
+        </div>
+        <div class="diff-block">
+          <div class="diff-tab-row">
+            <div class="diff-tab active-tab" onclick="switchTab(event,'old5','new5')">❌ Find This</div>
+            <div class="diff-tab" onclick="switchTab(event,'new5','old5')">✅ Replace With</div>
+          </div>
+          <div class="diff-content diff-old visible" id="old5">
+            <pre>Real-World Scenario 2: Spotting Unusual Logins A network administrator observes a spike in traffic to a key server during off-hours. The network administrator captures the traffic with Wireshark and then filters for either FTP or Telnet traffic. The capture shows a fast, automated login attack using various usernames and passwords. The administrator can determine that it is a brute-force login attack from an infected internal host, quarantine the computer, and stop a potential attack.</pre>
+          </div>
+          <div class="diff-content diff-new" id="new5">
+            <pre>Scenario 2: Spotting Unusual Logins A network administrator observes a spike in traffic to a key server during off-hours. The network administrator captures the traffic with Wireshark and then filters for either FTP or Telnet traffic. The capture shows a fast, automated login attack using various usernames and passwords. The administrator can determine that it is a brute-force login attack from an infected internal host, quarantine the computer, and stop a potential attack. The cybersecurity implication here is that the use of legacy, unencrypted protocols such as FTP and Telnet creates exploitable visibility — credentials transmitted in cleartext can be trivially intercepted. If undetected, such an attack could result in full system compromise, lateral movement across the network, and significant operational disruption.</pre>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <button class="copy-btn" onclick="copyText(`Scenario 2: Spotting Unusual Logins A network administrator observes a spike in traffic to a key server during off-hours. The network administrator captures the traffic with Wireshark and then filters for either FTP or Telnet traffic. The capture shows a fast, automated login attack using various usernames and passwords. The administrator can determine that it is a brute-force login attack from an infected internal host, quarantine the computer, and stop a potential attack. The cybersecurity implication here is that the use of legacy, unencrypted protocols such as FTP and Telnet creates exploitable visibility — credentials transmitted in cleartext can be trivially intercepted. If undetected, such an attack could result in full system compromise, lateral movement across the network, and significant operational disruption.`, this)">📋 Copy Full Replacement</button>
+          <label class="done-check" id="check5"><input type="checkbox" onchange="markDone(5, this)"/> Mark as done</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIX 6 -->
+    <div class="fix-card" id="fix6" data-fix="6">
+      <div class="fix-card-header" onclick="toggleCard(6)">
+        <div class="fix-card-header-left">
+          <div class="fix-number fn-yellow">6</div>
+          <div>
+            <div class="fix-title">Nmap Section — Open/Closed/Filtered Ports + Fix Label</div>
+            <div class="fix-location">Section 3 · Nmap — intro paragraphs + "Use Case 1" label</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="priority-tag pt-yellow">MEDIUM</span>
+          <span class="chevron" id="chev6">▼</span>
+        </div>
+      </div>
+      <div class="fix-card-body" id="body6">
+        <div class="instruction-box">
+          <strong>What to do:</strong> Replace the two intro paragraphs of the Nmap section (starting "Nmap (also known as..." up to "...risks of the network."). Also rename "Use Case 1" → "Scenario 1" further down.<br/>
+          The brief specifically requires explaining open, closed, and filtered ports — currently these are only mentioned, not defined.
+        </div>
+        <div class="diff-block">
+          <div class="diff-tab-row">
+            <div class="diff-tab active-tab" onclick="switchTab(event,'old6','new6')">❌ Find This</div>
+            <div class="diff-tab" onclick="switchTab(event,'new6','old6')">✅ Replace With</div>
+          </div>
+          <div class="diff-content diff-old visible" id="old6">
+            <pre>Nmap (also known as Network Mapper) is an open-source network scanning tool for network discovery and security auditing. Nmap is an active network tool, unlike Wireshark. It does this by sending hand-crafted IP packets to the targets and examining the ICMP, TCP or UDP responses in detail (Lyon, 2009).
+From these exchanges, Nmap provides a number of key insights. It reveals which hosts are alive, which specific ports are open, closed, or blocked by a firewall, and uses advanced techniques for banner-grabbing to identify the specific versions of services running (e.g., Apache 2.4.41 or OpenSSH 8.2p1). Further, it can deduct the operating system of a target (OS fingerprinting), which significantly clarifies the risks of the network.</pre>
+          </div>
+          <div class="diff-content diff-new" id="new6">
+            <pre>Nmap (also known as Network Mapper) is an open-source network scanning tool for network discovery and security auditing. Unlike Wireshark, Nmap is an active network tool — it sends hand-crafted IP packets to targets and examines the ICMP, TCP, or UDP responses in detail (Lyon, 2009).
+
+From these exchanges, Nmap provides a number of key insights. It categorises each scanned port into one of three states: open (a service is actively listening and accepting connections), closed (the port is accessible but no service is running), or filtered (a firewall or packet filter is blocking probe responses, making the state indeterminate). This distinction is critical — filtered ports are particularly important because they may indicate a misconfigured firewall that is silently dropping traffic rather than explicitly rejecting it. Nmap also uses advanced banner-grabbing techniques to identify specific versions of services running (e.g., Apache 2.4.41 or OpenSSH 8.2p1) and can deduce the operating system of a target through OS fingerprinting, which significantly clarifies the risk profile of the network.</pre>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between; margin-bottom:10px;">
+          <button class="copy-btn" onclick="copyText(`Nmap (also known as Network Mapper) is an open-source network scanning tool for network discovery and security auditing. Unlike Wireshark, Nmap is an active network tool — it sends hand-crafted IP packets to targets and examines the ICMP, TCP, or UDP responses in detail (Lyon, 2009).\n\nFrom these exchanges, Nmap provides a number of key insights. It categorises each scanned port into one of three states: open (a service is actively listening and accepting connections), closed (the port is accessible but no service is running), or filtered (a firewall or packet filter is blocking probe responses, making the state indeterminate). This distinction is critical — filtered ports are particularly important because they may indicate a misconfigured firewall that is silently dropping traffic rather than explicitly rejecting it. Nmap also uses advanced banner-grabbing techniques to identify specific versions of services running (e.g., Apache 2.4.41 or OpenSSH 8.2p1) and can deduce the operating system of a target through OS fingerprinting, which significantly clarifies the risk profile of the network.`, this)">📋 Copy Full Replacement</button>
+          <label class="done-check" id="check6"><input type="checkbox" onchange="markDone(6, this)"/> Mark as done</label>
+        </div>
+        <div class="instruction-box" style="margin-top:4px;">
+          <strong>Also rename:</strong> "Use Case 1: Discovering Open Services..." → "Scenario 1: Discovering Open Services..."
+        </div>
+      </div>
+    </div>
+
+    <div style="height:60px;"></div>
+  </main>
+</div>
+
+<script>
+  // Toggle cards open/closed
+  function toggleCard(n) {
+    const body = document.getElementById('body' + n);
+    const chev = document.getElementById('chev' + n);
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    chev.classList.toggle('open', !isOpen);
+  }
+
+  // Switch diff tabs
+  function switchTab(e, showId, hideId) {
+    const show = document.getElementById(showId);
+    const hide = document.getElementById(hideId);
+    show.classList.add('visible');
+    hide.classList.remove('visible');
+    const tabs = e.target.closest('.diff-tab-row').querySelectorAll('.diff-tab');
+    tabs.forEach(t => t.classList.remove('active-tab'));
+    e.target.classList.add('active-tab');
+  }
+
+  // Copy to clipboard
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✅ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = '📋 Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  // Progress tracking
+  let doneCount = 0;
+  function markDone(n, checkbox) {
+    const label = document.getElementById('check' + n);
+    if (checkbox.checked) {
+      doneCount++;
+      label.classList.add('checked');
+      label.childNodes[1].textContent = ' ✓ Done!';
+    } else {
+      doneCount--;
+      label.classList.remove('checked');
+      label.childNodes[1].textContent = ' Mark as done';
+    }
+    document.getElementById('progress-count').textContent = doneCount;
+    document.getElementById('progress-bar').style.width = (doneCount / 6 * 100) + '%';
+  }
+
+  // Sidebar scroll
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+  }
+
+  // Open first card by default
+  toggleCard(1);
+</script>
+</body>
+</html>

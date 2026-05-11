@@ -1,0 +1,727 @@
+Introduction    
+The contemporary hospitality industry is increasingly defined by digital dependency. In the post-pandemic landscape, online ordering and delivery have transitioned from secondary revenue streams to operational necessities for restaurants worldwide. However, this digital shift has led to the rise of third-party aggregator platforms, such as Uber Eats and DoorDash, which have fundamentally altered restaurant economics. While these platforms offer visibility and convenience, they extract exorbitant commission fees—often ranging between 20% and 35% per transaction. For large hospitality groups, these fees are a cost of doing business; for independent, micro-hospitality operators running on razor-thin profit margins, these fees represent an unsustainable erosion of revenue. Furthermore, these platforms monopolize the customer relationship, retaining all transaction data and preventing restaurants from building independent brand loyalty. Consequently, small food vendors are trapped in a cycle of dependency: they cannot afford to leave the platforms, but they struggle to remain profitable while using them. It is within this challenging economic environment that the need for independent, commission-free digital infrastructure becomes critical.               
+                                                                                       
+Section 1: Project Background
+1.1 Problem Background
+Thela Momo is a small Nepali food cart on Handford Road, Zillmere in Brisbane's northern suburbs. It has a 4.6-star Google rating and a solid local following. Despite doing well, it faces the same problem as thousands of other small food businesses in Australia — the digital tools available to them are either too expensive, too technical, or simply not built with small operators in mind.
+Third-party platforms like Uber Eats take between 20 and 35 percent of every sale (Chan et al., 2023). For a food cart running on net margins of 3 to 9 percent, that leaves almost nothing. What makes it worse is that the customer data from every order — who bought what and when — belongs to the platform, not the restaurant (Fu et al., 2024). The business has no way to contact its own customers or build any kind of loyalty outside the platform. Huang and Siao (2023) point out that online food delivery has actually created new forms of dependency for the businesses it was supposed to help.
+The alternative is a white-label platform. But these come with their own problems. GloriaFood charges up to $97 per month for features that should come standard. ChowNow starts at $229 per month. Square — which Thela Momo currently uses — is a general payment tool, not a food ordering system. It has no food images, no delivery map, no order tracking, and no way for customers to contact the restaurant after placing an order.
+There is no affordable, commission-free, easy-to-use ordering system built for small Australian food businesses. BizMenu Builder was built to fill that gap.
+1.2 Project Objectives
+BizMenu Builder was developed as a commission-free digital ordering platform for small food businesses. The project ran over twelve weeks with the goal of delivering a working system by Week 12. Six objectives guided the work:
+To provide commission-free ordering with no platform fees on any transaction
+To give restaurant owners a configurable branded storefront they can manage without technical knowledge
+To allow owners to add, update, and manage menu items through an admin dashboard
+To implement secure login with separate access levels for owners and customers
+To give customers a way to track their order and communicate directly with the restaurant
+To deploy the system on cloud infrastructure at no ongoing cost
+1.3 Stakeholders, User Personas and Significance
+Stakeholder
+Type
+Role
+Key Interests
+Small food business owners
+Primary
+Admin — manage menu, orders, storefront
+Financial independence, brand control, data ownership
+Customers
+Primary
+End users — browse, order, track, message
+Smooth ordering, accuracy, direct communication
+The significance of this project is simple: it gives small food businesses back control over their own ordering process. On most platforms, the restaurant does not own the customer relationship — the platform does. BizMenu Builder changes that. Every order and every customer interaction stay in a database the owner controls, which makes it possible to build a loyal customer base without depending on a third party.
+User Personas
+The persona cards below capture the real needs, goals, and pain points of BizMenu Builder's two primary user groups (Sharffudin & Yadav, 2025):
+Figure 1.1 — Persona: Ravi Sharma, Restaurant Owner (Kulwinder Kaur)
+Figure 1.2 — Persona: Aisha Nguyen, Customer (Kulwinder Kaur)
+Section 2: Literature Review
+2.1 Platform-by-Platform Analysis
+The global online food delivery market was worth USD $52.6 billion in 2024 and is expected to reach USD $93.3 billion by 2030 (Inventco Labs, 2025). To understand what already exists and what is missing, we looked at five platforms — Uber Eats and DoorDash as aggregator marketplaces, and GloriaFood, ChowNow, and Square as white-label alternatives. Square is the platform Thela Momo currently uses, which makes it the most directly relevant comparison. Fu et al. (2024) note that the spread of these platforms has created real problems for the small businesses that depend on them.
+Uber Eats
+Uber Eats operates in over 12,000 cities and has more than 88 million active users globally (Deliverect, 2025). Figure 2.1 is taken directly from their own fee documentation, updated March 2026. The commission tiers are: Lite 20%, Plus 25–30%, and Premium 30% for delivery. Pickup is charged at 7–10%. For a business like Thela Momo — average orders of $20–40, net margins of 3–9% — even the cheapest plan makes most delivery orders unprofitable. The restaurant also has no access to the customer data generated through the platform. That all stays with Uber Eats.
+Figure 2.1 — Uber Eats Marketplace Fee Changes (Source: help.uber.com, 2026).
+DoorDash
+DoorDash works similarly. The standard plan charges 30% on delivery and 15% on pickup — including in-store collection where DoorDash is not involved at all. The Self-Delivery option is 15% plus a flat AU$9.99 per order. Like Uber Eats, DoorDash keeps all customer data and controls the full ordering experience. Restaurants using DoorDash have no way to contact their own customers independently (Dai & Wu, 2023).
+Figure 2.2 — DoorDash for Merchants Pricing (Source: merchants.doordash.com, 2026). 
+GloriaFood (Oracle)
+GloriaFood is often promoted as a free alternative to aggregators. The base ordering widget genuinely is free, but Figure 2.3 shows what happens when you look at the full picture. The POS system costs $49/month, online payment processing costs $29/month, and marketing tools cost $19/month. A restaurant that needs all three — which most would — is looking at $97/month minimum. After being acquired by Oracle, the platform's support quality has also declined (Menubly, 2026). GloriaFood also has no order tracking page for customers and no direct messaging between customer and restaurant.
+Figure 2.3 — GloriaFood Optional Paid Services — Essential Features Are Paywalled (Source: gloriafood.com, 2026). 
+ChowNow
+ChowNow is commission-free and allows branded storefronts. The problem is the price. As Figure 2.4 shows, the cheapest plan starts at $229/month. For a larger restaurant doing high volumes that might be reasonable, but for a small food cart like Thela Momo it is a lot to commit to before receiving a single order. ChowNow also requires its own hardware device to receive orders.
+Figure 2.4 — ChowNow Pricing Plans (Source: chownow.com, 2026). 
+Square — Thela Momo's Current Platform
+Square is what Thela Momo uses right now, which makes it the closest comparison to BizMenu Builder. Square's fees are lower than the aggregators — around 1.6–1.9% per transaction in Australia (Square Australia, 2025) — and there is no monthly subscription. But looking at Thela Momo's actual Square ordering page in Figure 2.5, the limitations are obvious. There are no food photos on the menu. There is no map for delivery addresses. Once an order is placed, the customer gets no tracking page — they have no idea what is happening with their food. And there is no way to contact the restaurant directly. The storefront sits on Square's generic subdomain rather than Thela Momo's own domain. Square was built as a payments tool, not a restaurant ordering system, and that shows.
+Figure 2.5 — Thela Momo's Current Online Ordering System — Square Platform (2026). 
+The key issue across all five platforms is business independence. On every aggregator, the restaurant is entirely dependent on the platform — it cannot reach its own customers, cannot track its own data, and loses a significant cut of every sale. The white-label alternatives fix the commission problem but either cost too much (ChowNow), hide fees behind a free tier (GloriaFood), or lack basic features that a food ordering system should have (Square). BizMenu Builder was built specifically to address all of these gaps for a business like Thela Momo.
+2.2 Platform Comparison Table
+Feature
+Uber Eats
+DoorDash
+GloriaFood
+ChowNow
+Square
+BizMenu Builder
+Commission per order
+20–30%
+15–30%
+0%
+0% + fees
+0% + fees
+0%
+Monthly cost
+$0
+$0
+$0 (limited)
+$229–$409
+$0–$49+
+$0 open source
+Custom branding
+✗
+✗
+Partial
+Partial
+Limited
+✓
+Customer data ownership
+✗
+✗
+✓
+✓
+Partial
+✓
+Real-time menu management
+✗
+✗
+✓
+✓
+✓
+✓
+Order tracking for customer
+✓
+✓
+✗
+✓
+✗
+✓
+Customer–owner messaging
+✗
+✗
+✗
+✗
+✗
+✓
+Map-based address entry
+✓
+✓
+✗
+✗
+✗
+✓
+Food images on menu
+✓
+✓
+✓
+✓
+✗
+✓
+Auto order confirmation email
+✓
+✓
+✗
+✓
+✗
+✓
+2.3 Gap Analysis
+Looking across all five platforms, three gaps stand out that none of them address.
+The first is cost. There is no free, commission-free ordering system that actually has all the features a small restaurant needs. GloriaFood locks payment processing and other essentials behind paid tiers that add up to at least $78–$97 per month. ChowNow starts at $229 per month. Square has no monthly fee but is missing too many things to be useful as a food ordering system. Ocloo et al. (2024) found that owner technical skill is the biggest factor in whether small restaurants can adopt digital tools — so any workable solution also needs to be simple enough to run without IT knowledge. BizMenu Builder runs on open-source technology with no commission and no monthly cost.
+The second gap is communication. None of the five platforms give customers a direct way to contact the restaurant after placing an order. Square and GloriaFood have nothing at all once the order is submitted. Uber Eats and DoorDash handle any contact through their own support systems, which means the restaurant never speaks directly to the customer. BizMenu Builder includes a message thread inside each order record, so the customer and the restaurant owner can communicate directly without going through a third party.
+The third gap is data ownership. Every platform reviewed stores customer and order data in its own shared system. The restaurant has no independent access to that data. This means no loyalty programmes, no direct marketing, and no real picture of who their customers are (Sharffudin & Yadav, 2025). BizMenu Builder gives each restaurant its own isolated database. Every order and every customer record belongs to the business, not to a platform.
+2.4 Technologies Selected and Justification
+Technology
+Role
+Justification
+Next.js 14 (App Router)
+Full-stack framework
+Unifies frontend+backend in one codebase; SSR for performance and SEO (Subramanian, 2019)
+MongoDB Atlas M0 Free
+Cloud NoSQL database
+Document model suits flexible menu/order structures; free tier (Banker et al., 2016)
+Mongoose ODM v8
+Schema validation
+Enforces data integrity on schema-flexible MongoDB; prevents malformed documents
+Vercel Hobby Plan
+Hosting & CI/CD
+Native Next.js; zero-config deployment; GitHub CI/CD (Lehmann & Recker, 2022)
+NextAuth v4
+Session auth
+Role-extended JWT/session callbacks; native App Router support
+Leaflet + OpenStreetMap
+Map & address
+Open-source map display at checkout — no API key or billing required
+Nodemailer + Gmail
+Transactional email
+Automated verification + order confirmation emails on user/order events
+Tailwind CSS v3
+Styling
+Utility-first; mobile-first responsive design (Ahmad et al., 2024)
+bcrypt v5
+Password hashing
+Industry-standard adaptive hashing — plaintext never stored
+Section 3: Design
+3.1 System Architecture
+BizMenu Builder implements a four-layer full-stack JavaScript architecture: Users Layer (Customer + Restaurant Owner via HTTPS) → Frontend Layer (Next.js App Router + React Context on Vercel) → Backend Layer (Next.js API Routes as serverless functions: /api/menu, /api/orders, /api/auth) → Database Layer (MongoDB Atlas with four collections: Users, MenuItems, Orders, RestaurantConfig). The Mongoose ODM is used between the API routes and database for validation. The team had changed from Render to Vercel in Sprint 1 for its better support for Next.js CI/CD (Lehmann & Recker, 2022).
+3.2 Database Model
+The system uses four MongoDB collections. The Users collection stores each user's email, a bcrypt-hashed password, their role (either 'owner' or 'customer'), and their name. The role field is what controls access throughout the whole application — it determines what each user can and cannot do. MenuItems holds the name, description, price, category, and an availability flag called isAvailable. This defaults to true, so any item added through the Menu Manager appears on the customer storefront straight away. The Orders collection stores the customer's contact details, the list of items ordered, the order total, the current status, and a messages array. The messages are stored as embedded subdocuments inside the order record rather than a separate collection, because they are always needed alongside the order itself. Finally, RestaurantConfig holds a single document containing all the branding settings — name, tagline, logo URL, colours, badges, and contact information. It uses upsert:true on save so there is never more than one config document per deployment.
+3.3 Activity Diagrams
+Two left-to-right swimlane activity diagrams document core workflows — redrawn left-to-right per A2 assessor feedback:
+3.4 Wireframes
+Usecase DIAGRAM
+Section 4: Working Prototype
+BizMenu Builder is live at bizmenuvercel.vercel.app. All high and medium priority user stories were built and tested. This section documents each feature with a screenshot from the live system, along with code, database, and test case evidence.
+4.1 Customer Homepage
+User Story P-01: As a customer, I want to see a branded homepage so I know I am in the right place and can start browsing or view my cart.
+Acceptance Criteria:
+The hero section shows the restaurant name, tagline, and NOW ACCEPTING ORDERS badge
+Browse Menu and View Cart buttons are visible and working
+Trust badges are configurable from the admin Settings page without redeployment
+The page loads correctly on both mobile and desktop
+Implementation:
+The homepage reads all content from the RestaurantConfig document in MongoDB on every page load. This means the restaurant name, tagline, hero subtitle, and trust badges can all be changed from the Settings page and the update appears immediately — no code changes or redeployment needed (Ahmad et al., 2024). The Popular Right Now panel is currently a static placeholder. Making it pull from real order data is planned but was not completed in this sprint and is tracked as Defect D-01.
+Figure 4.1 — BizMenu Builder Live Homepage (bizmenuvercel.vercel.app, 2026).
+Code Evidence:
+Figure 4.1b — app/page.tsx React Component Implementation.  The useEffect hook asynchronously fetching the dynamic RestaurantConfig data from /api/menu/config on page load. (Bottom) The JSX rendering the Browse Menu and View Cart CTA buttons, alongside the dynamic <Badge> components that pull trust text directly from the database configuration.
+ 
+CSS Evidence:
+Figure 4.1c — Custom CSS implementation for the hero section background (.hero-bg). This demonstrates the use of advanced CSS radial gradients and dynamic CSS variables (e.g., var(--bg-color)) to create the immersive dark-mode aesthetic.
+Database Evidence:
+Figure 4.1d RestaurantConfig.ts). Instead of a raw database dump, this Mongoose schema defines the exact structure of the RestaurantConfig collection. It establishes the default values and strict typing for the restaurantName, heroSubtitle, and badge fields, proving the database architecture that powers the dynamic hero section.
+Test Case: Test Case Evidence: T-11 Navigation Verification Objective: Verify that the primary CTA navigates users to the active menu grid. Action: User clicks the "Browse Menu" button in the hero section. Expected Result: The application smoothly anchors to the #menu-section container, displaying the dynamic "Today's Selection" grid. Actual Result: As demonstrated in the screenshots below, the routing behaves exactly as expected. 
+-—
+4.2 Today's Selection — Menu Display
+User Story P-02: As a customer, I want to browse the menu and see what is available so I can choose what to order.
+Acceptance Criteria:
+The menu grid shows only items where is available is true in MongoDB
+Each card shows the food photo, name, description, price, and an Add button
+Category filters and search update the list without reloading the page
+The Live availability badge confirms the menu reflects current stock
+Implementation:
+The Today's Selection grid queries the MenuItems collection and only shows items marked as available. When the owner toggles an item off in the Menu Manager, it disappears from this page straight away — no redeployment needed. The category filters and search bar both work client-side using React Context, so no extra API calls are made when a customer filters or types in the search field.
+Figure 4.2 — Today's Selection Menu Grid (Live, 2026). 
+Code Evidence:
+Figure 4.2b — Menu Display and Cart Logic. Fetches menu items from the API and filters by available: true. The <MenuCard> component handles the addToCart action, using useSession to protect against unauthenticated clicks.
+CSS Evidence:
+Figure 4.2c — Responsive Menu Grid. Uses Tailwind CSS (md:grid-cols-2) to ensure the layout adapts to mobile and desktop screens. Custom CSS (.menu-card:hover) adds dynamic scale and shadow animations..
+Database Evidence:
+Figure 4.2d — MongoDB menuitems Collection. Live view of a database document showing strict data types (price as Number) and the available boolean used to toggle visibility on the storefront.
+Test Case: T-15 Add to Cart Objective: Verify owner can add a menu item to the cart. Action: User clicks "+ Add" on a menu card. Result: The cart side-sheet successfully opens, displaying the selected item and correct price without a page reload.  Pass
+4.3 Cart Side-Sheet
+User Story P-04: As a customer, I want to add items to my cart and adjust quantities so I can manage my order before checking out.
+Acceptance Criteria:
+Clicking +Add opens the cart side-sheet with the item at quantity 1
+Each item has a − button to decrease and a + button to increase quantity
+Reducing quantity to zero removes the item from the cart
+The order total updates correctly every time a quantity changes
+Cart contents persist when navigating between pages
+Implementation:
+The cart is managed through React Context so the contents stay the same even if the customer goes back to browse more items. Each item in the cart shows the name, unit price, quantity controls, and the line total for that item. The running total is calculated inside CartContext as the sum of price multiplied by quantity for every item. It recalculates on every change without any server call. When the customer moves to checkout, the full cart — items and calculated total — is included in the order payload sent to /api/orders. The server then checks the total against the current database prices before saving the order.
+Code Evidence:
+Figure 4.3b — React Context Cart Implementation. The CartProvider manages the global cart state, ensuring persistence across routes. The total is dynamically calculated using .reduce(), and state mutators (changeQty) allow instantaneous UI updates without unnecessary API calls.
+CSS Evidence:
+Figure 4.3c — Cart UI Layout and Backdrop. The side-sheet layout utilizes absolute positioning (fixed inset-0) and a backdrop filter (backdrop-blur-sm) to overlay the cart seamlessly on top of the browsing experience without breaking the context.
+Database Evidence:
+Figure 4.3d — Checkout API Payload (Network Tab). Live capture of the POST /api/orders payload. The React Context state successfully serializes the cart items array and the calculated total to be validated by the Next.js API before database insertion.
+Test Case: T-16 — Add two items to cart, increment one quantity, decrement the other → total updates correctly each time. Result: Pass. 
+4.4 Checkout — Order Form, Map, and Special Instructions
+User Story P-05: As a customer, I want to enter my details and confirm my delivery address on a map so the restaurant knows exactly where to send my order.
+Acceptance Criteria:
+Checkout shows the full order summary with items, quantities, and total
+Contact form collects name, email, and phone number — all required
+Delivery address uses an interactive map with a draggable pin
+Special instructions can be added and are saved with the order
+Order is saved to MongoDB with status 'In Process' on submission
+A confirmation email is sent to the customer immediately
+Implementation:
+The checkout page shows the order summary and a contact form. For the delivery address, we used Leaflet with OpenStreetMap rather than Google Maps. The reason was straightforward — Google Maps requires an API key and billing account, while Leaflet is open-source and completely free. As the customer types an address, the geocoder auto-fills suggestions. There is also a draggable blue pin on the map so the customer can set the exact drop-off point. A special instructions field below the map lets customers add notes — these are saved as customerNotes in the order document. When the customer submits, a POST goes to /api/orders, the order is saved, and the confirmation email is sent immediately via Nodemailer.
+Figure 4.4a — Checkout Page — Order Summary and Contact Form (Live, 2026). 
+Figure 4.4b — Checkout — Leaflet Map with Delivery Pin (Live, 2026). 
+Code Evidence:
+Figure 4.4c — Secure Order Processing (api/orders/route.ts). The backend POST handler accepts the checkout payload, maps the cart items, and inserts the document via Order.create(). It successfully delegates the asynchronous confirmation email dispatch to Nodemailer before returning a 200 response to the client.
+CSS Evidence:
+Figure 4.4d — Checkout UI and Form Layout. The checkout interface utilizes Tailwind flexbox and grid utilities to stack the order summary and contact form. The "Place Order" CTA features a distinct gradient and hover state to establish visual hierarchy and encourage conversion.
+Database Evidence:
+Figure 4.4e — MongoDB orders Collection Document. Live view of an accepted order document. The system successfully captured the Leaflet Map data (customerAddress), serialized the items array, and automatically initialized the fulfillment state to status: "In Process".
+ 
+Test Case: T-17 End-to-End Checkout Flow Objective: Verify order submission, database persistence, and automated email dispatch. Action: User completes the checkout form, drops the map pin, and submits. Result: The order is saved to MongoDB with the correct payload, and the HTML confirmation receipt is successfully delivered to the customer's inbox. Status:  PASS
+4.5 Automated Transactional Emails
+User Story S-01 (partial): As a customer, I want to receive a verification email when I register and a confirmation email when I place an order.
+Acceptance Criteria:
+A 6-digit OTP is sent to the customer's email immediately on registration
+The OTP is generated using a secure random function
+An order confirmation email with an itemised receipt is sent automatically on order placement
+Neither email requires manual action from the restaurant owner
+Implementation:
+BizMenu Builder sends two types of automated email via Nodemailer and Gmail SMTP. The first is the registration verification email. When a customer registers, a 6-digit OTP is generated and emailed straight away. The customer must enter this code before their account is activated. The second is the order confirmation, sent automatically the moment an order is placed — no owner approval needed. This is safe because the owner controls which items are visible on the menu. If something is unavailable, they mark it off in the Menu Manager and it disappears from the storefront immediately. Any order that gets submitted only contains items that were available at that moment.
+Figure 4.5a — Email Verification — Sent Immediately on Registration (Nodemailer + Gmail)
+Figure 4.5b — Automatic Order Confirmation Email 
+Code Evidence — OTP Generation Function:
+Figure 4.5c — Secure OTP Generation (register/route.ts). The backend registration route generates a cryptographically sound 6-digit verification token using Math.random(). The plaintext password is simultaneously encrypted using a 10-round bcryptjs hash before insertion, ensuring zero-knowledge security.
+Code Evidence — Email Sending Function:
+Figure 4.5d — Nodemailer SMTP Configuration (lib/email.ts). The central email service utility. It configures a Nodemailer createTransport using Gmail's SMTP servers and environment variables (GMAIL_USER, GMAIL_APP_PASSWORD) to securely dispatch HTML-templated transactional emails without manual intervention.
+Database Evidence:
+Figure 4.5e — MongoDB users Collection Security. Live view of a registered customer document. The screenshot proves that plaintext passwords are never stored in the database. The password field contains a salted bcrypt hash (starting with $2b$10), meeting strict industry security standards.
+Test Case: T-22 Transactional Email Dispatch Objective: Verify the automated delivery of registration OTPs and order receipts. Action: User completes registration and subsequently places an order. Result: Both the verification code and the itemised receipt are successfully delivered to the customer's inbox instantaneously via Nodemailer. Status: 
+4.6 Admin Dashboard Overview
+User Story K-04: As a restaurant owner, I want a dashboard overview so I can quickly see how the business is doing without having to dig through individual orders.
+Acceptance Criteria:
+Dashboard shows four KPI cards: Active Orders, Delivered, Cancelled, and Revenue
+KPI figures are queried live from MongoDB on every page load
+Recent Orders table lists the latest orders with customer name, total, and status
+New Messages panel shows any unread customer messages
+Dashboard is only accessible to users with the owner role
+Implementation:
+The dashboard is protected by two checks. On the client side, a useEffect hook checks the session role and redirects anyone who is not an owner before the page loads. On the server side, every admin API route runs getServerSession and rejects requests from non-owner sessions. The four KPI cards each run a separate MongoDB query on page load — Active Orders counts documents with status 'In Process', Delivered and Cancelled do the same for their statuses, and Revenue runs an aggregation that sums the total field across all Delivered orders.
+Figure 4.6 — Admin Dashboard Overview with Real-Time KPI Cards (Live, 2026). 
+Figure 4.6b — Dashboard Security & Logic. layout.tsx securely blocks non-owners using getServerSession before the page loads. page.tsx optimizes performance by using Javascript .filter() and .reduce() to instantly calculate KPIs from a single data fetch monitors.
+ 
+Database Evidence:
+Figure 4.6d — MongoDB orders Collection. Live view of the database highlighting the status field, which acts as the core data point driving the four live KPI calculations.
+Test Case: T-25 Admin Dashboard Objective: Verify owner access and live KPI data load. Action: User logs in with owner credentials. Result: Dashboard successfully loads and populates the KPI cards with real-time data from MongoDB. Status:  PASS
+4.7 Admin Order Management
+User Story K-05: As a restaurant owner, I want to manage incoming orders so I can mark them as delivered or cancel them and see all the customer details in one place.
+Acceptance Criteria:
+Order Management panel lists all active orders with customer name, items, total, and time
+Mark Delivered and Cancel buttons update the order status in MongoDB
+Clicking an order opens a detail panel with full customer and order information
+Status changes are reflected on the customer's order tracking page
+Implementation:
+The Order Management panel shows all orders with status 'In Process'. Each order card has a Mark Delivered button and a Cancel button. Clicking either one sends a PATCH request to /api/orders/[id] and updates the status in MongoDB. The customer's tracking page reflects the change on their next load. Clicking on an order opens a detail panel on the right showing the customer's name, phone number, email, delivery address from the Leaflet map, the itemised order with totals, and any special instructions they entered at checkout.
+Figure 4.7a — Admin Order Management Panel — Active Orders.
+Figure 4.7b — Admin Order Detail Panel — Full Order Information.
+Code Evidence:
+Figure 4.7c — Secure Order Status Updates (route.ts). The backend PATCH route strictly enforces role-based access control (role === 'owner'). Once validated, it extracts the orderId from the JSON body and uses findByIdAndUpdate() to push the state change to MongoDB
+ 
+CSS Evidence:
+Figure 4.7d — Order Action UI Styling. The action buttons utilize distinct semantic Tailwind colours (Emerald for Delivered, Rose for Cancelled) with specialized opacity states (bg-emerald-500/20) to create a clear, error-proof visual hierarchy for the restaurant owner.
+Database Evidence:
+Figure 4.7e — MongoDB orders Status Field. Live view of an order document. The status string is successfully mutated by the PATCH request, serving as the single source of truth for both the admin dashboard and the customer-facing tracking page.
+Test Case: T-23 Order Fulfillment Flow Objective: Verify admin order status updates reflect globally. Action: Owner clicks "Mark Delivered" on an active order. Result: The MongoDB document updates, and the customer's live tracking page immediately reflects the finalized fulfillment status. Status:  PASS
+4.8 Admin Menu Manager
+User Story K-02: As a restaurant owner, I want to add and manage menu items so customers always see what is currently available.
+Acceptance Criteria:
+Add New Item form collects name, price, description, and a dish photo
+New items appear on the customer storefront immediately after saving
+Visibility toggle controls whether an item is shown to customers
+Toggling an item off hides it but does not delete the record
+Delete button permanently removes the item from MongoDB
+Implementation:
+The Menu Manager has an inline form at the top for adding items. When submitted, it POSTs to /api/menu, which checks the owner session before calling MenuItem.create(). The new item shows up on the customer menu on the next load. Each existing item has a Visible toggle. Turning it off sets isAvailable to false in MongoDB and the item disappears from the storefront immediately — but the record stays in the database so historical orders that included it remain accurate. This is also what makes automatic order confirmation safe: if an item is unavailable, it cannot be added to a cart, so any submitted order only contains items that were available at that moment.
+Figure 4.8 — Admin Menu Manager.
+Code Evidence:
+Figure 4.8b — Secure Menu Item Creation (route.ts). The backend POST handler protects the menu inventory by enforcing an owner role check via getServerSession. Validated requests construct a new document via MenuItem.create(), defaulting the available state to true.
+CSS Evidence:
+Figure 4.8c — Dynamic Toggle Button Styling. The visibility toggle utilizes React conditional rendering and Tailwind utility classes to provide immediate visual feedback. An active item receives a vibrant Emerald styling, while a hidden item is muted using Slate colours.
+Database Evidence:
+Figure 4.8d — MongoDB menuitems Collection. Live view of a menu item document. The available boolean field acts as the master visibility switch for the customer storefront,allowing owners to safely hide out-of-stock items without destroying historical data.
+Test Case: T-26 — Owner toggles a menu item to invisible → item disappears from customer storefront immediately, document still present in Atlas. Result: Pass. 
+4.9 Admin Restaurant Settings
+User Story K-06: As a restaurant owner, I want to control how my storefront looks so it reflects my business rather than a generic platform.
+Acceptance Criteria:
+Settings page allows the owner to update logo, name, tagline, hero text, font, display mode, badges, and about text
+Saving updates the RestaurantConfig document in MongoDB
+Changes appear on the customer storefront immediately without redeployment
+Implementation:
+The Settings page covers all the branding fields stored in the RestaurantConfig document. When the owner saves, a PATCH goes to /api/config which runs findOneAndUpdate with upsert:true. Because the storefront reads this document on every page load, the changes show up straight away. This addresses the main branding limitation we identified with Thela Momo's Square page — where the storefront was stuck on Square's generic subdomain with no real customisation options.
+Figure 4.9a — Admin Restaurant Settings — Logo and Branding..
+Figure 4.9b — Admin Restaurant Settings — Display Modes and Hero Badges.
+Code Evidence:
+Figure 4.9c — Dynamic Configuration API (route.ts). The backend PUT handler validates the owner session before executing a Mongoose findOneAndUpdate operation. The {upsert: true} option ensures the configuration document is safely created on first load or replaced entirely on subsequent saves.
+CSS Evidence:
+Figure 4.9d — Theme and Typography UI Styling. The settings UI utilizes interactive Tailwind grid layouts and conditional styling (bg-amber-400/10 text-white) to provide clear visual states for the Lighting Engine toggle and the Global Font selector buttons.
+Database Evidence:
+Figure 4.9e — MongoDB restaurantconfigs Document. Live view of the single application state document. Fields such as themeMode and fontFamily act as global state variables that are dynamically consumed by the Next.js storefront to alter its appearance without redeployment.
+Test Case: T-27 Real-Time Branding Update Objective: Verify that admin configuration changes propagate to the storefront immediately. Action: Owner updates the Restaurant Name and clicks "Save Settings". Result: The MongoDB document updates successfully, and the customer homepage instantly reflects the new brand name in both the hero section and navigation bar. Status:  PASS
+Before
+After
+Section 5: Product Backlog & Sprint Review Minutes
+5.1 Epics
+Epic
+Name
+Scope
+EP-01
+Restaurant Owner Management
+Menu CRUD, order management, messaging, storefront configuration, settings
+EP-02
+Customer Ordering Experience
+Homepage, menu display, cart, checkout, map, order tracking, messaging
+EP-03
+Backend Infrastructure & Deployment
+MongoDB Atlas, API routes, NextAuth, Vercel CI/CD, email automation
+5.2 Product Backlog Summary
+The full implementation evidence for each user story — UI screenshots, code, and database evidence — is documented in Section 4. This section summarises what was built and who was responsible.
+Prabin Kumar Nagarkoti built the customer-facing side of the application. This included the homepage (P-01), the menu browsing page (P-02), the cart with quantity controls and total calculation (P-04), and the full checkout flow with the Leaflet map and automatic confirmation email (P-05). All four stories were completed and are high priority.
+Sandip Pathak handled authentication and order tracking. The registration and email verification flow with OTP generation (S-01) and the order tracking page with embedded customer messaging (S-05) were both completed at high priority.
+Kulwinder Kaur built the admin side of the system. This covered the dashboard KPI overview (K-04), the order management panel (K-05), the menu manager with visibility toggle (K-02), and the restaurant settings page (K-06). The first three were high priority and completed. The settings page was medium priority and also completed.
+All ten user stories were delivered within the four sprints. The only incomplete item is the edit pre-population in the Menu Manager (tracked as Defect D-03), where the PATCH API works but the frontend form does not load existing values correctly.
+Figure 5.1 — Project management board (Jira / GitHub Projects) Insert screenshot showing sprint board with To Do, In Progress, and Done columns, and story cards with assignee names visible.
+5.3 Sprint Review Minutes
+Sprint
+Week
+Goal
+Completed
+Key Decisions
+Issues & Resolutions
+1
+2
+Setup, tech, backend
+GitHub repo, Next.js, MongoDB Atlas, Mongoose schemas, POST route, Figma wireframes
+Next.js App Router; MongoDB Atlas; Vercel over Render
+Mongoose import path errors → @/ aliases in tsconfig.json
+2
+4
+Frontend, cart, deployment
+Homepage on Vercel, menu grid, filters, search, React Context cart
+React Context over Redux; DNS deferred
+Vercel build failed — wrong root directory → selected v0(root)
+3
+6
+Auth, checkout, tracking, email
+NextAuth, registration, login, Leaflet checkout, /order/[id], messaging, verification + confirmation emails
+NextAuth over custom JWT; Leaflet over Google Maps (free, no API key); auto-confirm email on order placement
+NextAuth session missing role → custom jwt/session callbacks; Leaflet container height fix on mobile
+4
+8
+Admin dashboard
+KPI dashboard, Order Management, Menu Manager, Settings, New Messages panel, route protection
+KPI server-fetched per load; image upload via file input
+Edit modal pre-population in progress; DNS for bizmenu.com still propagating
+Figure 5.11 — BizMenu Builder 12-Week Project Gantt Chart. Seven phase groups: Project Management, Sprint 1 (Backend Setup W2), Sprint 2 (Frontend + Cart W4), Sprint 3 (Auth + Checkout + Email W6), Sprint 4 (Admin Dashboard W8), Testing & QA (W9–10), Documentation (W10–12). Colour-coded by owner: Blue=Prabin, Orange=Sandip, Green=Kulwinder. Milestones: Sprint reviews at W2/W4/W6/W8, Mid-Submission W7, Final Submission W12.
+Section 6: Risk Management
+6.1 Issues Encountered and Solutions
+Issue
+Sprint
+Impact
+Resolution
+Owner
+Vercel build failure — incorrect root directory
+2
+High
+Selected v0(root) in Vercel project configuration
+Prabin
+Mongoose import path errors in App Router
+1
+High
+Converted all imports to @/ aliases via tsconfig.json paths
+Prabin
+MongoDB Atlas URI security risk
+1
+High
+Stored in .env.local (gitignored) + Vercel Environment Variables
+Sandip
+NextAuth session missing role field
+3
+High
+Added custom jwt and session callbacks to NextAuth options
+Sandip
+DNS propagation delay — bizmenu.com
+2–3
+Medium
+Used bizmenuvercel.vercel.app; A record verified at domain registrar
+Sandip
+Leaflet map not rendering on mobile
+3
+Medium
+Added explicit height CSS to map container; fixed z-index
+Prabin
+Edit menu item modal pre-population
+4
+Medium
+PATCH/DELETE API handlers complete; useEffect fix in progress
+Kulwinder
+Popular Right Now panel is static
+3
+Medium
+Static placeholder implemented; dynamic version planned for v1.1
+Prabin
+6.2 Risk Register
+#
+Risk
+Category
+Likelihood
+Impact
+Level
+Mitigation
+Owner
+R-01
+Import paths causing build failure
+Technical
+Med
+High
+High
+Validate locally before every deployment
+Prabin
+R-02
+MongoDB Atlas connection failure
+Database
+Low
+High
+High
+Health-check endpoint; env vars in Vercel
+Prabin
+R-03
+Vercel build error on master push
+Deployment
+Med
+High
+High
+Monitor build logs; maintain rollback commit
+Prabin
+R-04
+Credentials exposed in version control
+Security
+Low
+High
+High
+.gitignore all .env files
+Sandip
+R-05
+Unauthenticated admin access
+Security
+Low
+High
+High
+useEffect + server-side getServerSession
+Sandip
+R-06
+Email delivery failure (Gmail SMTP)
+Email
+Med
+Med
+Med
+Error handling + retry in Nodemailer
+Sandip
+R-07
+Slow storefront on mobile
+Performance
+Med
+Med
+Med
+SSR; indexed MongoDB queries
+Prabin
+R-08
+Feature creep deprioritising core
+Scope
+Med
+High
+High
+Backlog priority tiers; sprint goals locked
+Kulwinder
+Section 7: Development — Key Code Snippets
+This section documents the core code components. Code quality is assessed on security, maintainability, and adherence to Next.js App Router conventions (Subramanian, 2019).
+Component
+Location
+Responsibility
+Author
+DB connection singleton
+lib/mongodb.ts
+Serverless-safe MongoDB connection with global caching
+Kulwinder
+MenuItem schema
+models/MenuItem.ts
+Menu item structure with boolean availability and timestamps
+Kulwinder
+Order schema
+models/Order.ts
+Order structure with embedded messages[] subdocuments
+Sandip
+Menu API route
+app/api/menu/route.ts
+Full CRUD operations with server-side owner auth guards
+Prabin
+Orders API route
+app/api/orders/route.ts
+Order creation, Nodemailer dispatch, and atomic message/status PATCH updates
+Prabin
+Email service
+lib/email.ts
+Nodemailer Gmail configuration for verification and order receipts
+Sandip
+Dashboard Layout Guard
+app/dashboard/layout.tsx
+Secure Server Component redirect guard ensuring strictly owner access
+Kulwinder
+Below the models/MenuItem.ts screenshot:
+Figure 7.1 — lib/mongodb.ts — Serverless DB Singleton. This code establishes a highly efficient MongoDB connection optimized for Next.js serverless environments. It utilizes a global caching mechanism to prevent connection spiking during hot-reloads and executes mongoose.connect() without buffering commands, ensuring the connection promise is securely cached across all serverless API invocations.
+Figure 7.2 — models/MenuItem.ts — Mongoose Schema. This Mongoose schema defines the strict structural requirements for menu items. It enforces strict data types, such as a Number requirement for pricing, and utilizes a default Boolean available field to seamlessly manage storefront visibility toggling. The inclusion of timestamps: true automatically manages document creation and update records.
+Figure 7.3 — app/api/menu/route.ts — Full CRUD API Route. This file demonstrates a complete RESTful implementation. While the GET handler remains public to serve the storefront, the POST, PATCH, and DELETE operations are strictly protected. They utilize NextAuth's getServerSession to validate the owner role before executing Mongoose methods like MenuItem.create() or findByIdAndUpdate().
+Figure 7.4 — lib/email.ts — Nodemailer Email Service. This utility securely configures a Nodemailer transport instance using Gmail's SMTP servers and environment variables. It abstracts the logic for two critical automated communications: dispatching a randomized 6-digit OTP during registration, and dynamically injecting an itemised receipt array into an HTML template upon order confirmation.
+Figure 7.5 — app/dashboard/layout.tsx — Server-Side Role Guard. This asynchronous Server Component acts as a strict security barrier for the admin dashboard. By utilizing getServerSession to retrieve the JWT payload and validating the owner role before the page renders, it can execute a server-side redirect to the login page, completely preventing unauthorized client-side code exposure.
+Section 8: Testing & Quality Assurance
+Testing was done as structured functional testing mapped to the acceptance criteria of each user story. Tests were run on Chrome, Firefox, and Safari across desktop and mobile devices. Each test area was executed by the team member who built that part of the system (Ahmad et al., 2024). A total of 28 test cases were run across four areas — authentication, customer ordering, order tracking and messaging, and admin management. 25 passed and 3 failed, giving an overall pass rate of 89%.
+Authentication testing covered registration, login, and route protection. All nine test cases passed. Sandip Pathak executed this area. Tests confirmed that accounts are created correctly with bcrypt-hashed passwords, that login sets the session role, and that unauthenticated users are redirected before the dashboard loads.
+The customer ordering flow was tested by Prabin Nagarkoti across nine test cases, of which seven passed and two failed. The passing tests confirmed that the menu displays correctly, the cart opens with the right item and price, quantity controls update the total, checkout saves the order to MongoDB, and the confirmation email arrives immediately. The two failures were T-11b — the Popular Right Now panel shows a static placeholder instead of querying by order frequency — and T-15b — a slight misalignment on the cart checkout button on Safari mobile at 375px viewport width. These are tracked as Defects D-01 and D-02.
+Order tracking and messaging was also tested by Sandip. All four test cases passed. The order tracking page correctly reflects status changes made by the owner, and the message thread between customer and restaurant works as expected.
+Admin dashboard and management was tested by Kulwinder Kaur across six test cases. Five passed and one failed. The passing tests confirmed that KPI cards show live counts, order status updates work, menu items can be added and toggled, and settings changes appear on the storefront immediately. The failure was T-25b — the edit menu item modal does not pre-populate with existing values when the owner clicks edit. This is tracked as Defect D-03.
+Three defects were identified in total. D-01 is the static Popular Right Now panel, which requires a MongoDB aggregation query and is planned as a future enhancement. D-02 is the Safari mobile cart misalignment, which needs a Tailwind responsive fix. D-03 is the edit modal pre-population issue, caused by a useEffect dependency array bug that is still being worked on. All three defects are linked to the test cases that found them — T-11b, T-15b, and T-25b respectively.
+Section 9: Conclusions
+9.1 Summary of Project Achievements
+BizMenu Builder started as a set of Figma wireframes and ended up as a working, deployed web application — built and delivered within twelve weeks. Most of what we set out to do was completed.
+The core ordering flow works end to end. Customers can browse the menu, add items to the cart, go through checkout with the Leaflet map, and receive an automatic confirmation email the moment the order is placed. The order is saved to MongoDB with no commission taken. The restaurant owner gets a full admin dashboard with live order counts, a menu manager, and a settings page that lets them update the storefront branding without touching any code.
+Two things are not fully complete. The menu manager works for adding, hiding, and deleting items, but the edit modal does not pre-populate with existing values when the owner tries to edit an item. The API for editing works correctly — the issue is a bug in the frontend useEffect that we have not had time to fix. That is tracked as Defect D-03. The Popular Right Now panel on the homepage is also still a static placeholder. Making it pull from real order data requires a MongoDB aggregation query, which we deprioritised to focus on higher priority features. That is Defect D-01.
+Everything else from the original six objectives was delivered. The storefront reads from RestaurantConfig so the owner can change the name, tagline, and branding from the Settings page and it updates immediately. Authentication uses bcrypt for password hashing and NextAuth for session management, with role-based access checked on both the client and server side. Customers can track their order at /order/[id] and send messages directly to the restaurant. The whole system runs on Vercel and MongoDB Atlas at no ongoing cost.
+9.2 Lessons Learned
+Deployment is a continuous discipline, not a final-stage task. Every sprint produced a deployment issue. Treating environment variables, import paths, and CI/CD configuration as first-class concerns from Sprint 1 — not afterthoughts — was the key lesson.
+Open-source tools remove billing risk. Replacing Google Maps with Leaflet/OpenStreetMap eliminated API billing concerns entirely while providing equivalent functionality — a decision that should be made earlier in future projects.
+Data ownership must be architectural, not retrospective. Designing with an isolated MongoDB Atlas cluster from the outset — per Ocloo et al. (2024) — was a deliberate decision that was never revisited. Owner control over digital infrastructure must be built in from the start.
+Section 10: Future Improvements
+There are several things we would like to add to BizMenu Builder in future development cycles.
+The most important is online payment. Right now the system only supports Cash on Delivery, which is fine for a prototype but would need to change before the platform could be used in a real production setting. Integrating a payment gateway like Stripe is the top priority.
+Two known defects also need to be resolved. The Popular Right Now panel on the homepage is currently a static placeholder — it needs a MongoDB aggregation query to pull the most frequently ordered items from the Orders collection. The menu item edit modal also needs to be fixed so it pre-populates with existing values when the owner clicks edit. The API works, the issue is on the frontend side.
+The dashboard currently requires a manual page refresh to show new orders. Adding a notification system using WebSockets or a tool like Pusher would mean the owner gets an alert straight away when a new order comes in, without having to keep refreshing.
+On the menu management side, images currently need to be entered as a URL rather than uploaded directly. Adding direct image upload through a service like Cloudinary would make the process much simpler for owners who are not technically confident.
+A few lower priority ideas are also worth considering for later. A customer loyalty programme would be straightforward to build since BizMenu Builder already owns all the order data — something that is not possible on aggregator platforms. A basic analytics view showing things like average order value or peak ordering times could also be useful for owners. Further down the line, adding Progressive Web App support would let customers install the storefront on their phone's home screen, and the system could eventually be extended to support multiple restaurants as a small SaaS platform.
+References
+Ahmad, N. K. M., Hamdan, Y. N., Abu Bakar, S. K., Anuar, J. and Akbarruddin, M. N. A. (2024). 'Customer satisfaction on Foodpanda online delivery application: a systematic literature review'. Journal of Tourism, Hospitality and Culinary Arts, 16(1), pp.711–723. Available at: https://ir.uitm.edu.my/id/eprint/97877/1/97877.pdf (Accessed: 1 May 2026).
+Banker, K., Bakkum, P., Verch, S., Garrett, D. and Hawkins, T. (2016). MongoDB in action. 2nd ed. Shelter Island: Manning Publications.
+Chan, H. L., Cheung, T. T., Choi, T. M. and Sheu, J. B. (2023). 'Sustainable successes in third-party food delivery operations in the digital platform era'. Annals of Operations Research. Available at: https://doi.org/10.1007/s10479-023-05266-w (Accessed: 1 May 2026).
+ChowNow (2026). Pricing plans for independent restaurants. Available at: https://get.chownow.com/pricing/(Accessed: 30 April 2026).
+Dai, X. and Wu, L. (2023). 'The impact of capitalist profit-seeking behaviour by online food delivery platforms on food safety risks and government regulation strategies'. Humanities and Social Sciences Communications, 10, p.126. Available at: https://doi.org/10.1057/s41599-023-01618-w (Accessed: 1 May 2026).
+Deliverect (2025). Uber Eats 101: The essential guide for restaurants. Available at: https://www.deliverect.com/en-us/blog/online-food-delivery/uber-eats-101-the-essential-guide-for-restaurants (Accessed: 30 April 2026).
+DoorDash for Merchants (2026). Pricing plans. Available at: https://merchants.doordash.com/en-au (Accessed: 30 April 2026).
+Fu, R., Trencher, G. and Yamanaka, Y. (2024). 'How might the spread of online meal-delivery services impact achievement of the SDGs?'. Discover Sustainability, 5(1), p.378. Available at: https://doi.org/10.1007/s43621-024-00603-w (Accessed: 1 May 2026).
+GloriaFood (2026). Optional paid services. Available at: https://www.gloriafood.com/pricing (Accessed: 30 April 2026).
+Huang, S.-L. and Siao, H.-R. (2023). 'Factors affecting the implementation of online food delivery and its impact on restaurant performance during the COVID-19 pandemic'. Sustainability, 15(16), p.12147. Available at: https://doi.org/10.3390/su151612147 (Accessed: 1 May 2026).
+Inventco Labs (2025). Top restaurant online ordering platforms. Available at: https://www.inventcolabssoftware.com/blog/top-restaurant-online-ordering-platforms-in-us/ (Accessed: 30 April 2026).
+Lehmann, J. and Recker, J. (2022). 'Offerings that are ever-in-the-making: How digital ventures continuously develop their products after launch'. Business and Information Systems Engineering, 64(1), pp.69–89. Available at: https://doi.org/10.1007/s12599-021-00730-y (Accessed: 1 May 2026).
+Menubly (2026). Best GloriaFood alternatives. Available at: https://www.menubly.com/blog/gloriafood-alternatives/(Accessed: 30 April 2026).
+Ocloo, E. C., Coffie, I. S., Bukari, Z. and Bashiru, S. (2024). 'Digitization of small and medium-size restaurant enterprises: the mediating role of owner/manager IT skill and moderating influence of COVID-19'. Cogent Business and Management, 11(1). Available at: https://doi.org/10.1080/23311975.2024.2358549 (Accessed: 1 May 2026).
+Sharffudin, S. and Yadav, V. K. (2025). 'A review of online food delivery (OFD) impact on food businesses'. Future of Business Administration, 4(1), pp.58–67. Available at: https://www.diamondopen.com/journals/index.php/fba/article/download/1007/364 (Accessed: 1 May 2026).
+Square Australia (2025). Square fees — Australia. Available at: https://squareup.com/help/au/en/article/5068-what-are-square-s-fees (Accessed: 30 April 2026).
+Subramanian, V. (2019). Pro MERN stack: Full stack web app development with Mongo, Express, React, and Node. 2nd ed. New York: Apress. Available at: https://doi.org/10.1007/978-1-4842-4391-6 (Accessed: 1 May 2026).
+Uber Eats (2026). Uber Eats marketplace fee changes. Available at: https://help.uber.com/merchants-and-restaurants(Accessed: 30 April 2026).
+Appendix A — Individual Reflections
+Prabin Kumar Nagarkoti — AIIHE11045
+✏  Frontend, Cart, Checkout, Map, API Routes, Deployment
+My contributions spanned the full-stack customer storefront, cart system, Leaflet map-based checkout, menu API routes, Vercel deployment pipeline, and the database connection singleton. The decision to use Leaflet/OpenStreetMap instead of Google Maps was mine — it provided equivalent functionality at zero API cost and eliminated all billing risk. The most significant technical challenge was the Sprint 2 Vercel deployment failure. Diagnosing it from build logs alone required understanding how Next.js App Router resolves module paths differently from the Pages Router. This reinforced that deployment configuration must be treated as a first-class engineering concern from Sprint 1. The Popular Right Now panel remaining static is a known limitation I will prioritise in v1.1 — the logic requires querying the Orders collection for most-ordered MenuItems, which is straightforward to implement with a MongoDB aggregation pipeline.
+Sandip Pathak — AIIHE11055
+✏  Authentication, Order Tracking, Messaging, Email, Testing
+I contributions centred on the NextAuth authentication system, order tracking page, customer-to-owner messaging, automated email infrastructure via Nodemailer/Gmail, I also undertook the full testing/QA process. That the NextAuth session does not contain the user role field by default, requiring its explicit propagation in all NextAuth callbacks (jwt and session) required more time to debug. Automated confirmation emails on orders were the most critically valuable feature. Immediate confirmation without approval was the clear decision here: the owner can swiftly disable product visibility if there is a problem. Executing 28 formal test cases on three desktop browsers and two mobile device types took longer than anticipated but provided valuable feedback - such as the mobile cart alignment issue with Safari - that would be absent in tests to desktop-only.
+Kulwinder Kaur — AIIHE10483
+✏  Dashboard, Menu Manager, Settings, Literature Review, Gap Analysis, Risk Management
+I contributed mainly to the literature review, gap analysis (including the real competitor screenshots that back up the analysis with evidence), admin dashboard design and implementation, RestaurantConfig system to manage restaurant settings, risk management framework and project conclusions. The information architecture of the admin dashboard (which KPI metrics to display - and where - how the New Messages panel should be positioned relative to the sidebar menu options) was all worked out before we implemented the tech. I didn't realise at the time that the competitor screenshots research would be so useful: reading that ChowNow now costs $229-409/month (not $139 as previously reported) really added weight to and grounded the gap analysis. And the risk management plan was a real learning opportunity: all of the problems encountered turned up in the risk register made risk management more practical than much of the classroom work that precedes it.
+Appendix B — Gantt Chart
+Figure B.1 — BizMenu Builder Revised 12-Week Gantt Chart (Prabin Kumar Nagarkoti). Complete project timeline showing all seven phase groups, 39 individual tasks, owner attribution badges (P=Prabin, S=Sandip, K=Kulwinder, All=All Members), and six milestone markers: Sprint 1 Complete (W2), Sprint 2 Complete (W4), Sprint 3 Complete (W6), Mid-Submission (W7), Sprint 4 Complete (W8), Final Submission (W12).
+Appendix C — Work Breakdown Structure
+WBS
+Task
+Responsible
+Sprint
+Duration
+1.0
+Project Initiation
+All
+Sprint 1
+Week 1–2
+1.1
+GitHub repo + Next.js init
+Prabin
+Sprint 1
+Week 2
+1.2
+MongoDB Atlas + Mongoose schemas
+Kulwinder
+Sprint 1
+Week 2
+1.3
+Figma wireframes
+Kulwinder
+Sprint 1
+Week 2–3
+2.0
+Frontend Development
+Prabin
+Sprint 2
+Week 3–4
+2.1
+Homepage, menu grid, filters, search
+Prabin
+Sprint 2
+Week 3–4
+2.2
+Cart + React Context
+Prabin
+Sprint 2
+Week 4
+2.3
+Vercel deployment + CI/CD
+Prabin
+Sprint 2
+Week 4
+3.0
+Auth, Checkout, Tracking, Email
+Sandip + Prabin
+Sprint 3
+Week 5–6
+3.1
+NextAuth + registration + login + bcrypt
+Sandip
+Sprint 3
+Week 5
+3.2
+Nodemailer verification + order confirm emails
+Sandip
+Sprint 3
+Week 5
+3.3
+Checkout + Leaflet map + special instructions
+Prabin
+Sprint 3
+Week 6
+3.4
+Order API + /order/[id] tracking page
+Prabin + Sandip
+Sprint 3
+Week 6
+3.5
+Customer-to-owner messaging ($push)
+Sandip
+Sprint 3
+Week 6
+4.0
+Admin Dashboard
+Kulwinder
+Sprint 4
+Week 7–8
+4.1
+Dashboard KPI overview
+Kulwinder
+Sprint 4
+Week 7
+4.2
+Order Management panel + Mark Delivered/Cancel
+Kulwinder
+Sprint 4
+Week 7
+4.3
+Menu Manager + visibility toggle + delete
+Kulwinder
+Sprint 4
+Week 8
+4.4
+Settings page + RestaurantConfig PATCH
+Kulwinder
+Sprint 4
+Week 8
+4.5
+New Messages panel
+Kulwinder
+Sprint 4
+Week 8
+5.0
+Testing and QA
+Sandip (lead)
+All
+Week 2–10
+6.0
+Final Report Writing
+All
+Week 10–12
+3 weeks

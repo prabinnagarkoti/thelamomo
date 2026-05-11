@@ -1,0 +1,252 @@
+﻿INDIVIDUAL  ASSESSMENT COVER SHEET 
+SUBMISSION DETAILS  
+Subject Code:  
+Subject Name:  
+Course Coordinator: 
+Lecturer:  
+Name of this Assessment  Item:  
+Extension applied for : (if applicable)  ΓÿÉ Yes    |   ΓÿÉ  No Method of Submission  ΓÇô Electronic : ΓÿÉ Yes    |    ΓÿÉ No 
+Due Date:  Submission Date:  
+ACADEMIC REQUIREMENTS 
+Before submitting this assessment , students are strongly advised to:  
+ΓÇóReview the assessment requirements and submission guidelines in the assessment briefing.
+ΓÇóReview the various requirements related to assessment in the relevant Course Outline.
+ΓÇóReview the AIIHE Student Academic Integrity Policy and Procedure at https://www.aiihe.edu.au/policies  and
+Academic Integrity Module  to ensure familiarity with the requirements to provide appropriate
+acknowledgement of source materials.
+ΓÇóRetain a copy of this assessment  if in case it is lost or misplaced, students would need to resubmit.
+ΓÇóIf after reviewing the relevant information there is any doubt, students are advised to consult with their
+respective Lecturer.
+While peer learning is encouraged, any assessment  submitted for assessment by a student must be entirely their own 
+work and may require explaining any or all parts of the assessment  to the Course Lecturer/Coordinator or other 
+authorised persons.  
+Plagiarism and Collusion are considered as Academic Misconduct and will be dealt with according to the AIIHE Student 
+Academic Integrity Policy and Procedure . 
+STUDENT DECLARATION OF ACADEMIC INTEGRITY  
+I hereby declare that : - (you must tick all 4 boxes after carefully reading all corresponding statements)  
+ΓÿÉ This assessment item is solely my  own original work, with the exception of the instances where I have recognised 
+using sources (such as books, journal articles, other works that have been published, the Internet, and the work of 
+other students or other people).  
+ΓÿÉ I confirm that this assessment item has not been previously submitted for academic credit in this course or any other
+course, either at AIIHE or any other educational institution.  
+ΓÿÉ I have read and understood the AIIHE policies and procedures with respect to student academic misconduct and
+academic integrity.  
+ΓÿÉ I understand and agree to the following: 
+ΓÇóAssessment s submitted after the due date may incur a penalty for late submission unless exempted for valid
+reasons approved by the Course Coordinator in writing.  
+ΓÇóThe assessor of this assessment item may, for assessment purposes, duplicate this assessment item and share a
+copy with another staff member within the organi sation.  
+ΓÇóThe assessor may communicate a copy of this assessment item to a plagiarism -checking service (which may then
+retain a copy of the assessment item on its database for the purpose of future plagiarism checking).  
+STUDENT DETAILS  
+Student ID : 
+Given Name: Family Name: 
+Signature:  Date: 
+
+
+---PAGE BREAK---
+
+Table of Contents  
+1. What are Cybersecurity Tools  ................................ ................................ ...............................  1 
+2. Wireshark ΓÇö Concept and Use Cases ................................ ................................ .....................  1 
+3. Nmap ΓÇö Concept and Use Cases  ................................ ................................ ...........................  2 
+Use Case 1  ................................ ................................ ................................ ..........................  3 
+4. Comparison of Wireshark and Nmap  ................................ ................................ .....................  3 
+Table 1: Key Operational Differences Between Wireshark and Nmap  ................................ ..........  3 
+5. Risks Identified with the Tools  ................................ ................................ ..............................  4 
+6. Ethics and Legality  ................................ ................................ ................................ ...............  4 
+7. Industry Applications  ................................ ................................ ................................ ...........  5 
+8. Conclusion  ................................ ................................ ................................ ..........................  6 
+References  ................................ ................................ ................................ .............................  7 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+---PAGE BREAK---
+
+1 
+ 1. What are Cybersecurity Tools  
+In today's information systems, the growth and complexity of digital systems have made 
+manual security impossible. Cybersecurity tools are software programs that automate the 
+process of identification, prevention and response to network threats (Andress, 2 019). They 
+are essential to contemporary organisational security, offering network administrators and 
+security analysts the insight needed to maintain the confidentiality, integrity and availability 
+(CIA) of data.  
+These tools can be generally classified by their interaction with the network. Passive 
+network monitoring tools, like Wireshark, are passive. These tools "sniff" network traffic 
+passing through a network interface, without modifying the traffic or adding p ackets, 
+enabling detailed forensic investigation of current or historical traffic (Sanders, 2017). On the 
+other hand, network scanning tools, such as Nmap, are active. They actively send specially 
+crafted packets to network hosts and examine the network re sponses to determine the 
+network's architecture, detect hosts and open ports (Lyon, 2009). Monitoring tools are used 
+to answer the question "What traffic is flowing on my network?", whereas scanning tools are 
+used to answer "What hosts are on my network, a nd how are they vulnerable?"  
+2. Wireshark ΓÇö Concept and Use Cases  
+ 
+The standard network protocol analyser is Wireshark. At its core, it's a packet sniffer, using 
+network interface cards (NICs) in promiscuous mode to capture network traffic "as is", frame 
+by frame (Chappell, 2012). Wireshark then decodes the binary informa tion, cross -
+referencing it with thousands of network protocols to provide meaningful information.  
+Analysts have access to a wealth of information via this deep packet inspection. At the 
+network layer, Wireshark can quickly identify the source and destination IP addresses. At the 
+application layer, it can reassemble HTTP and HTTPS traffic streams (altho ugh the payload of 
+HTTPS traffic will be encrypted unless keys are supplied). Additionally, it can intercept 
+
+
+---PAGE BREAK---
+
+2 
+ sensitive application -level data like cookies, session tokens and passwords sent in cleartext 
+using insecure protocols.  
+Use Case 1: Detecting Data Exfiltration via Unsecured Web Traffic A company believes that 
+an employee is unintentionally leaking sensitive customer data to an outside, unsecured 
+server. Wireshark is used to capture the employee's outbound traffic. Using a display filter of 
+http.request.method == "POST", the analyst filters outbound data submissions. Wireshark's 
+HTTP payload expansion shows that the employee is sending PII (Personally Identifiable 
+Information) via plain HTTP , making the data vulnerable to on -path attacks.  
+Real -World Scenario 2: Spotting Unusual Logins A network administrator observes a spike in 
+traffic to a key server during off -hours. The network administrator captures the traffic with 
+Wireshark and then filters for either FTP or Telnet traffic. The captur e shows a fast, 
+automated login attack using various usernames and passwords. The administrator can 
+determine that it is a brute -force login attack from an infected internal host, quarantine the 
+computer, and stop a potential attack.  
+3. Nmap ΓÇö Concept and Use Cases  
+ 
+Nmap (also known as Network Mapper) is an open -source network scanning tool for 
+network discovery and security auditing. Nmap is an active network tool, unlike Wireshark. It 
+does this by sending hand -crafted IP packets to the targets and examining the ICMP , TCP or 
+UDP responses in detail (Lyon, 2009).  
+From these exchanges, Nmap provides a number of key insights. It reveals which hosts are 
+alive, which specific ports are open, closed, or blocked by a firewall, and uses advanced 
+techniques for banner -grabbing to identify the specific versions of services running (e.g., 
+
+
+---PAGE BREAK---
+
+3 
+ Apache 2.4.41 or OpenSSH 8.2p1). Further, it can deduct the operating system of a target 
+(OS fingerprinting), which significantly clarifies the risks of the network.  
+Use Case 1 : Discovering Open Services in a Server After a new web -based service is 
+deployed, a security engineer scans the external IP address of the server using Nmap. By 
+running a command like nmap -sV -p- <target_IP>, they find that, in addition to the web 
+ports (80 and 443), port 3306 (MySQL) has been opened to the internet. As a result, the 
+organisation is able to secure the firewall prior to an attack on the database.  
+Real -World Scenario 2: Identify Insecure Legacy Ports to Prevent a Cyberattack A company is 
+reviewing its internal network to protect against ransomware lateral movement. The 
+security analyst scans the internal network for port 445 (SMB). The Nmap Scriptin g Engine 
+(NSE) is used ( --script smb -vuln -ms17 -010) to see if the SMB services are susceptible to the 
+EternalBlue exploit. The scan reveals three legacy Windows hosts that are unpatched and 
+the IT team can patch and isolate them from the rest of the networ k before they are 
+potentially infected with ransomware.  
+4. Comparison of Wireshark and Nmap  
+ 
+Feature  Wireshark  Nmap  
+Methodology  Passive  
+Listens only ΓÇö does not send any 
+probes or packets  Active  
+Sends crafted packets to probe 
+target hosts  
+Primary output  Packet payloads  
+Full content of captured network 
+traffic  Port & service states  
+Open, closed, or filtered ports on 
+a target  
+Network 
+visibility  Invisible  
+Leaves no footprint ΓÇö 
+undetectable on the network  Highly visible / noisy  
+Generates detectable traffic ΓÇö 
+may trigger IDS alerts  
+Table 1: Key Operational Differences Between Wireshark and Nmap  
+Both are essential to network security, but have different methods and purposes. Nmap is an 
+active discovery tool; it's purpose is to map the attack surface (what systems and services 
+are present). Wireshark is a passive tool; it's used to examine the data  flowing through the 
+systems.  
+Nmap's activeness means it creates noise. A typical Nmap scan is very noticeable to 
+Intrusion Detection Systems (IDS) since it involves sending "weird" packets (such as TCP SYN 
+packets without a handshake). Wireshark is passive, and so it is usually invisi ble on the 
+network since it is just "listening" to existing traffic.  
+
+---PAGE BREAK---
+
+4 
+ Nmap gathers metadata about the network infrastructure (ports, services, OS). Wireshark 
+captures the operational data (payloads, tokens, communications). In a typical cybersecurity 
+investigation, these tools are applied in a step -wise manner: for example, an analyst may use 
+Nmap to identify an unauthorised service running on a remote server and then use 
+Wireshark to capture the data traffic to the service to identify the type of information being 
+stolen.  
+5. Risks Identified with the Tools  
+The use of both Nmap and Wireshark together is an excellent way to target specific security 
+risks inherent to architecture and operations:  
+ΓÇó Clear Text Authentication: Wireshark can readily identify the use of protocols such as 
+Telnet, FTP or HTTP . If a user logs into a system over these protocols, their login credentials 
+and session information are shown as clear text in the packet capture, making the network 
+network vulnerable to Man -in-the-Middle (MitM) attacks.  
+ΓÇó Session Hijacking: Using Wireshark to capture the cookies and session IDs that are 
+being sent across the network, an analyst can show how easily an attacker, if on the same 
+local network, could steal a session token and then reuse it to masquerade as a v alid user of 
+a web application.  
+ΓÇó Unnecessary Open Ports and Services: Nmap identifies open ports. Each port is a 
+possible entry point for attack. If Nmap reports a service with an old version (e.g., an 
+unpatched Microsoft Internet Information Services (IIS) server), it is linked with Co mmon 
+Vulnerabilities and Exposures (CVEs).  
+ΓÇó Misconfigurations: Both tools detect misconfigurations. Nmap might detect a firewall 
+failing to filter out banned traffic, while Wireshark might detect a misconfigured DNS server 
+leaking zone transfers, or a network with devices continually sending exces sive ARP 
+requests, which slows the network.  
+6. Ethics and Legality  
+These tools' capabilities require strict ethical considerations and legal adherence. Nmap and 
+Wireshark work in a legally grey area, as they actively scan systems and capture network 
+traffic, respectively.  
+Legally, intercepting packets and port scanning may be viewed as a violation of cyber crime 
+laws, such as the Australian Telecommunications (Interception and Access) Act 1979 or state 
+and/or federal computer misuse acts (Chaikin, 2006). Employing Nmap to s can a third -party 
+network without written permission could be seen as a form of unauthorized access or 
+cyberattack.  
+Morally, network traffic analysis raises issues of privacy. Wireshark can capture all traffic, 
+including personal emails, credit card numbers, corporate secrets and confidential data. 
+Cybersecurity practitioners ethically benefit from following the princip le of least privilege - 
+
+---PAGE BREAK---
+
+5 
+ capturing only what is necessary for the investigation at hand, and securely disposing of 
+packet capture (PCAP) files when done.  
+Scanning and monitoring activities must be in line with organisational Acceptable Use 
+Policies (AUP) and have strict "Rules of Engagement" in the case of penetration testing. Any 
+actions beyond these guidelines could result in dismissal and criminal charge s. 
+7. Industry Applications  
+Wireshark and Nmap are widely used in the cybersecurity industry.  
+ΓÇó Cyber Security Incident Response: In the case of a cyber attack, Incident Response 
+(IR) analysts use PCAP files captured with Wireshark to help build a timeline of events, to 
+identify what data was stolen, and who stole it.  
+ΓÇó Enterprise Network Monitoring: Network Operation Centers (NOC) run automated 
+Wireshark engines to constantly check for unusual network traffic to maintain security and 
+optimise network performance.  
+ΓÇó Penetration Testing: Penetration testers use Nmap as the first step in the 
+"reconnaissance" phase of a security assessment to discover the attack surface of a target so 
+they can exploit vulnerabilities (Engebretson, 2013).  
+ΓÇó IT Infrastructure Auditing: IT administrators set up periodic Nmap scans of their own 
+networks to ensure that firewalls are properly configured and no unauthorised "shadow IT" 
+equipment is connected to the corporate network.  
+ 
+ 
+ 
+ 
+ 
+

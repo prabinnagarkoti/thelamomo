@@ -1,0 +1,20 @@
+flowchart LR
+    Start([Customer Opens Site]) --> Browse[Browse Menu]
+    Browse --> Select[Select Item & Qty]
+    Select --> Add[Add to Cart]
+    Add --> Checkout{Checkout Valid?}
+    
+    Checkout -->|No| Fix[Fix Form Errors]
+    Fix --> Checkout
+    
+    Checkout -->|Yes| Submit[Submit Order via API]
+    Submit --> Save[(Save to MongoDB)]
+    
+    Save --> Notify[Owner Dashboard Polls Data]
+    Notify --> Process[Owner Processes Order]
+    Process --> Deliver[Mark Status 'Delivered']
+    Deliver --> End([Order Complete])
+
+    style Start fill:#f9f,stroke:#333,stroke-width:2px
+    style End fill:#f9f,stroke:#333,stroke-width:2px
+    style Save fill:#ff9,stroke:#333,stroke-width:2px

@@ -1,0 +1,34 @@
+flowchart TD
+    subgraph Frontend [Client-Side / Vercel Edge]
+        Browser[User Browser]
+        UI[Next.js React UI]
+        Context[React Cart Context]
+        Browser --> UI
+        UI <--> Context
+    end
+
+    subgraph Backend [Server-Side / Next.js API Routes]
+        Auth[NextAuth Middleware]
+        MenuAPI[Menu API Route]
+        OrderAPI[Order API Route]
+    end
+
+    subgraph Database [MongoDB Atlas / Cloud]
+        DB[(MongoDB)]
+        Mongoose[Mongoose ODM]
+    end
+
+    UI -->|HTTPS GET/POST| Auth
+    Auth --> MenuAPI
+    Auth --> OrderAPI
+    MenuAPI --> Mongoose
+    OrderAPI --> Mongoose
+    Mongoose <--> DB
+
+    classDef fEnd fill:#E1F5FE,stroke:#0288D1,stroke-width:2px,color:#000
+    classDef bEnd fill:#E8F5E9,stroke:#388E3C,stroke-width:2px,color:#000
+    classDef db fill:#FFF3E0,stroke:#F57C00,stroke-width:2px,color:#000
+
+    class Frontend,Browser,UI,Context fEnd
+    class Backend,Auth,MenuAPI,OrderAPI bEnd
+    class Database,DB,Mongoose db

@@ -1,0 +1,118 @@
+﻿ as a v alid user of 
+a web application.  
+ΓÇó Unnecessary Open Ports and Services: Nmap identifies open ports. Each port is a 
+possible entry point for attack. If Nmap reports a service with an old version (e.g., an 
+unpatched Microsoft Internet Information Services (IIS) server), it is linked with Co mmon 
+Vulnerabilities and Exposures (CVEs).  
+ΓÇó Misconfigurations: Both tools detect misconfigurations. Nmap might detect a firewall 
+failing to filter out banned traffic, while Wireshark might detect a misconfigured DNS server 
+leaking zone transfers, or a network with devices continually sending exces sive ARP 
+requests, which slows the network.  
+6. Ethics and Legality  
+These tools' capabilities require strict ethical considerations and legal adherence. Nmap and 
+Wireshark work in a legally grey area, as they actively scan systems and capture network 
+traffic, respectively.  
+Legally, intercepting packets and port scanning may be viewed as a violation of cyber crime 
+laws, such as the Australian Telecommunications (Interception and Access) Act 1979 or state 
+and/or federal computer misuse acts (Chaikin, 2006). Employing Nmap to s can a third -party 
+network without written permission could be seen as a form of unauthorized access or 
+cyberattack.  
+Morally, network traffic analysis raises issues of privacy. Wireshark can capture all traffic, 
+including personal emails, credit card numbers, corporate secrets and confidential data. 
+Cybersecurity practitioners ethically benefit from following the princip le of least privilege - 
+
+---PAGE BREAK---
+
+5 
+ capturing only what is necessary for the investigation at hand, and securely disposing of 
+packet capture (PCAP) files when done.  
+Scanning and monitoring activities must be in line with organisational Acceptable Use 
+Policies (AUP) and have strict "Rules of Engagement" in the case of penetration testing. Any 
+actions beyond these guidelines could result in dismissal and criminal charge s. 
+7. Industry Applications  
+Wireshark and Nmap are widely used in the cybersecurity industry.  
+ΓÇó Cyber Security Incident Response: In the case of a cyber attack, Incident Response 
+(IR) analysts use PCAP files captured with Wireshark to help build a timeline of events, to 
+identify what data was stolen, and who stole it.  
+ΓÇó Enterprise Network Monitoring: Network Operation Centers (NOC) run automated 
+Wireshark engines to constantly check for unusual network traffic to maintain security and 
+optimise network performance.  
+ΓÇó Penetration Testing: Penetration testers use Nmap as the first step in the 
+"reconnaissance" phase of a security assessment to discover the attack surface of a target so 
+they can exploit vulnerabilities (Engebretson, 2013).  
+ΓÇó IT Infrastructure Auditing: IT administrators set up periodic Nmap scans of their own 
+networks to ensure that firewalls are properly configured and no unauthorised "shadow IT" 
+equipment is connected to the corporate network.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+---PAGE BREAK---
+
+6 
+ 8. Conclusion  
+Wireshark and Nmap continue to be mainstays of the cybersecurity profession. Nmap 
+delivers the panoramic, active visibility needed to oversee attack surfaces, while Wireshark 
+delivers the microscopic, passive visibility needed to analyse intricate network activity and 
+security threats. Theoretical understanding of these tools reveals that cybersecurity is not 
+only about using defensive tools, but also having clear insight into network operations. But 
+the powerful capabilities of these tools highlight the ne ed for robust ethical and legal 
+standards, so that they are used to protect, rather than facilitate, information systems.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+---PAGE BREAK---
+
+7 
+ References  
+Andress, J. (2019) Foundations of information security: a straightforward introduction . San 
+Francisco, CA: No Starch Press. Available at:  https://books.google.com.au/ books ?hl=en&lr=  
+&id=k Vv6DwAAQBAJ&oi=fnd&pg=PR9&dq=Andress [Accessed 27 Apr. 2026].  
+Chaikin, D. (2006) 'Network investigations of cyber attacks: the limits of digital evidence', 
+Crime, Law and Social Change . Available at:  
+https://link.springer.com/article/10.1007/s10611 -007-9058 -4 
+ 
+Chappell, L. (2012) Wireshark network analysis: the official Wireshark certified network 
+analyst study guide .Available at: https://elhacker.info/manuales/Redes/wireshark -network -
+analysis -second -edition.pdf.  
+Engebretson, P . (2013) The basics of hacking and penetration testing: ethical hacking and 
+penetration testing made easy . Available at: 
+https://books.google.com.au/books?hl=en&lr=&id=69dEUBJKMiYC&oi=fnd&pg=PP1& dq=En
+gebretson [Accessed 27 Apr. 2026].  
+Lyon, G.F. (2009) Nmap network scanning: the official Nmap project guide to network 
+discovery and security scanning . Sunnyvale, CA: Insecure.  
+Sanders, C. (2017) Practical packet analysis: using Wireshark to solve real -world network 
+problems . 3rd edn. San Francisco, CA: No Starch Press.  
+ 
+
+---PAGE BREAK---
+
+

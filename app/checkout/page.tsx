@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useCart } from "@/components/CartSheet";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -21,6 +21,14 @@ export default function CheckoutPage() {
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [isEditingDetails, setIsEditingDetails] = useState(false);
+
+  useEffect(() => {
+    if (session?.user) {
+      if ((session.user as any).name && !name) setName((session.user as any).name);
+      if ((session.user as any).email && !email) setEmail((session.user as any).email);
+    }
+  }, [session]);
 
   const onMapClick = async (lat: number, lng: number) => {
     setLocation({ lat, lng });
@@ -245,13 +253,22 @@ export default function CheckoutPage() {
 
       {/* Contact Details */}
       <div className="glass rounded-2xl p-5 mb-6">
-        <h2 className="text-sm font-semibold mb-3 flex items-center gap-2">
-          <i className="fa-solid fa-user text-amber-400" />
-          Your Details
-        </h2>
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-sm font-semibold flex items-center gap-2">
+            <i className="fa-solid fa-user text-amber-400" />
+            Your Details
+          </h2>
+          <button 
+            type="button"
+            onClick={() => setIsEditingDetails(!isEditingDetails)}
+            className="text-xs text-amber-400 hover:text-amber-300 font-medium px-3 py-1.5 bg-amber-400/10 rounded-lg border border-amber-400/20 transition hover:bg-amber-400/20"
+          >
+            {isEditingDetails ? "Done Editing" : "Edit Details"}
+          </button>
+        </div>
         <div className="space-y-3">
-          <FormField value={name} onChange={setName} placeholder="Your name" error={errors.name} />
-          <FormField value={email} onChange={setEmail} placeholder="Email" type="email" error={errors.email} />
+          <FormField value={name} onChange={setName} placeholder="Your name" error={errors.name} readOnly={!isEditingDetails} />
+          <FormField value={email} onChange={setEmail} placeholder="Email" type="email" error={errors.email} readOnly={!isEditingDetails} />
           <FormField value={phone} onChange={setPhone} placeholder="Phone number" error={errors.phone} />
           
           <div className="relative">
@@ -351,7 +368,8 @@ function FormField({
   placeholder,
   type = "text",
   error,
-  icon
+  icon,
+  readOnly
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -359,6 +377,7 @@ function FormField({
   type?: string;
   error?: string;
   icon?: string;
+  readOnly?: boolean;
 }) {
   return (
     <div>
@@ -367,11 +386,12 @@ function FormField({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         type={type}
+        readOnly={readOnly}
         className={`w-full px-4 py-3 rounded-xl bg-slate-950/80 border text-sm focus:outline-none transition ${
           error
             ? "border-rose-500/50 focus:border-rose-400"
             : "border-white/10 focus:border-amber-400/40"
-        }`}
+        } ${readOnly ? "opacity-60 cursor-not-allowed" : ""}`}
       />
       {error && (
         <p className="text-xs text-rose-400 mt-1 ml-1">{error}</p>
